@@ -1,0 +1,1 @@
+# bachelorsThesisPishchuk2025
