@@ -1,3 +1,6 @@
+body {
+    color: #323f33;
+}
 main > .container {
     padding: 70px 15px 20px;
 }
@@ -84,5 +87,46 @@ a.desc:after {
 }
 
 .form-group {
+    margin-bottom: 1rem;
+}
+
+#main{
+    background-color: #eeeeee;
+}
+
+.btn-primary {
+    background-color: #3A7782;
+}
+
+.btn-primary:hover {
+    background-color: #083c48;
+}
+
+.btn-secondary {
+    background-color: #5D704F;
+}
+
+.btn-secondary:hover {
+    background-color: #2c3823;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+h5 {
+    font-size: 1.1rem;
     margin-bottom: 1rem;
 }
