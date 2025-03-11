@@ -1,0 +1,223 @@
+// =======================
+// VARIABLES
+// =======================
+$primary-color: #3A7782;
+$primary-hover: #083c48;
+$secondary-color: #5D704F;
+$secondary-hover: #2c3823;
+
+$text-color: #323f33;
+$text-muted: #999;
+$text-error: #a94442;
+$gradient-start: #467471;
+$gradient-end: #91944D;
+$gradient-alt-end: rgb(97, 99, 64);
+$background-main: #eeeeee;
+$footer-bg: #f5f5f5;
+$not-set-color: #c55;
+
+
+// =======================
+// MIXINS
+// =======================
+@mixin gradient-text($start, $end) {
+  background: -webkit-linear-gradient($start, $end);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin sorting-arrow($direction) {
+  content: '';
+  left: 3px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border: solid 5px transparent;
+  margin: 4px 4px 2px 4px;
+  background: transparent;
+
+  @if $direction == asc {
+    border-bottom: solid 7px #212529;
+    border-top-width: 0;
+  } @else if $direction == desc {
+    border-top: solid 7px #212529;
+    border-bottom-width: 0;
+  }
+}
+
+// =======================
+// BASE STYLES
+// =======================
+body {
+  color: $text-color;
+}
+
+.navbar-expand-md {
+  background: #2A7B9B;
+  background: linear-gradient(90deg, #2a7b9b 0%, #626f49 54%, #eddd53 100%);
+}
+
+main > .container {
+  padding: 70px 15px 20px;
+}
+
+.footer {
+  background-color: $footer-bg;
+  font-size: 0.9em;
+  height: 60px;
+
+  > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+.not-set {
+  color: $not-set-color;
+  font-style: italic;
+}
+
+// =======================
+// GRIDVIEW SORT ICONS
+// =======================
+a.asc::after {
+  @include sorting-arrow(asc);
+}
+a.desc::after {
+  @include sorting-arrow(desc);
+}
+
+.grid-view th {
+  white-space: nowrap;
+}
+
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: $text-muted;
+}
+
+.error-summary {
+  color: $text-error;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+// =======================
+// NAV LOGOUT
+// =======================
+.nav {
+  li {
+    > form {
+      > button.logout {
+        padding-top: 7px;
+        color: rgba(255, 255, 255, 0.5);
+
+        &:focus,
+        &:hover {
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.75);
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        @media (max-width: 767px) {
+          display: block;
+          text-align: left;
+          width: 100%;
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+}
+
+// =======================
+// FORMS AND BUTTONS
+// =======================
+.form-group {
+  margin-bottom: 1rem;
+}
+
+#main {
+  background-color: $background-main;
+}
+
+.btn-primary {
+    color: white;
+  background-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+.btn-secondary {
+  background-color: $secondary-color;
+
+  &:hover {
+    background-color: $secondary-hover;
+  }
+}
+
+// =======================
+// HEADINGS
+// =======================
+h1, h2, h3, h4, h5 {
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.50rem; }
+h5 { font-size: 1.25rem; }
+
+// =======================
+// ADDITIONAL STYLES
+// =======================
+.gradient-text {
+  @include gradient-text($gradient-start, $gradient-end);
+}
+
+.gradient-text-alt {
+  @include gradient-text($gradient-start, $gradient-alt-end);
+}
+
+.main-row {
+  min-height: 65vh;
+}
+
+.bg-main {
+  h1 {
+    color: $gradient-start;
+    font-size: 3rem;
+  }
+
+  span {
+    color: #a19a35;
+    font-size: 2rem;
+  }
+}
+
+
+
+.info-row,
+.question-row {
+  color: #3a5856;
+  font-size: 1rem;
+  @include gradient-text($gradient-start, $gradient-end);
+}
+
+.question-row {
+  .accordion-item {
+    color: #3a5856;
+    border-width: 0.25rem;
+    border-color: rgb(171, 190, 189);
+  }
+}

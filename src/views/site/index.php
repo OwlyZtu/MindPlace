@@ -7,53 +7,68 @@ $this->title = 'MindPlace';
 
 <div class="site-index">
     <div class="body-content row row-gap-5">
-        <!-- MainScreen -->
+        <!-- #region MainScreen -->
         <div class="row main-row align-content-center bg-main mb-5">
             <div class="col-lg-7 img">
                 <img src="<?= Yii::getAlias('@web') ?>/images/mainPhoto2.png" alt="MindPlace main photo"
                     class="img-fluid">
             </div>
             <div class="col-lg-4 text-center align-content-center">
-                <h1>Welcome</h1>
-                <span>Welcome span</span>
+                <h1 class="gradient-text">
+                    <?= Yii::t('app', 'Welcome') ?>
+                </h1>
+                <span>
+                    <?= Yii::t('app', 'Welcome span') ?>
+                </span>
                 <div class="d-flex justify-content-center mt-4">
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/questionnaire']) ?>"
                         class="btn btn-primary btn-lg me-2">
-                        Find a Therapist
+                        <?= Yii::t('app', 'Find a Therapist') ?>
                     </a>
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/for-therapists']) ?>"
                         class="btn btn-secondary btn-lg">
-                        For Therapists
+                        <?= Yii::t('app', 'For Therapists') ?>
                     </a>
                 </div>
             </div>
         </div>
+        <!-- #endregion MainScreen -->
 
-        <!-- InformationScreen -->
-        <div class="row info-row align-content-center mb-5 text-center row-gap-3">
-            <!-- Firts qa -->
-            <div class="row justify-content-center">
-                <h2 class="col-lg-6 mb-4">
-                    Short psychological description
+
+        <!-- #region InformationScreen -->
+        <div class="row info-row align-content-center mb-3 text-center row-gap-5 gradient-text-alt">
+            <div class="row justify-content-center mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
+                    class="bi bi-patch-question-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0m1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.7 1.7 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627" />
+                </svg>
+            </div>
+            <div class="row justify-content-center mb-3">
+                <h2 class="col-lg-6">
+                    <?= Yii::t('app', 'Do you know...') ?>
                 </h2>
             </div>
-            <div class="row justify-content-center">
+
+            <!-- What is... -->
+            <div class="row justify-content-center mb-4">
                 <div class="col-lg-5">
                     <h3 class="text-center">
-                        1.head
+                        <?= Yii::t('app', 'What is psychotherapy') ?>
                     </h3>
                     <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique deleniti odit eos! Veniam eaque culpa enim quia eos dignissimos quis porro fugiat error, nostrum repellendus, obcaecati illo unde tempora harum.
+                        <?= Yii::t('app', 'What is psychotherapy descr') ?>
                     </p>
                 </div>
             </div>
-            <!-- Second qa -->
-            <div class="row justify-content-center">
+
+            <!-- Difference -->
+            <div class="row justify-content-center  mb-3">
                 <h3>
-                    Difference between psychologist and psychotherapist
+                    <?= Yii::t('app', 'Difference qa') ?>
                 </h3>
             </div>
-            <div class="row justify-content-evenly">
+            <div class="row justify-content-evenly mb-4">
                 <div class="col-lg-4">
                     <h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -64,47 +79,59 @@ $this->title = 'MindPlace';
                                 d="M3 1.5h1v1H3a1 1 0 0 0-1 1V14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3.5a1 1 0 0 0-1-1h-1v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2" />
                             <path d="M8 6.982C9.664 5.309 13.825 8.236 8 12 2.175 8.236 6.336 5.31 8 6.982" />
                         </svg>
-                        Psychologist
+                        <?= Yii::t('app', 'Difference qa psychologist') ?>
                     </h4>
                     <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique deleniti odit eos! Veniam eaque culpa enim quia eos dignissimos quis porro fugiat error, nostrum repellendus, obcaecati illo unde tempora harum.
+                        <?= Yii::t('app', 'Difference qa psychologist descr') ?>
                     </p>
                 </div>
                 <div class="col-lg-4">
 
-                    <h4> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-clipboard-heart-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z" />
                             <path fill-rule="evenodd"
                                 d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm4 5.982c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018" />
                         </svg>
-                        Psychotherapists</h4>
+                        <?= Yii::t('app', 'Difference qa psychotherapist') ?>
+                    </h4>
                     <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique deleniti odit eos! Veniam eaque culpa enim quia eos dignissimos quis porro fugiat error, nostrum repellendus, obcaecati illo unde tempora harum.
-
+                        <?= Yii::t('app', 'Difference qa psychotherapist descr') ?>
                     </p>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-4">
-                    <h3>Why is it important to seek psychological help?</h3>
-                    <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique deleniti odit eos! Veniam eaque culpa enim quia eos dignissimos quis porro fugiat error, nostrum repellendus, obcaecati illo unde tempora harum.
 
+            <!-- Why it is important -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-4">
+                    <h3>
+                        <?= Yii::t('app', 'Why it is important') ?>
+                    </h3>
+                    <p>
+                        <?= Yii::t('app', 'Why it is important descr') ?>
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- How it works -->
-        <div class="row how-it-works-row align-content-center mb-5 text-center row-gap-5">
-            <div class="col-lg-10 justify-content-center mx-auto">
-                <h2 class="text-center mb-4">How it works</h2>
-                <p class="text-center">Finding a therapist is easy and convenient with MindPlace. Follow these simple
-                    steps to get started on your journey to mental wellness.</p>
+        <!-- #endregion InformationScreen -->
+
+
+        <!-- #region HowItWorksScreen -->
+        <div class="row how-it-works-row align-content-center mb-5 text-center row-gap-5 gradient-text-alt">
+
+            <div class="col-lg-10 justify-content-center mx-auto mb-4">
+                <h2 class="text-center mb-4">
+                    <?= Yii::t('app', 'How it works') ?>
+                </h2>
+                <p class="text-center">
+                    <?= Yii::t('app', 'How it works descr') ?>
+                </p>
             </div>
             <div class="col-lg-10 mx-auto">
+
                 <!-- step 1 -->
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-4">
@@ -115,9 +142,12 @@ $this->title = 'MindPlace';
                         </svg>
                     </div>
                     <div class="col-lg-4">
-                        <h4>1. Fill out the questionnaire</h4>
-                        <p>Answer a few questions about your needs and preferences to help us find the right therapist
-                            for you.</p>
+                        <h4>
+                            <?= Yii::t('app', 'Step 1') ?>
+                        </h4>
+                        <p>
+                            <?= Yii::t('app', 'Step 1 descr') ?>
+                        </p>
                     </div>
                 </div>
                 <!-- divider -->
@@ -133,8 +163,12 @@ $this->title = 'MindPlace';
                 <!-- step 2 -->
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-4">
-                        <h4>2. Get matched with a therapist</h4>
-                        <p>Based on your answers, we will match you with a qualified therapist who meets your needs.</p>
+                        <h4>
+                            <?= Yii::t('app', 'Step 2') ?>
+                        </h4>
+                        <p>
+                            <?= Yii::t('app', 'Step 2 descr') ?>
+                        </p>
                     </div>
                     <div class="col-lg-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#626f49"
@@ -167,8 +201,12 @@ $this->title = 'MindPlace';
                         </svg>
                     </div>
                     <div class="col-lg-4">
-                        <h4>3. Start your therapy journey</h4>
-                        <p>Schedule your first session and begin your journey towards mental wellness.</p>
+                        <h4>
+                            <?= Yii::t('app', 'Step 3') ?>
+                        </h4>
+                        <p>
+                            <?= Yii::t('app', 'Step 3 descr') ?>
+                        </p>
                     </div>
                 </div>
                 <!-- divider -->
@@ -184,9 +222,12 @@ $this->title = 'MindPlace';
                 <!-- step 4 -->
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-4">
-                        <h4>4. Manage the process</h4>
-                        <p>In your personal account, you can manage the process yourself: choose the date of the
-                            appointment or reschedule it to another day, view the history of sessions.</p>
+                        <h4>
+                            <?= Yii::t('app', 'Step 4') ?>
+                        </h4>
+                        <p>
+                            <?= Yii::t('app', 'Step 4 descr') ?>
+                        </p>
                     </div>
                     <div class="col-lg-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#CAC150"
@@ -208,7 +249,7 @@ $this->title = 'MindPlace';
                 </div>
 
                 <!-- step 5 -->
-                <div class="row justify-content-evenly mb-3">
+                <div class="row justify-content-evenly mb-5">
                     <div class="col-lg-4">
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#D9CD52"
                             class="bi bi-emoji-wink-fill" viewBox="0 0 16 16">
@@ -217,63 +258,66 @@ $this->title = 'MindPlace';
                         </svg>
                     </div>
                     <div class="col-lg-4">
-                        <h4>Write your feedback on the consultation</h4>
-                        <p>It`s important for us to hear your feedback on the work of our specialists and whether our
-                            assistance was useful to you</p>
+                        <h4>
+                            <?= Yii::t('app', 'Step 5') ?>
+                        </h4>
+                        <p>
+                            <?= Yii::t('app', 'Step 5 descr') ?>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- #endregion HowItWorksScreen -->
 
-        <!-- FAQ -->
+
+        <!-- #region FAQScreen -->
         <div class="row question-row align-content-center mb-5 text-center row-gap-3">
             <div class="col-lg-10 justify-content-center mx-auto">
-                <h2 class="text-center mb-4">Frequently Asked Questions</h2>
-                <p class="text-center">We understand that you may have questions about our services and the process of
-                    finding a therapist. Here are some common questions and answers to help you.</p>
+                <h2 class="text-center mb-4">
+                    <?= Yii::t('app', 'FAQ') ?>
+                </h2>
+                <p class="text-center">
+                    <?= Yii::t('app', 'FAQ descr') ?>
+                </p>
             </div>
-            <div class="col-lg-10 mx-auto">
+            <div class="col-lg-10 mx-auto mb-4">
                 <div class="accordion" id="accordionQA">
                     <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
+                        <h3 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-
-                                Why is it better to use an individual matching service rather than asking your friends
-                                for a psychologist`s contact?
+                                <?= Yii::t('app', 'FAQ question 1') ?>
                             </button>
-                        </h2>
+                        </h3>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                             data-bs-parent="#accordionQA">
                             <div class="accordion-body">
-                                The psychologist works individually with each client, fully immersing himself in his
-                                problem. Therefore, the results are always different - they can be both positive and
-                                negative. Everyone has their own life situation, and the process of therapy is different
-                                for everyone. The specialist who successfully helped your friend may be incompetent in
-                                your case. Choosing the best psychologist based on your specific situation and needs is
-                                an individual process.
+                                <p>
+                                    <?= Yii::t('app', 'FAQ answer 1') ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
+                        <h3 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Do all psychologists observe strict confidentiality?
+                                <?= Yii::t('app', 'FAQ question 2') ?>
                             </button>
-                        </h2>
+                        </h3>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
                             data-bs-parent="#accordionQA">
                             <div class="accordion-body">
                                 <p>
-                                    Of course! Everything you discuss during the session is exclusively between you and
-                                    your psychologist. All information is kept strictly confidential.
+                                    <?= Yii::t('app', 'FAQ answer 2') ?>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- ContactForm -->
             <div class="col-lg-5 mx-auto">
@@ -286,25 +330,7 @@ $this->title = 'MindPlace';
                 </div>
             </div>
         </div>
+        <!-- #endregion FAQScreen -->
     </div>
 </div>
-
-<style>
-    .main-row {
-        min-height: 65vh;
-    }
-
-    .bg-main h1 {
-        color: #467471;
-        font-size: 3rem;
-        background: -webkit-linear-gradient(#467471, #91944D);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .bg-main span {
-        color: rgb(161, 154, 53);
-        font-size: 2rem;
-
-    }
-</style>
+</div>

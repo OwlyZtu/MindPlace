@@ -42,13 +42,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav'],
             'items' => [
-                ['label' => 'Наші спеціалісти' , 'url' => ['/site/specialists']],
-                ['label' => 'Для терапевтів', 'url' => ['/site/for-therapists']],
-                ['label' => 'Блог', 'url' => ['/site/blog']],
-                ['label' => 'Про нас', 'url' => ['/site/about']],
+                ['label' => Yii::t('app', 'Our specialists') , 'url' => ['/site/specialists']],
+                ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists']],
+                ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog']],
+                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
 
                 Yii::$app->user->isGuest
-                ? ['label' => 'Увійти', 'url' => ['/site/login']]
+                ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
                 : '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])
                 . Html::submitButton(
@@ -95,9 +95,3 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 </html>
 <?php $this->endPage() ?>
-<style>
-    .navbar-expand-md {
-        background: #2A7B9B;
-        background: linear-gradient(90deg, #2a7b9b 0%, #626f49 54%, #eddd53 100%);
-    }
-</style>

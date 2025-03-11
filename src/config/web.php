@@ -9,12 +9,14 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
+    'language' => 'uk-UA', // або 'en-US' як мова за замовчуванням
+    'sourceLanguage' => 'en-US',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'ch7RzeE3D50XPRMNVWi8zAP9gNrBmw0o',
+            'cookieValidationKey' => 'JERrznjt36oDWBHtrkNEvUlrkG4xCIWC',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -50,7 +52,21 @@ $config = [
             ],
         ],
         */
+        'i18n' => [
+        'translations' => [
+            '*' => [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@app/messages',
+                'sourceLanguage' => 'ua',
+                'fileMap' => [
+                    'app' => 'app.php',
+                    'app/error' => 'error.php',
+                ],
+            ],
+        ],
     ],
+    ],
+
     'params' => $params,
 ];
 
