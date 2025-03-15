@@ -13,7 +13,7 @@ return [
     // 'For therapists' => 'For therapists',
 
 
-    //MAIN PAGE
+    // MAIN PAGE
 
     //MP | MainScreen
     'Welcome' => 'MindPlace — your safe space for mental well-being',
@@ -68,17 +68,18 @@ return [
     'FAQ' => 'Frequently Asked Questions',
     'FAQ descr' => 'We understand that you may have questions about our services and the process of
                     finding a therapist. Here are some common questions and answers to help you.',
-    'FAQ question 1' => 'Why is it better to use an individual matching service rather than asking your friends
-                                for a psychologist`s contact?',
-    'FAQ answer 1' => 'The psychologist works individually with each client, fully immersing himself in his
-                                problem. Therefore, the results are always different - they can be both positive and
-                                negative. Everyone has their own life situation, and the process of therapy is different
-                                for everyone. The specialist who successfully helped your friend may be incompetent in
-                                your case. Choosing the best psychologist based on your specific situation and needs is
-                                an individual process.',
-    'FAQ question 2' => 'Do all psychologists observe strict confidentiality?',
-    'FAQ answer 2' => 'Of course! Everything you discuss during the session is exclusively between you and
-                                your psychologist. All information is kept strictly confidential.',
+    'FAQ question 1' => 'Can I get psychotherapy online?',
+    'FAQ answer 1' => 'Yes, MindPlace offers the possibility to receive psychotherapy online. You can communicate with your therapist via text messages or by discussing another way of communication, such as social media',
+    'FAQ question 2' => 'How long does a psychotherapy session last?',
+    'FAQ answer 2' => 'A psychotherapy session usually lasts between 50 and 60 minutes. The duration may vary depending on the therapist and your needs',
+    'FAQ question 3' => 'Can I change therapists?',
+    'FAQ answer 3' => 'Yes, you can change therapists at any time. MindPlace is committed to providing you with the best possible psychotherapy experience, so we are here to help you find a therapist who meets your needs',
+    'FAQ question 4' => 'Why is it better to use the individual matching service rather than asking your friends to contact a psychologist?',
+    'FAQ answer 4' => 'A psychologist works with each client individually, fully immersing himself in his problem. Therefore, the results are always different - they can be both positive and negative. Everyone has their own life situation, and the therapy process is different for everyone. A specialist who successfully helped your friend may not be able to help you in your case. Choosing the best psychologist for your specific situation and needs is an individual process',
+    
+    'Still have questions?' => 'Still have questions?',
+    'Still have questions descr' => 'If you have any other questions or need more information, please feel free to contact us. We are here to help you on your journey to mental wellness.',
+    'Contact us' => 'Contact us',
 
 
 
