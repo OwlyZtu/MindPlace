@@ -11,7 +11,7 @@ $text-muted: #999;
 $text-error: #a94442;
 $gradient-start: #467471;
 $gradient-end: #91944D;
-$gradient-alt-end: rgb(97, 99, 64);
+$gradient-alt-end: #616340;
 $background-main: #eeeeee;
 $footer-bg: #f5f5f5;
 $not-set-color: #c55;
@@ -53,9 +53,28 @@ body {
   color: $text-color;
 }
 
-.navbar-expand-md {
-  background: #2A7B9B;
-  background: linear-gradient(90deg, #2a7b9b 0%, #626f49 54%, #eddd53 100%);
+.navbar-bg{
+  background-color: transparent;
+}
+
+.mobile-nav-svg {
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+
+  &.visible {
+    display: block;
+  }
+}
+
+
+footer {
+  .container-fluid{
+    background-color: $background-main;
+  }
 }
 
 main > .container {
@@ -63,13 +82,12 @@ main > .container {
 }
 
 .footer {
-  background-color: $footer-bg;
   font-size: 0.9em;
   height: 60px;
 
   > .container {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 0px;
+    padding-left: 0px;
   }
 }
 
@@ -110,16 +128,17 @@ a.desc::after {
 // NAV LOGOUT
 // =======================
 .nav {
+  font-size: larger;
   li {
     > form {
       > button.logout {
         padding-top: 7px;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.678);
 
         &:focus,
         &:hover {
           text-decoration: none;
-          color: rgba(255, 255, 255, 0.75);
+          color: rgba(255, 255, 255, 0.95);
         }
 
         &:focus {
@@ -177,6 +196,7 @@ h2 { font-size: 2rem; }
 h3 { font-size: 1.75rem; }
 h4 { font-size: 1.50rem; }
 h5 { font-size: 1.25rem; }
+p { font-size: 1rem; }
 
 // =======================
 // ADDITIONAL STYLES
@@ -207,17 +227,14 @@ h5 { font-size: 1.25rem; }
 
 
 
-.info-row,
-.question-row {
-  color: #3a5856;
-  font-size: 1rem;
-  @include gradient-text($gradient-start, $gradient-end);
-}
 
 .question-row {
   .accordion-item {
-    color: #3a5856;
     border-width: 0.25rem;
-    border-color: rgb(171, 190, 189);
+    border-color: #abbfbe;
+    .accordion-text-alt {
+      color: $gradient-alt-end;
+    }
   }
+
 }

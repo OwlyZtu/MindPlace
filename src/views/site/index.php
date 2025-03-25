@@ -8,7 +8,7 @@ $this->title = 'MindPlace';
 <div class="site-index">
     <div class="body-content row row-gap-5">
         <!-- #region MainScreen -->
-        <div class="row main-row align-content-center bg-main mb-5">
+        <div class="row main-row align-content-center bg-main my-4">
             <div class="col-lg-7 img">
                 <img src="<?= Yii::getAlias('@web') ?>/images/mainPhoto2.png" alt="MindPlace main photo"
                     class="img-fluid">
@@ -36,22 +36,22 @@ $this->title = 'MindPlace';
 
 
         <!-- #region InformationScreen -->
-        <div class="row info-row align-content-center mb-3 text-center row-gap-5 gradient-text-alt">
-            <div class="row justify-content-center mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
-                    class="bi bi-patch-question-fill" viewBox="0 0 16 16">
-                    <path
-                        d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0m1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.7 1.7 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627" />
-                </svg>
+        <div class="row info-row align-content-center mb-3 text-center row-gap-2 gradient-text-alt">
+            <div class="row justify-content-center mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
+                        class="bi bi-patch-question-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0m1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.7 1.7 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627" />
+                    </svg>
             </div>
-            <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-2">
                 <h2 class="col-lg-6">
                     <?= Yii::t('app', 'Do you know...') ?>
                 </h2>
             </div>
 
             <!-- What is... -->
-            <div class="row justify-content-center mb-4">
+            <div class="row justify-content-center mb-2">
                 <div class="col-lg-5">
                     <h3 class="text-center">
                         <?= Yii::t('app', 'What is psychotherapy') ?>
@@ -63,7 +63,7 @@ $this->title = 'MindPlace';
             </div>
 
             <!-- Difference -->
-            <div class="row justify-content-center  mb-3">
+            <div class="row justify-content-center  mb-2">
                 <h3>
                     <?= Yii::t('app', 'Difference qa') ?>
                 </h3>
@@ -104,7 +104,7 @@ $this->title = 'MindPlace';
             </div>
 
             <!-- Why it is important -->
-            <div class="row justify-content-center mb-5">
+            <div class="row justify-content-center mb-4">
                 <div class="col-lg-4">
                     <h3>
                         <?= Yii::t('app', 'Why it is important') ?>
@@ -120,9 +120,9 @@ $this->title = 'MindPlace';
 
 
         <!-- #region HowItWorksScreen -->
-        <div class="row how-it-works-row align-content-center mb-5 text-center row-gap-5 gradient-text-alt">
+        <div class="row how-it-works-row align-content-center mb-5 text-center gradient-text-alt">
 
-            <div class="col-lg-10 justify-content-center mx-auto mb-4">
+            <div class="col-lg-6 justify-content-center mx-auto mb-4">
                 <h2 class="text-center mb-4">
                     <?= Yii::t('app', 'How it works') ?>
                 </h2>
@@ -283,50 +283,40 @@ $this->title = 'MindPlace';
             </div>
             <div class="col-lg-10 mx-auto mb-4">
                 <div class="accordion" id="accordionQA">
-                    <div class="accordion-item">
-                        <h3 class="accordion-header" id="headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <?= Yii::t('app', 'FAQ question 1') ?>
-                            </button>
-                        </h3>
-                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionQA">
-                            <div class="accordion-body">
-                                <p>
-                                    <?= Yii::t('app', 'FAQ answer 1') ?>
-                                </p>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="heading<?= $i ?>">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse<?= $i ?>" aria-expanded="false"
+                                    aria-controls="collapse<?= $i ?>">
+                                    <span class="accordion-text-alt">
+                                        <?= Yii::t('app', "FAQ question $i") ?>
+                                    </span>
+                                </button>
+                            </h3>
+                            <div id="collapse<?= $i ?>" class="accordion-collapse collapse"
+                                aria-labelledby="heading<?= $i ?>" data-bs-parent="#accordionQA">
+                                <div class="accordion-body">
+                                    <p>
+                                        <span class="accordion-text-alt">
+                                            <?= Yii::t('app', "FAQ answer $i") ?>
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h3 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <?= Yii::t('app', 'FAQ question 2') ?>
-                            </button>
-                        </h3>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionQA">
-                            <div class="accordion-body">
-                                <p>
-                                    <?= Yii::t('app', 'FAQ answer 2') ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endfor; ?>
                 </div>
             </div>
 
 
             <!-- ContactForm -->
             <div class="col-lg-5 mx-auto">
-                <h3 class="text-center">Still have questions?</h3>
-                <p class="text-center">If you have any other questions or need more information, please feel free to
-                    contact us. We are here to help you on your journey to mental wellness.</p>
+                <h3 class="text-center"><?= Yii::t('app', "Still have questions?") ?></h3>
+                <p class="text-center"><?= Yii::t('app', "Still have questions descr") ?></p>
                 <div class="d-flex justify-content-center mt-4">
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"
-                        class="btn btn-primary btn-lg">Contact Us</a>
+                        class="btn btn-primary btn-lg"><?= Yii::t('app', "Contact us") ?></a>
                 </div>
             </div>
         </div>
