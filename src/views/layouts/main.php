@@ -116,13 +116,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists']],
                 ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-
+                Yii::$app->user->identity && Yii::$app->user->identity->isAdmin() 
+                ? ['label'=> 'GII', 'url' => ['/gii']] 
+                : ['label' =>'','url'=> ['/']],
                 Yii::$app->user->isGuest
                 ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
                 : '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])
                 . Html::submitButton(
-                    Yii::$app->user->identity->username,
+                    Yii::$app->user->identity->name,
                     ['class' => 'nav-link btn btn-link logout']
                 )
                 . Html::endForm()

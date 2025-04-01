@@ -1,4 +1,4 @@
-
+# version: '3.8'
 
 services:
   php:
@@ -6,6 +6,8 @@ services:
     container_name: yii2-php
     volumes:
       - ./src:/var/www/html
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./web/assets:/var/www/html/web/assets
     networks:
       - yii2-network
     depends_on:
@@ -31,11 +33,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: yii2
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_USER: sofiia
+      MYSQL_PASSWORD: root
     volumes:
       - ./docker/mysql:/etc/mysql/conf.d
       - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - yii2-network
 
