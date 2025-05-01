@@ -28,9 +28,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <link rel="stylesheet" href="<?= Yii::getAlias('@web/css/site.css') ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 </head>
 
-<body class="d-flex flex-column vh-100">
+<body class="d-flex flex-column vh-100 comfortaa-text">
     <?php $this->beginBody() ?>
 
     <div class="navbar-bg fixed-top">
@@ -116,19 +119,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists']],
                 ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
-                Yii::$app->user->identity && Yii::$app->user->identity->isAdmin() 
-                ? ['label'=> 'GII', 'url' => ['/gii']] 
-                : ['label' =>'','url'=> ['/']],
+                Yii::$app->user->identity && Yii::$app->user->identity->isAdmin()
+                    ? ['label' => 'GII', 'url' => ['/gii']]
+                    : ['label' => '', 'url' => ['/']],
                 Yii::$app->user->isGuest
-                ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
-                : '<li class="nav-item">'
-                . Html::beginForm(['/site/logout'])
-                . Html::submitButton(
-                    Yii::$app->user->identity->name,
-                    ['class' => 'nav-link btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>',
+                    ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
+                    : '<li class="nav-item">'
+                    . Html::beginForm(['/site/logout'])
+                    . Html::submitButton(
+                        Yii::$app->user->identity->name,
+                        ['class' => 'nav-link btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>',
 
                 [
                     'label' => strtoupper(Yii::$app->language),
@@ -147,7 +150,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <main id="main" class="flex-shrink-0" role="main">
         <div class="container vh-90">
             <?php if (!empty($this->params['breadcrumbs'])): ?>
-                <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
+                <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs'], 'options' => ['class' => 'mt-5']]) ?>
             <?php endif ?>
             <?= Alert::widget() ?>
             <?= $content ?>
