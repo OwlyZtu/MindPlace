@@ -8,6 +8,12 @@ return [
     'Login' => 'Login',
 
 
+
+    // SIGNUP PAGE
+    'SignupBread'=> 'Sign Up',
+    'Signup title' => 'Create new account',
+    'Signup please...'=> 'Please fill out the following fields:',
+
     // MAIN PAGE
 
     //MP | MainScreen

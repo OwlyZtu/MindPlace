@@ -7,7 +7,7 @@ services:
     volumes:
       - ./src:/var/www/html
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      - ./web/assets:/var/www/html/web/assets
+      - ./src/web/assets:/var/www/html/web/assets
     networks:
       - yii2-network
     depends_on:

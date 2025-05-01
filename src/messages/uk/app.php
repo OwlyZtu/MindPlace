@@ -7,6 +7,12 @@ return [
     'About' => 'Про нас',
     'Login' => 'Увійти',
 
+    // SIGNUP PAGE
+    'SignupBread'=> 'Реєстація',
+    'Signup title' => 'Створюємо нового користувача',
+    'Signup please...'=> 'Заповніть наступні поля:',
+
+
 
     // MAIN PAGE
 
