@@ -1,0 +1,91 @@
+# phpstorm project files
+.idea
+.vscode/
+*.swp
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+
+#vagrant folder
+/.vagrant
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+# Composer
+/vendor/
+/composer.lock
+
+# Yii2
+/runtime/
+/web/assets/
+/tests/_output/
+/yii
+
+# Node.js (якщо використовуєш npm/webpack для Bootstrap)
+node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# Docker
+docker-compose.override.yml
+.env
+.env.local
+*.pid
+
+# Logs
+*.log
+
+# Caches
+*.cache
+.cache/
+.cache-loader/
+.phpunit.result.cache
+
+# PHPUnit
+.phpunit.cache/
+
+# Bootstrap (якщо кастомізується і збирається вручну)
+public/css/
+public/js/
+dist/
+
+# User uploads
+/web/uploads/
+
+# Coverage reports
+coverage/
+
+# Lock files 
+/composer.lock
+yarn.lock
+
