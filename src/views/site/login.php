@@ -8,65 +8,84 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Login';
+$this->title = Yii::t('app', 'LoginBread');;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <div class="body-content container-fluid row row-gap-2 justify-content-center">
-        <div class="row justify-content-center gradient-text-alt">
-            <div class="col-lg-6 text-center">
-                <h1><?= Html::encode($this->title) ?></h1>
+    <div class="body-content container-fluid row row-gap-2 justify-content-center mx-auto row">
+        <div class="col-lg-6 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
+            <div class="row justify-content-center gradient-text">
+                <div class="col-lg-10 text-center mt-2">
+                    <h1>
+                        <?= Yii::t('app', 'Login title') ?>
+                        <span class="text-muted">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <circle cx="10" cy="6" r="4" stroke="#437576" stroke-width="1.5"></circle>
+                                    <path d="M18.0429 12.3656L18.4865 11.7609L18.4865 11.7609L18.0429 12.3656ZM19 8.69135L18.4813 9.23307C18.7713 9.51077 19.2287 9.51077 19.5187 9.23307L19 8.69135ZM19.9571 12.3656L19.5135 11.7609L19.5135 11.7609L19.9571 12.3656ZM19 12.8276L19 13.5776H19L19 12.8276ZM18.4865 11.7609C18.0686 11.4542 17.6081 11.0712 17.2595 10.6681C16.8912 10.2423 16.75 9.91131 16.75 9.69673H15.25C15.25 10.4666 15.6912 11.1479 16.1249 11.6493C16.5782 12.1735 17.1391 12.6327 17.5992 12.9703L18.4865 11.7609ZM16.75 9.69673C16.75 9.12068 17.0126 8.87002 17.2419 8.78964C17.4922 8.70189 17.9558 8.72986 18.4813 9.23307L19.5187 8.14963C18.6943 7.36028 17.6579 7.05432 16.7457 7.3741C15.8125 7.70123 15.25 8.59955 15.25 9.69673H16.75ZM20.4008 12.9703C20.8609 12.6327 21.4218 12.1735 21.8751 11.6493C22.3088 11.1479 22.75 10.4666 22.75 9.69672H21.25C21.25 9.91132 21.1088 10.2424 20.7405 10.6681C20.3919 11.0713 19.9314 11.4542 19.5135 11.7609L20.4008 12.9703ZM22.75 9.69672C22.75 8.59954 22.1875 7.70123 21.2543 7.37409C20.3421 7.05432 19.3057 7.36028 18.4813 8.14963L19.5187 9.23307C20.0442 8.72986 20.5078 8.70189 20.7581 8.78964C20.9874 8.87002 21.25 9.12068 21.25 9.69672H22.75ZM17.5992 12.9703C17.9678 13.2407 18.3816 13.5776 19 13.5776L19 12.0776C18.9756 12.0776 18.9605 12.0775 18.9061 12.0488C18.8202 12.0034 18.7128 11.9269 18.4865 11.7609L17.5992 12.9703ZM19.5135 11.7609C19.2872 11.9269 19.1798 12.0034 19.0939 12.0488C19.0395 12.0775 19.0244 12.0776 19 12.0776L19 13.5776C19.6184 13.5776 20.0322 13.2407 20.4008 12.9703L19.5135 11.7609Z" fill="#437576"></path>
+                                    <path d="M17.9975 18C18 17.8358 18 17.669 18 17.5C18 15.0147 14.4183 13 10 13C5.58172 13 2 15.0147 2 17.5C2 19.9853 2 22 10 22C12.231 22 13.8398 21.8433 15 21.5634" stroke="#437576" stroke-width="1.5" stroke-linecap="round"></path>
+                                </g>
+                            </svg>
+                        </span>
+                    </h1>
 
-                <p>Please fill out the following fields to login:</p>
-                <svg width="205px" height="205px" viewBox="-1.6 -1.6 19.20 19.20" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="0.00016">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.032"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path fill="#000000" fill-rule="evenodd" d="M14.1026,4.43011 C14.6139,4.22135 15.1977,4.46661 15.4064,4.97792 C17.0765,9.06841 15.1143,13.7383 11.0239,15.4083 C8.66289,16.3723 6.10818,16.1252 4.05194,14.9602 C3.57143,14.6879 3.40261,14.0776 3.67487,13.5971 C3.94713,13.1166 4.55737,12.9478 5.03789,13.2201 C6.58414,14.0962 8.49796,14.2793 10.2679,13.5567 C13.3357,12.3042 14.8073,8.80177 13.5548,5.73391 C13.346,5.2226 13.5913,4.63886 14.1026,4.43011 Z M2.19544,9.52389 C2.26141,9.77396 2.3444,10.023 2.44513,10.2698 C2.54587,10.5165 2.66092,10.7525 2.78882,10.9773 C3.06197,11.4573 2.89426,12.0678 2.41425,12.341 C1.93424,12.6141 1.32368,12.4464 1.05054,11.9664 C0.879967,11.6666 0.727034,11.3528 0.593515,11.0257 C0.459996,10.6987 0.349566,10.3675 0.261594,10.034 C0.120724,9.50001 0.439434,8.9529 0.973451,8.81203 C1.50747,8.67116 2.05457,8.98987 2.19544,9.52389 Z M2.45915,3.60703 C2.93624,3.88526 3.09744,4.49756 2.81922,4.97464 C2.55491,5.42786 2.35056,5.91419 2.21184,6.42018 C2.06582,6.95281 1.51566,7.26622 0.983026,7.12019 C0.450396,6.97416 0.136992,6.424 0.283019,5.89137 C0.467702,5.21774 0.739666,4.57047 1.09154,3.96709 C1.36977,3.49001 1.98207,3.3288 2.45915,3.60703 Z M10.1104,0.28485 C10.7841,0.469533 11.4313,0.741497 12.0347,1.09338 C12.5118,1.3716 12.673,1.9839 12.3948,2.46098 C12.1166,2.93807 11.5043,3.09927 11.0272,2.82105 C10.574,2.55674 10.0876,2.3524 9.58163,2.21367 C9.049,2.06765 8.7356,1.51749 8.88162,0.984857 C9.02765,0.452227 9.57781,0.138823 10.1104,0.28485 Z M7.18978,0.975282 C7.33065,1.5093 7.01194,2.0564 6.47792,2.19727 C6.22785,2.26324 5.97878,2.34623 5.73205,2.44696 C5.48531,2.5477 5.24933,2.66275 5.02455,2.79066 C4.54454,3.0638 3.93398,2.89609 3.66084,2.41608 C3.3877,1.93607 3.55541,1.32551 4.03542,1.05237 C4.33519,0.881798 4.64904,0.728865 4.97607,0.595346 C5.30309,0.461827 5.6343,0.351397 5.96779,0.263425 C6.50181,0.122556 7.04891,0.441265 7.18978,0.975282 Z"></path>
-                    </g>
-                </svg>
-            </div>
-        </div>
-
-
-        <div class="row justify-content-center">
-            <div class="col-lg-5">
-                <div class="row my-3">
-                    <div class="col-lg-9">
-
-                        <?php $form = ActiveForm::begin([
-                            'id' => 'login-form',
-                            'fieldConfig' => [
-                                'template' => "{label}\n{input}\n{error}",
-                                'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
-                                'inputOptions' => ['class' => 'col-lg-3 form-control'],
-                                'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-                            ],
-                        ]); ?>
-
-                        <?= $form->field($model, 'name')->textInput(['autofocus' => true]) ?>
-
-                        <?= $form->field($model, 'password')->passwordInput() ?>
-
-                        <?= $form->field($model, 'rememberMe')->checkbox([
-                            'template' => "<div class='custom-control custom-checkbox my-4'>{input} {label}</div>\n<div class='col-lg-8'>{error}</div>",
-                        ]) ?>
-                    </div>
-                    <div class="form-group row justify-content-center">
-                        <div class="col-lg-3">
-                            <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'login-button']) ?>
-                        </div>
-                    </div>
-
-                    <?php ActiveForm::end(); ?>
-                </div>
-
-                <div class="row mt-4">
                     <p>
-                        Don`t have an account? <?= Html::a('Create new', ['site/signup']) ?>
+                        <?= Yii::t('app', 'Login please...') ?>
                     </p>
-                </div>
 
+
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="row my-3 justify-content-center">
+                        <div class="col-lg-9 w-100">
+
+                            <?php $form = ActiveForm::begin([
+                                'id' => 'login-form',
+                                'fieldConfig' => [
+                                    'template' => "{label}\n{input}\n{error}",
+                                    'labelOptions' => ['class' => 'col-lg-4 col-form-label mr-lg-3'],
+                                    'inputOptions' => ['class' => 'col-lg-3 form-control'],
+                                    'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
+                                ],
+                            ]); ?>
+
+                            <?= $form->field($model, 'name')->textInput(['autofocus' => true])->label(Yii::t('app', 'Form name')) ?>
+
+                            <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('app', 'Form password')) ?>
+
+                            <?= $form->field($model, 'rememberMe')->checkbox([
+                                'template' => "<div class='custom-control custom-checkbox my-4'>{input} {label}</div>\n<div class='col-lg-8'>{error}</div>",
+                                'label' => Yii::t('app', 'Remember Me'),
+                            ]) ?>
+                        </div>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-lg-3">
+                                <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'login-button']) ?>
+                            </div>
+                        </div>
+
+                        <?php ActiveForm::end(); ?>
+                    </div>
+
+                    <div class="row mt-4 text-center">
+                        <p>
+                            <?= Yii::t('app', 'Form or create') ?>
+                            <?= Html::a(Yii::t('app', 'Link to signup'), ['site/signup']) ?>
+                        </p>
+                    </div>
+                    <div class="row mt-4 text-center">
+                        <p>
+                            <?= Yii::t('app', 'Forgot password?') ?>
+                            <?= Html::a(Yii::t('app', 'Login reset password'), ['site/request-password-reset']) ?>
+                        </p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

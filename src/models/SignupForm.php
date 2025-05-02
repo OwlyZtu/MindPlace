@@ -25,23 +25,17 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            // name and password are required
-            [['name', 'email', 'password', 're_password'], 'required'],
-            // name must be at least 3 and maximum 100 characters long
-            [['name'],'string','min' => 3,'max' => 100, 'tooShort' => 'Імя повинно містити мінімум 3 символи'],
-            [['name'],'string','max' => 100, 'tooLong' => 'Імя повинно містити максимум 100 символів'],
-            // email must be a valid email address
-            [['email'],'email'],
-            [['email'],'unique','targetClass' => User::class,'message' => 'Такий email вже зареєстрований'],            
-            // password is validated
-            [
-                'password',
-                'match', 
-                'pattern' => '/^[a-z0-9]{6,}$/',
-                'message' => 'Пароль повинен містити мінімум 6 символів та складатися лише з літер a-z та цифр 0-9'
-            ],
-            //
-            ['re_password', 'compare', 'compareAttribute' => 'password', 'message' => 'Паролі не співпадають'],
+            ['name', 'required', 'message' => Yii::t('app', 'Name cannot be blank.')],
+            ['name', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This name has already been taken.')],
+            
+            ['email', 'required', 'message' => Yii::t('app', 'Email cannot be blank.')],
+            ['email', 'email', 'message' => Yii::t('app', 'Email is not a valid email address.')],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This email address has already been taken.')],
+            
+            ['password', 'required', 'message' => Yii::t('app', 'Password cannot be blank.')],
+            ['password', 'string', 'min' => 8, 'message' => Yii::t('app', 'Password should contain at least 8 characters.')],
+            
+            ['re_password', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('app', 'Passwords don\'t match')],
         ];
     }
 

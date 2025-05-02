@@ -9,10 +9,29 @@ return [
 
 
 
+    // LOGIN PAGE
+    'LoginBread' => 'Sign In',
+    'Login title' => 'Sign in to your account',
+    'Login please...' => 'Please fill out the following fields:',
+    'Form name' => 'Your name',
+    'Form password' => 'Enter password',
+    'Remember Me' => 'Remember Me',
+    'Forgot password?' => 'Forgot password?',
+    'Login reset password' => 'Reset password',
+    'Form or create' => 'Don\'t have an account?',
+    'Link to signup' => 'Sign Up',
+
     // SIGNUP PAGE
-    'SignupBread'=> 'Sign Up',
-    'Signup title' => 'Create new account',
-    'Signup please...'=> 'Please fill out the following fields:',
+    'SignupBread' => 'Registration',
+    'Signup title' => 'Create new user',
+    'Signup please...' => 'Please fill out the following fields:',
+    'Form email' => 'Your email',
+    'Form password repeat' => 'Repeat password',
+    'Signup submit' => 'Sign Up',
+    'Form or login' => 'Already have an account?',
+    'Link to login' => 'Sign In',
+
+
 
     // MAIN PAGE
 
@@ -101,4 +120,14 @@ return [
     'About Team member 2 descr' => 'The best woolen pants in the world',
 
 
+
+    // Form validation messages
+    'Name cannot be blank.' => 'Name cannot be blank.',
+    'Email cannot be blank.' => 'Email cannot be blank.',
+    'Email is not a valid email address.' => 'Email is not a valid email address.',
+    'Password cannot be blank.' => 'Password cannot be blank.',
+    'Password should contain at least 8 characters.' => 'Password should contain at least 8 characters.',
+    'Passwords don\'t match' => 'Passwords don\'t match',
+    'This name has already been taken.' => 'This name has already been taken.',
+    'This email address has already been taken.' => 'This email address has already been taken.',
 ];

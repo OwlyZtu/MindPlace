@@ -26,8 +26,15 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // name and password are both required
-            [['name', 'password'], 'required'],
+            ['name', 'required', 'message' => Yii::t('app', 'Name cannot be blank.')],
+            ['name', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This name has already been taken.')],
+            
+            ['email', 'required', 'message' => Yii::t('app', 'Email cannot be blank.')],
+            ['email', 'email', 'message' => Yii::t('app', 'Email is not a valid email address.')],
+
+            ['password', 'required', 'message' => Yii::t('app', 'Password cannot be blank.')],
+            ['password', 'string', 'min' => 8, 'message' => Yii::t('app', 'Password should contain at least 8 characters.')],
+            
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
