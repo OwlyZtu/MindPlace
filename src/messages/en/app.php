@@ -9,7 +9,7 @@ return [
 
 
 
-    // LOGIN PAGE
+    // #region LOGIN PAGE
     'LoginBread' => 'Sign In',
     'Login title' => 'Sign in to your account',
     'Login please...' => 'Please fill out the following fields:',
@@ -18,10 +18,13 @@ return [
     'Remember Me' => 'Remember Me',
     'Forgot password?' => 'Forgot password?',
     'Login reset password' => 'Reset password',
-    'Form or create' => 'Don\'t have an account?',
+    'Form or create' => 'Don&#039;t have an account?',
     'Link to signup' => 'Sign Up',
 
-    // SIGNUP PAGE
+    // #endregion
+
+
+    // #region SIGNUP PAGE
     'SignupBread' => 'Registration',
     'Signup title' => 'Create new user',
     'Signup please...' => 'Please fill out the following fields:',
@@ -31,9 +34,9 @@ return [
     'Form or login' => 'Already have an account?',
     'Link to login' => 'Sign In',
 
+    // #endregion
 
-
-    // MAIN PAGE
+    // #region MAIN PAGE
 
     //MP | MainScreen
     'Welcome' => 'MindPlace — your safe space for mental well-being',
@@ -55,7 +58,7 @@ return [
     'Difference qa psychologist descr' => 'A psychologist is a specialist who studies human behaviour and mental processes, while a psychotherapist is a psychologist or psychiatrist who has received additional training in psychotherapy. Psychotherapists use various methods to help clients understand their problems and find solutions.',
     'Difference qa psychotherapist' => 'Psychotherapist',
     'Difference qa psychotherapist descr' => 'Psychotherapists are professionals with special education and training in psychology and
-        psychotherapy. Psychotherapy helps to rethink one`s own life experience and form completely new
+        psychotherapy. Psychotherapy helps to rethink one&#039;s own life experience and form completely new
         patterns of behaviour. An analogy can be drawn that if psychological counselling is a cosmetic
         repair, then psychotherapy is a major overhaul.',
     //Why it is important
@@ -101,10 +104,72 @@ return [
     'Still have questions descr' => 'If you have any other questions or need more information, please feel free to contact us. We are here to help you on your journey to mental wellness.',
     'Contact us' => 'Contact us',
 
+    // #endregion
+
+    // #region PROFILE PAGE
+
+
+    // #endregion 
 
 
 
-    // ABOUT PAGE
+
+    // #region FOR THERAPISTS PAGE
+    'FT Join Form'=> 'Join MindPlace team',
+    'FT title' => 'Join MindPlace',
+    'FT intro h1'=> 'MindPlace for Specialists',
+    'FT intro h2'=> 'Grow and Thrive With Us',
+    'FT intro p1'=> 'Join our community of mental health professionals.',
+    'FT intro p2'=> 'You focus on helping people — we`ll take care of finding clients and managing your online presence.',
+
+    'FT benefits title'=> 'Benefits for you',
+    'FT benefits 1'=> 'A safe, reliable platform for consultations.',
+    'FT benefits 2'=> 'Tools for managing appointments and schedule.',
+    'FT benefits 3'=> 'A professional community and development opportunities.',
+    'FT benefits 4'=> 'MindPlace is your partner for growth and client support.',
+
+    // Therapist Join Form
+    'Personal Information' => 'Personal Information',
+    'Full name' => 'Full name',
+    'Email' => 'Email',
+    'Contact Number' => 'Contact Number',
+    'Date of Birth' => 'Date of Birth',
+    'Gender' => 'Gender',
+    'Male'=> 'Male',
+    'Female'=> 'Female',
+    'Social Media' => 'Social Media',
+
+    'Therapy Specific' => 'Therapy Specific',
+    'Language' => 'Language',
+    'Therapy Types' => 'Therapy types',
+    'Therapy Types 1' => 'Individual session',
+    'Therapy Types 2' => 'Group session',
+    'Themes' => 'Theme',
+    'Themes 1'=> 'Anxiety',
+    'Themes 2'=> 'Depression',
+    'Themes 3'=> 'Stress',
+    'Themes 4'=> 'Relationship Issues',
+    'Themes 5'=> 'Self-esteem',
+    'Themes 6'=> 'Coping with Trauma',
+    'Format' => 'Format',
+    'LGBTQ+ friendly' => 'LGBTQ+ friendly',
+    'Work with military personnel' => 'Work with military personnel',
+
+    'Education and Experience' => 'Education and Experience',
+    'Education Name' => 'Education Name',
+    'Education File' => 'Education File',
+    'Additional Certification' => 'Additional Certification',
+    'Additional Certification File' => 'Additional Certification File',
+    'Experience' => 'Experience',
+
+    'Privacy Policy' => 'Privacy Policy',
+    'I agree to the privacy policy' => 'I agree to the privacy policy',
+    'One moment' => 'Submit',
+
+    // #endregion
+
+
+    // #region ABOUT PAGE
     'About title' => 'About Us and MindPlace',
     'About h-1' => 'Self-care begins with understanding',
     'About p-1' => 'Recognizing your emotional state and seeking professional help is not a weakness, but a manifestation of strength and maturity. Today, psychotherapy is not just support during difficult times, but also a path to deeper self-knowledge, development of internal resources, and improvement of life quality.',
@@ -119,15 +184,16 @@ return [
     'About Team member 2' => 'Tomychka',
     'About Team member 2 descr' => 'The best woolen pants in the world',
 
+    // #endregion
 
-
-    // Form validation messages
+    // #region Form validation messages
     'Name cannot be blank.' => 'Name cannot be blank.',
     'Email cannot be blank.' => 'Email cannot be blank.',
     'Email is not a valid email address.' => 'Email is not a valid email address.',
     'Password cannot be blank.' => 'Password cannot be blank.',
     'Password should contain at least 8 characters.' => 'Password should contain at least 8 characters.',
-    'Passwords don\'t match' => 'Passwords don\'t match',
+    'Passwords don&#039;t match' => 'Passwords don&#039;t match',
     'This name has already been taken.' => 'This name has already been taken.',
     'This email address has already been taken.' => 'This email address has already been taken.',
+
 ];

@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-login">
     <div class="body-content container-fluid row row-gap-2 justify-content-center mx-auto row">
         <div class="col-lg-6 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
-            <div class="row justify-content-center gradient-text">
+            <div class="row justify-content-center ">
                 <div class="col-lg-10 text-center mt-2">
                     <h1>
                         <?= Yii::t('app', 'Login title') ?>
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ]); ?>
 
-                            <?= $form->field($model, 'name')->textInput(['autofocus' => true])->label(Yii::t('app', 'Form name')) ?>
+                            <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label(Yii::t('app', 'Form email')) ?>
 
                             <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('app', 'Form password')) ?>
 

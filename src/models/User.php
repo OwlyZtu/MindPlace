@@ -208,9 +208,9 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return string generated access token
      */
-    public static function login($name, $password, $rememberMe = false)
+    public static function login($email, $password, $rememberMe = false)
     {
-        $user = self::findByName($name);
+        $user = self::findByEmail($email);
 
         if ($user && $user->validatePassword($password)) {
             Yii::$app->user->login($user, $rememberMe ? 3600 * 24 * 30 : 0);
@@ -301,7 +301,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Checks if the user is an admin
      * Admin has the highest level of access and can perform all actions
-     * including managing users, articles and settings
+     * including managing users, articles, and managing specialists
      *
      * @return bool whether the user is an admin
      */
@@ -310,7 +310,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Checks if the user is a moderator
      * Moderator has a lower level of access than admin and can perform some actions
-     * like managing articles
+     * like managing articles, reveiews and reports
      *
      * @return bool whether the user is a moderator
      */
@@ -319,9 +319,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Checks if the user is a specialist (doctor)
      * Specialist has a lower level of access than moderator and can perform some actions
-     * 1. creating articles and can also manage their own articles
-     * 2. edit own profile
-     * 3. chat with users 
+     * 1. creating articles
+     * 2. edit their own articles
+     * 3. edit own profile
+     * 4. chat with users 
      *
      * @return bool whether the user is a specialist
      */
@@ -332,8 +333,10 @@ class User extends ActiveRecord implements IdentityInterface
      * Regular user has the lowest level of access and can perform some actions
      * 1. edit own profile
      * 2. chat with specialists
-     * 3. view articles
-     * 4. view specialists
+     * 3. leave reviews
+     * 4. leave reports
+     * 5. view articles
+     * 6. view specialists
      *
      * @return bool whether the user is a regular user
      */

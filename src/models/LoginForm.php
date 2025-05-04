@@ -13,7 +13,7 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
-    public $name;
+    public $email;
     public $password;
     public $rememberMe = true;
 
@@ -25,15 +25,11 @@ class LoginForm extends Model
      */
     public function rules()
     {
-        return [
-            ['name', 'required', 'message' => Yii::t('app', 'Name cannot be blank.')],
-            ['name', 'unique', 'targetClass' => User::class, 'message' => Yii::t('app', 'This name has already been taken.')],
-            
+        return [   
             ['email', 'required', 'message' => Yii::t('app', 'Email cannot be blank.')],
             ['email', 'email', 'message' => Yii::t('app', 'Email is not a valid email address.')],
 
             ['password', 'required', 'message' => Yii::t('app', 'Password cannot be blank.')],
-            ['password', 'string', 'min' => 8, 'message' => Yii::t('app', 'Password should contain at least 8 characters.')],
             
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
@@ -61,7 +57,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Logs in a user using the provided name and password.
+     * Logs in a user using the provided email and password.
      * @return bool whether the user is logged in successfully
      */
     public function login()
@@ -73,14 +69,14 @@ class LoginForm extends Model
     }
 
     /**
-     * Finds user by [[name]]
+     * Finds user by [[email]]
      *
      * @return User|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByName($this->name);
+            $this->_user = User::findByEmail($this->email);
         }
 
         return $this->_user;

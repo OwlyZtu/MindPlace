@@ -34,10 +34,22 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
+            'class' => yii\swiftmailer\Mailer::class,
             'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
+            'useFileTransport' => true, // !!!set this property to false to send mails to real email addresses,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'dsn' => 'smtp://nightmare.owl16@gmail.com:pkue wkyj vjwc posb@smtp.gmail.com:587',
+                'scheme' => 'smtp',
+                'host' => 'smtp.gmail.com',
+                'username' => 'nightmare.owl16@gmail.com',
+                'password' => 'pkue wkyj vjwc posb', // Не звичайний пароль, а спеціальний пароль додатку
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
+        'symfonyMailer' => [
+            'class' => 'app\components\SymfonyMailer',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

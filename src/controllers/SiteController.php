@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
+use app\models\TherapistJoinForm;
 
 class SiteController extends Controller
 {
@@ -175,4 +176,24 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionForTherapists()
+    {
+        $model = new TherapistJoinForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            // Адреса, куди відправляти заявку
+            $adminEmail = 'nightmare.owl16@gmail.com'; // Замініть на реальну адресу
+
+            if ($model->contact($adminEmail)) {
+                Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
+                return $this->refresh();
+            }
+        }
+
+        return $this->render('for-therapists', [
+            'model' => $model,
+        ]);
+    }
+
 }
