@@ -107,7 +107,14 @@ return [
     // #endregion
 
     // #region PROFILE PAGE
-
+    'Greeting' => 'Hey, {name}!',
+    'Profile title' => 'My profile',
+    'Profile name'=> 'Name',
+    'Profile email'=> 'Email',
+    'Profile phone'=> 'Phone number',
+    'Profile date'=> 'Date of birth',
+    'Profile future_sessions' => 'Upcoming sessions',
+    'Profile history' => 'My session history',  
 
     // #endregion 
 
@@ -115,18 +122,18 @@ return [
 
 
     // #region FOR THERAPISTS PAGE
-    'FT Join Form'=> 'Join MindPlace team',
+    'FT Join Form' => 'Join MindPlace team',
     'FT title' => 'Join MindPlace',
-    'FT intro h1'=> 'MindPlace for Specialists',
-    'FT intro h2'=> 'Grow and Thrive With Us',
-    'FT intro p1'=> 'Join our community of mental health professionals.',
-    'FT intro p2'=> 'You focus on helping people — we`ll take care of finding clients and managing your online presence.',
+    'FT intro h1' => 'MindPlace for Specialists',
+    'FT intro h2' => 'Grow and Thrive With Us',
+    'FT intro p1' => 'Join our community of mental health professionals.',
+    'FT intro p2' => 'You focus on helping people — we`ll take care of finding clients and managing your online presence.',
 
-    'FT benefits title'=> 'Benefits for you',
-    'FT benefits 1'=> 'A safe, reliable platform for consultations.',
-    'FT benefits 2'=> 'Tools for managing appointments and schedule.',
-    'FT benefits 3'=> 'A professional community and development opportunities.',
-    'FT benefits 4'=> 'MindPlace is your partner for growth and client support.',
+    'FT benefits title' => 'Benefits for you',
+    'FT benefits 1' => 'A safe, reliable platform for consultations.',
+    'FT benefits 2' => 'Tools for managing appointments and schedule.',
+    'FT benefits 3' => 'A professional community and development opportunities.',
+    'FT benefits 4' => 'MindPlace is your partner for growth and client support.',
 
     // Therapist Join Form
     'Personal Information' => 'Personal Information',
@@ -135,8 +142,8 @@ return [
     'Contact Number' => 'Contact Number',
     'Date of Birth' => 'Date of Birth',
     'Gender' => 'Gender',
-    'Male'=> 'Male',
-    'Female'=> 'Female',
+    'Male' => 'Male',
+    'Female' => 'Female',
     'Social Media' => 'Social Media',
 
     'Therapy Specific' => 'Therapy Specific',
@@ -145,12 +152,12 @@ return [
     'Therapy Types 1' => 'Individual session',
     'Therapy Types 2' => 'Group session',
     'Themes' => 'Theme',
-    'Themes 1'=> 'Anxiety',
-    'Themes 2'=> 'Depression',
-    'Themes 3'=> 'Stress',
-    'Themes 4'=> 'Relationship Issues',
-    'Themes 5'=> 'Self-esteem',
-    'Themes 6'=> 'Coping with Trauma',
+    'Themes 1' => 'Anxiety',
+    'Themes 2' => 'Depression',
+    'Themes 3' => 'Stress',
+    'Themes 4' => 'Relationship Issues',
+    'Themes 5' => 'Self-esteem',
+    'Themes 6' => 'Coping with Trauma',
     'Format' => 'Format',
     'LGBTQ+ friendly' => 'LGBTQ+ friendly',
     'Work with military personnel' => 'Work with military personnel',

@@ -42,7 +42,12 @@ services:
       - "3306:3306"
     networks:
       - yii2-network
-
+  sass:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: npm run sass
 volumes:
   mysql_data:
 

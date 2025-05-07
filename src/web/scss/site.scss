@@ -4,6 +4,7 @@
 $primary-color: #3A7782;
 $primary-hover: #083c48;
 $secondary-color: #5D704F;
+$secondary-light-color: #8c9e7f;
 $secondary-hover: #2c3823;
 
 $text-color: #323f33;
@@ -52,6 +53,7 @@ $not-set-color: #c55;
 // =======================
 body {
   color: $text-color;
+  font-family: 'Comfortaa', sans-serif;
 }
 
 .navbar-bg{
@@ -96,6 +98,9 @@ main > .container {
   color: $not-set-color;
   font-style: italic;
 }
+
+
+
 
 // =======================
 // GRIDVIEW SORT ICONS
@@ -169,11 +174,11 @@ a.desc::after {
 }
 
 .btn-primary {
-    color: white;
   background-color: $primary-color;
 
   &:hover {
     background-color: $primary-hover;
+    color: white;
   }
 }
 
@@ -182,17 +187,29 @@ a.desc::after {
 
   &:hover {
     background-color: $secondary-hover;
+    color: white;
   }
 }
+
+.nav-tabs > .active{
+  background-color: $secondary-light-color;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
+.tab-content > .tab-pane{
+  background-color: $secondary-light-color;
+}
+
 
 // =======================
 // HEADINGS
 // =======================
 h1, h2, h3, h4, h5 {
   margin-bottom: 1rem;
-  p{
-    font-family: 'BeyneRegular';
-  }
 }
 
 h1 { font-size: 2.5rem; }

@@ -149,6 +149,21 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    public function actionProfile()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        return $this->render('profile', [
+            'model' => $model,
+        ]);
+    }
     /**
      * Displays contact page.
      *

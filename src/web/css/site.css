@@ -1,5 +1,6 @@
 body {
   color: #323f33;
+  font-family: "Comfortaa", sans-serif;
 }
 
 .navbar-bg {
@@ -89,11 +90,11 @@ a.desc::after {
 }
 .nav li > form > button.logout {
   padding-top: 7px;
-  color: rgba(255, 255, 255, 0.678);
+  color: rgba(255, 255, 255, 0.863);
 }
 .nav li > form > button.logout:focus, .nav li > form > button.logout:hover {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.95);
+  color: white;
 }
 .nav li > form > button.logout:focus {
   outline: none;
@@ -116,11 +117,11 @@ a.desc::after {
 }
 
 .btn-primary {
-  color: white;
   background-color: #3A7782;
 }
 .btn-primary:hover {
   background-color: #083c48;
+  color: white;
 }
 
 .btn-secondary {
@@ -128,6 +129,19 @@ a.desc::after {
 }
 .btn-secondary:hover {
   background-color: #2c3823;
+  color: white;
+}
+
+.nav-tabs > .active {
+  background-color: #8c9e7f;
+}
+.nav-tabs > .active:hover {
+  background-color: #5D704F;
+  color: white;
+}
+
+.tab-content > .tab-pane {
+  background-color: #8c9e7f;
 }
 
 h1, h2, h3, h4, h5 {
@@ -151,11 +165,11 @@ h4 {
 }
 
 h5 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 
 p {
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 
 .gradient-text {
@@ -193,7 +207,4 @@ p {
   color: #616340;
 }
 
-.comfortaa-text {
-  font-family: "Comfortaa", sans-serif;
-}
 /*# sourceMappingURL=site.css.map */

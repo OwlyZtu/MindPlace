@@ -33,106 +33,84 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
 </head>
 
-<body class="d-flex flex-column vh-100 comfortaa-text">
+<body class="d-flex flex-column vh-100">
     <?php $this->beginBody() ?>
 
     <div class="navbar-bg fixed-top">
 
-
-        <div class="mobile-nav-svg d-md-none">
-            <!-- Long mobile nav svg -->
-            <svg width="100%" height="100%" viewBox="0 0 480 438" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 433.474C145 462.265 193 318 480 401.483V0H0V433.474Z" fill="url(#paint0_linear_5_25)" />
-                <path d="M480 125C365 357.672 257 0.000335693 0 433.664V0.000335693H480V125Z"
-                    fill="url(#paint1_linear_5_25)" />
-                <defs>
-                    <linearGradient id="paint0_linear_5_25" x1="400.4" y1="624.807" x2="148.222" y2="615.546"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#616340" />
-                    </linearGradient>
-                    <linearGradient id="paint1_linear_5_25" x1="79.6" y1="485.099" x2="331.555" y2="473.181"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#91944D" />
-                    </linearGradient>
-                </defs>
-            </svg>
-
+        <!-- Long mobile nav svg -->
+        <div class="svg-wrapper long-mob-nav d-none d-md-none">
+            <?= file_get_contents(Yii::getAlias('@webroot/svg/long-mob-nav.svg')) ?>
         </div>
 
-        <div class="desktop-nav-svg">
-            <!-- Small nav svg -->
-            <svg class="mob-nav d-sm-block d-md-none" width="100%" height="100%" viewBox="0 0 480 63" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 54.5056C90.9091 78.5731 291.313 17.6966 480 63V0H0V54.5056Z"
-                    fill="url(#paint0_linear_4_21)" />
-                <path d="M480 23.0056C356.768 105.826 103.03 -38.9326 0 53.5439V4.57764e-05H480V23.0056Z"
-                    fill="url(#paint1_linear_4_21)" />
-                <defs>
-                    <linearGradient id="paint0_linear_4_21" x1="400.4" y1="77.144" x2="168.406" y2="8.13999"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#616340" />
-                    </linearGradient>
-                    <linearGradient id="paint1_linear_4_21" x1="79.6" y1="59.8944" x2="299.801" y2="-24.4645"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#91944D" />
-                    </linearGradient>
-                </defs>
-            </svg>
+        <!-- Small mobile nav svg -->
+        <div class="svg-wrapper mob-nav d-block d-md-none">
+            <?= file_get_contents(Yii::getAlias('@webroot/svg/small-mob-nav.svg')) ?>
+        </div>
 
-            <!-- Large nav svg -->
-            <svg class="d-none d-md-block d-lg-block" width="100%" height="100%" viewBox="0 0 1188 63" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 54.5056C225 78.5731 721 17.6966 1188 63V0H0V54.5056Z" fill="url(#paint0_linear_3_17)" />
-                <path d="M1188 23.0056C883 105.826 255 -38.9326 0 53.5439V4.57764e-05H1188V23.0056Z"
-                    fill="url(#paint1_linear_3_17)" />
-                <defs>
-                    <linearGradient id="paint0_linear_3_17" x1="990.99" y1="77.144" x2="585.665" y2="-221.24"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#616340" />
-                    </linearGradient>
-                    <linearGradient id="paint1_linear_3_17" x1="197.01" y1="59.8944" x2="526.116" y2="-252.155"
-                        gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#467471" />
-                        <stop offset="1" stop-color="#91944D" />
-                    </linearGradient>
-                </defs>
-            </svg>
+        <!-- Large nav svg -->
+        <div class="svg-wrapper desktop-nav d-none d-md-block">
+            <?= file_get_contents(Yii::getAlias('@webroot/svg/desktop-nav.svg')) ?>
         </div>
 
     </div>
+
     <header id="header">
         <?php
         NavBar::begin([
-            'brandLabel' => 'MindPlace',
+            'brandLabel' => file_get_contents(Yii::getAlias('@webroot/svg/logo.svg')),
             'brandUrl' => Yii::$app->homeUrl,
-            'options' => ['class' => 'navbar navbar-expand-md navbar-dark fixed-top transparent-navbar'],
+            'options' => [
+                'class' => 'navbar navbar-expand-md navbar-dark fixed-top transparent-navbar',
+            ],
+            'innerContainerOptions' => ['class' => 'container'],
         ]);
+
+
+        echo Html::beginTag('div', ['class' => 'navbar-nav d-flex justify-content-between align-items-md-center w-100 flex-nowrap']);
+
+        // Центр
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav'],
+            'options' => ['class' => 'navbar-nav flex-md-grow-1 justify-content-center'],
             'items' => [
-                ['label' => Yii::t('app', 'Our specialists'), 'url' => ['/site/specialists']],
-                ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists']],
-                ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog']],
-                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+                ['label' => Yii::t('app', 'Our specialists'), 'url' => ['/site/specialists'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about'], 'options' => ['class' => 'px-3']],
                 Yii::$app->user->identity && Yii::$app->user->identity->isAdmin()
-                    ? ['label' => 'GII', 'url' => ['/gii']]
-                    : ['label' => '', 'url' => ['/']],
+                    ? ['label' => 'GII', 'url' => ['/gii'], 'options' => ['class' => 'px-3']]
+                    : '',
+            ],
+        ]);
+
+        // Правий блок
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav d-flex align-content-sm-start px-3'],
+            'items' => [
                 Yii::$app->user->isGuest
                     ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
-                    : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        Yii::$app->user->identity->name,
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>',
-
+                    : [
+                        'label' => Yii::$app->user->identity->name,
+                        'items' => [
+                            ['label' => 'Мій профіль', 'url' => ['/site/profile']],
+                            [
+                                'label' => 'Вийти ' . Html::tag(
+                                    'span',
+                                    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                                    </svg>',
+                                    ['class' => 'ms-1']
+                                ),
+                                'encode' => false,
+                                'url' => ['/site/logout'],
+                                'linkOptions' => [
+                                    'data-method' => 'post',
+                                    'class' => 'nav-link text-danger ps-3'
+                                ],
+                            ],
+                        ],
+                    ],
                 [
                     'label' => strtoupper(Yii::$app->language),
                     'items' => [
@@ -141,9 +119,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     ],
                 ],
             ],
-
         ]);
+
+
+        echo Html::endTag('div'); // collapse
         NavBar::end();
+
+
         ?>
     </header>
 
@@ -281,17 +263,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const collapse = document.querySelector('.navbar-collapse');
-        const longMobileSvg = document.querySelector('.mobile-nav-svg');
+        const longMobileSvg = document.querySelector('.long-mob-nav');
         const mobileSvg = document.querySelector('.mob-nav');
 
-        if (collapse && longMobileSvg) {
+        if (collapse && longMobileSvg && mobileSvg) {
             collapse.addEventListener('show.bs.collapse', () => {
-                longMobileSvg.classList.add('visible');
+                longMobileSvg.classList.remove('d-none');
                 mobileSvg.classList.add('d-none');
             });
 
             collapse.addEventListener('hide.bs.collapse', () => {
-                longMobileSvg.classList.remove('visible');
+                longMobileSvg.classList.add('d-none');
                 mobileSvg.classList.remove('d-none');
             });
         }
