@@ -114,7 +114,11 @@ return [
     'Profile phone'=> 'Phone number',
     'Profile date'=> 'Date of birth',
     'Profile future_sessions' => 'Upcoming sessions',
-    'Profile history' => 'My session history',  
+    'Profile history' => 'My session history', 
+    'Profile history empty' => 'You have no history yet',
+    'Profile future_sessions empty' => 'You have no future sessions yet',
+    'Profile settings' => 'Settings', 
+    'Profile settings button' => 'Save changes',
 
     // #endregion 
 

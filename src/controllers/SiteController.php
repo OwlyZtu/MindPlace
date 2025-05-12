@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
 use app\models\TherapistJoinForm;
+use app\models\UserSettingsForm;
 
 class SiteController extends Controller
 {
@@ -155,8 +156,8 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $model = new UserSettingsForm();
+        if ($model->load(Yii::$app->request->post()) && $model->userUpdateSettings()) {
             return $this->goBack();
         }
 

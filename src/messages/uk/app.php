@@ -107,8 +107,7 @@ return [
     'Profile future_sessions empty' => 'У вас немає майбутніх сесій',
     'Profile history empty' => 'У вас немає історії сесій',
     'Profile settings' => 'Налаштування',
-    'Profile settings descr' => 'Змінити особисті дані та налаштування профілю',
-    'Profile settings button' => 'Змінити',
+    'Profile settings button' => 'Зберегти зміни',
 
     // #endregion 
 

@@ -56,6 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'email')->label(Yii::t('app', 'Form email')) ?>
 
+                            <?= $form->field($model, 'contact_number')->label(Yii::t('app', 'Form phone')) ?>
+
+                            <?= $form->field($model, 'date_of_birth')->input('date')->label(Yii::t('app', 'Date of birth')) ?>
+
                             <?= $form->field($model, 'password')->passwordInput()
                                 ->label(Yii::t('app', 'Form password')); ?>
 
