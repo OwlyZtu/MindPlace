@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var app\models\TherapistJoinForm $model */
+/** @var app\models\forms\TherapistJoinForm $model */
 
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;

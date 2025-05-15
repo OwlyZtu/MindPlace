@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
@@ -29,7 +29,7 @@ class TherapistJoinForm extends Model
                     'date_of_birth',
                     'gender',
                     'language',
-                    'therapyTypes',
+                    'therapy_types',
                     'theme',
                     'approach_type',
                     'format',
@@ -39,9 +39,8 @@ class TherapistJoinForm extends Model
                 ],
                 'required'
             ],
-            
             ['email', 'email'],
-            ['therapyTypes', 'each', 'rule' => ['string']],
+            ['therapy_types', 'each', 'rule' => ['string']],
             ['language', 'each', 'rule' => ['string']],
             ['theme', 'each', 'rule' => ['string']],
             ['approach_type', 'each', 'rule' => ['string']],
@@ -60,10 +59,7 @@ class TherapistJoinForm extends Model
 
     public $city = '';
 
-    public $gender = [
-        'male' => 'Male',
-        'female' => 'Female',
-    ];
+    public $gender = [];
 
     // Contact Information
     public $email;
@@ -72,7 +68,7 @@ class TherapistJoinForm extends Model
 
     // Therapy spesific
     public $language = [];
-    public $therapyTypes = [];
+    public $therapy_types = [];
     public $theme = [];
     public $approach_type = [];
     public $format = [];
@@ -98,21 +94,19 @@ class TherapistJoinForm extends Model
      * @param string $email the target email address
      * @return bool whether the model passes validation
      */
-    // Додаємо поля для email повідомлення
     public $subject = 'New Therapist Application';
     public $body;
 
     public function contact($email)
     {
         if ($this->validate()) {
-            // Формуємо текст повідомлення
             $this->body = "New therapist application from: {$this->name}\n"
                 . "Email: {$this->email}\n"
                 . "Contact number: {$this->contact_number}\n"
                 . "City: {$this->city}\n"
                 . "Date of birth: {$this->date_of_birth}\n"
                 . "Languages: " . implode(', ', $this->language) . "\n"
-                . "Therapy types: " . implode(', ', $this->therapyTypes) . "\n"
+                . "Therapy types: " . implode(', ', $this->therapy_types) . "\n"
                 . "Themes: " . implode(', ', $this->theme) . "\n"
                 . "Format: " . implode(', ', $this->format) . "\n"
                 . "Education: {$this->education_name}\n"

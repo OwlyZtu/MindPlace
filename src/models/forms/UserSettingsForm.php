@@ -1,9 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
+use app\services\FieldRulesService;
 
 /**
  * 
@@ -37,7 +39,7 @@ class UserSettingsForm extends Model
     public function rules()
     {
         return array_merge(
-            User::nameRules(),
+            FieldRulesService::nameRules(),
             [
                 ['email', 'unique', 'targetClass' => User::class, 'filter' => function ($query) {
                     $currentUser = Yii::$app->user->identity;
@@ -46,8 +48,8 @@ class UserSettingsForm extends Model
                     }
                 }]
             ],
-            User::contactNumberRules(),
-            User::date_of_birthRules(),
+            FieldRulesService::contactNumberRules(),
+            FieldRulesService::date_of_birthRules(),
             [
                 ['password', 'string', 'min' => 6],
                 ['re_password', 'compare', 'compareAttribute' => 'password'],

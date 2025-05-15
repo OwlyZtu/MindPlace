@@ -1,9 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
+use app\services\UserAuthService;
 
 /**
  * SignupForm is the model behind the login form.
@@ -52,7 +54,13 @@ class SignupForm extends Model
     public function signup()
     {
         if ($this->validate()) {
-            return User::signup($this->name, $this->email, $this->date_of_birth, $this->password, $this->re_password, $this->contact_number);
+            return UserAuthService::signup([
+                'name'=>$this->name, 
+                'email'=>$this->email, 
+                'date_of_birth'=>$this->date_of_birth, 
+                'password'=>$this->password, 
+                're_password'=>$this->re_password, 
+                'contact_number'=>$this->contact_number]);
         }
         return false;
     }
