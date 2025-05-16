@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use app\services\DebugService;
+
 use app\models\forms\LoginForm;
 use app\models\forms\SignupForm;
 use app\models\forms\ContactForm;
@@ -159,8 +161,15 @@ class SiteController extends Controller
         }
 
         $model = new UserSettingsForm();
-        if ($model->load(Yii::$app->request->post()) && $model->userUpdateSettings()) {
-            return $this->goBack();
+        
+        Yii::info(Yii::$app->request->post(), 'debug-post');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->userUpdateSettingsForm()) {
+                Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
+            } else {
+                Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
+            }
+            return $this->refresh();
         }
 
         return $this->render('profile', [

@@ -58,6 +58,14 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                // Окремий файл для логування помилок валідації
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error'],
+                    'categories' => ['user-settings-validation'],
+                    'logFile' => '@runtime/logs/validation-errors.log',
+                    'logVars' => [],
+                ],
             ],
         ],
         'db' => $db,
@@ -92,7 +100,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
+        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*', '172.18.0.*'],  // Add Docker network
     ];
 
     $config['bootstrap'][] = 'gii';

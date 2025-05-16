@@ -3,6 +3,8 @@
 namespace app\models;
 
 use app\services\UserAuthService;
+use app\services\DebugService;
+
 use Yii;
 use yii\web\IdentityInterface;
 use yii\db\ActiveRecord;
@@ -22,20 +24,20 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string|null $city
  * @property string|null $gender
- * @property string|null $language
- * @property string|null $therapy_types
- * @property string|null $theme
- * @property string|null $approach_type
- * @property string|null $format
+ * @property string[]|null $language
+ * @property string[]|null $therapy_types JSON-масив
+ * @property string[]|null $theme JSON-масив
+ * @property string[]|null $approach_type JSON-масив
+ * @property string[]|null $format JSON-масив
  * @property bool|null $lgbt
  * @property bool|null $military
- * @property string|null $specialization
+ * @property string[]|null $specialization JSON-масив
  * @property string|null $education_name
  * @property string|null $education_file
  * @property string|null $additional_certification
  * @property string|null $additional_certification_file
- * @property string|null $experience
- * @property string|null $social_media
+ * @property string[]|null $experience JSON-масив
+ * @property string[]|null $social_media JSON-масив
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -61,6 +63,10 @@ class User extends ActiveRecord implements IdentityInterface
     public static function createUser($data)
     {
         $user = new self();
+        if (!$user->validate()) {
+            Yii::error($user->getErrors(), 'user-create');
+            return null;
+        }
 
         // Set default user properties
         $user->name = $data['name'] ?? null;
@@ -71,21 +77,21 @@ class User extends ActiveRecord implements IdentityInterface
 
         // Set specialist properties
         $user->city = $data['city'] ?? null;
-        $user->gender = $data['gender'] ?? [];
-        $user->language = $data['language'] ?? [];
-        $user->therapy_types = $data['therapy_types'] ?? [];
-        $user->theme = $data['theme'] ?? [];
-        $user->approach_type = $data['approach_type'] ?? [];
-        $user->format = $data['format'] ?? [];
+        $user->gender = $data['gender'] ?? null;
+        $user->language =  json_encode($data['language'] ?? []);
+        $user->therapy_types = json_encode($data['therapy_types'] ?? []);
+        $user->theme = json_encode($data['theme'] ?? []);
+        $user->approach_type = json_encode($data['approach_type'] ?? []);
+        $user->format = json_encode($data['format'] ?? []);
         $user->lgbt = $data['lgbt'] ?? false;
         $user->military = $data['military'] ?? false;
-        $user->specialization = $data['specialization'] ?? [];
+        $user->specialization = json_encode($data['specialization'] ?? []);
         $user->education_name = $data['education_name'] ?? '';
         $user->education_file = $data['education_file'] ?? '';
         $user->additional_certification = $data['additional_certification'] ?? '';
         $user->additional_certification_file = $data['additional_certification_file'] ?? '';
-        $user->experience = $data['experience'] ?? '';
-        $user->social_media = $data['social_media'] ?? '';
+        $user->experience = json_encode($data['experience'] ?? '');
+        $user->social_media = json_encode($data['social_media'] ?? '');
 
         // Set security properties
         $user->password_hash = UserAuthService::hashPassword($data['password']);
@@ -100,34 +106,78 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @param int $id user ID
      * @param array $data user data
-     * @return bool whether the update was successful
+     * @return string|false access_token або false у разі помилки
      */
     public static function updateUser($id, $data)
     {
         $user = self::findOne($id);
+
         if (
             !$user
-            || ($data['email'] !== null
-                && ($existing = self::findOne(['email' => $data['email']]))
+            || (isset($data['email']) && $data['email'] !== null
+                && ($existing = self::findByEmail($data['email']))
                 && $existing->id !== $id)
         ) {
             return false;
         }
 
+        $jsonFields = ['language', 'therapy_types', 'theme', 'approach_type', 'format', 'specialization', 'experience', 'social_media'];
+
         foreach ($data as $key => $value) {
-            if (property_exists($user, $key) && $value !== null) {
-                $user->$key = $value;
+            if (in_array($key, ['password', 're_password'])) {
+                continue;
+            }
+
+            if ($user->hasAttribute($key) && $value !== null) {
+                $user->$key = in_array($key, $jsonFields) && is_array($value)
+                    ? json_encode($value)
+                    : $value;
             }
         }
 
-        // Handle password change
-        if (isset($data['password']) && isset($data['re_password']) && $data['password'] === $data['re_password']) {
+        if (
+            isset($data['password'], $data['re_password']) &&
+            $data['password'] !== '' && $data['re_password'] !== ''
+        ) {
+            if ($data['password'] !== $data['re_password']) {
+                return false;
+            }
             $user->password_hash = UserAuthService::hashPassword($data['password']);
-        } elseif (isset($data['password']) && isset($data['re_password']) && $data['password'] !== $data['re_password']) {
+        }
+
+        if (!$user->save()) {
+            Yii::error($user->getErrors(), 'user-update');
             return false;
         }
 
-        return $user->save();
+        return $user->access_token;
+    }
+
+
+    /**
+     * Оновлення налаштувань користувача для поточного користувача
+     *
+     * @param array $data user data
+     * @return string|false access_token або false у разі помилки
+     */
+    public static function userUpdateSettings($data)
+    {
+        if (!is_array($data) || empty($data)) {
+            Yii::error('Дані для оновлення порожні або не є масивом', 'user-update-settings');
+            return false;
+        }
+
+        $user = Yii::$app->user->identity;
+        if (!$user) {
+            Yii::error('Користувач не авторизований', 'user-update-settings');
+            return false;
+        }
+
+        // Логування даних для відстеження
+        Yii::info('Дані для оновлення користувача: ' . print_r($data, true), 'user-update-settings');
+
+        // Виклик методу updateUser для збереження даних
+        return self::updateUser($user->id, $data);
     }
 
     /**
@@ -224,55 +274,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     #endregion
-
-    public static function userUpdateSettings($name = null, $email = null, $date_of_birth = null, $password = null, $re_password = null, $contact_number = null)
-    {
-        if (
-            $name === null && $email === null && $date_of_birth === null &&
-            $password === null && $re_password === null && $contact_number === null
-        ) {
-            return false;
-        }
-
-        $user = Yii::$app->user->identity;
-        if (!$user) {
-            return false;
-        }
-
-        // Перевіряємо email перед змінами
-        if ($email !== null) {
-            $existingUser = self::findByEmail($email);
-            if ($existingUser && $existingUser->id !== $user->id) {
-                return false;
-            }
-        }
-
-        // Перевіряємо паролі перед змінами
-        if ($password !== null && $re_password !== null && $password !== $re_password) {
-            return false;
-        }
-
-        // Оновлюємо користувача безпосередньо
-        if ($name !== null) {
-            $user->name = $name;
-        }
-        if ($email !== null) {
-            $user->email = $email;
-        }
-        if ($date_of_birth !== null) {
-            $user->date_of_birth = $date_of_birth;
-        }
-        if ($password !== null && $re_password !== null) {
-            $user->password_hash = UserAuthService::hashPassword($password);
-        }
-        if ($contact_number !== null) {
-            $user->contact_number = $contact_number;
-        }
-
-        // Зберігаємо зміни безпосередньо
-        return $user->save() ? $user->access_token : false;
-    }
-
 
     #region Roles & Access Control
 
