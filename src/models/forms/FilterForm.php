@@ -15,6 +15,7 @@ class FilterForm extends Model
     public $language;
     public $gender;
     public $age;
+    public $specialization;
     public $lgbt;
     public $military;
 
@@ -34,6 +35,7 @@ class FilterForm extends Model
                 'language' => $this->language,
                 'gender' => $this->gender,
                 'age' => $this->age,
+                'specialization'=> $this->specialization,
                 'lgbt' => $this->lgbt,
                 'military' => $this->military,
             ];

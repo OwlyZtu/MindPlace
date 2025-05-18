@@ -6,8 +6,10 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use app\models\forms\FormOptions;
 
 $this->title = 'Selection questionnaire';
+$this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="site-questionnaire container-fluid">
@@ -16,7 +18,7 @@ $this->title = 'Selection questionnaire';
 
 
     <?php else: ?>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-lg-8 mx-auto">
                 <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
                 <p class="lead">
@@ -42,66 +44,33 @@ $this->title = 'Selection questionnaire';
                 ]); ?>
 
                 <fieldset class="border p-3 mb-3">
-                    <?= $form->field($model, 'format')->radioList([
-                        'online' => 'Online',
-                        'offline' => 'Offline',
-                    ]) ?>
+                    <?= $form->field($model, 'format')->radioList(FormOptions::getFormatOptions()) ?>
 
                     <div id="city-field" style="display: none;">
-                        <?= $form->field($model, 'city')->dropDownList([
-                            'Kyiv' => 'Kyiv',
-                            'Lviv' => 'Lviv',
-                        ]) ?>
+                        <?= $form->field($model, 'city')->dropDownList(FormOptions::getCityOptions()) ?>
                     </div>
 
-                    <?= $form->field($model, 'therapy_types')->radioList([
-                        'individual' => 'Individual',
-                        'group' => 'Group',
-                    ]) ?>
+                    <?= $form->field($model, 'therapy_types')->radioList(FormOptions::getTherapyTypesOptions()) ?>
 
-                    <?= $form->field($model, 'theme')->checkboxList([
-                        'depression' => 'Depression',
-                        'stress' => 'Stress',
-                        'anxiety' => 'Anxiety',
-                        'relationships' => 'Relationships',
-                        'self-esteem' => 'Self-esteem',
-                    ]) ?>
+                    <?= $form->field($model, 'theme')->checkboxList(FormOptions::getThemeOptions()) ?>
 
-                    <?= $form->field($model, 'first_time')->radioList([
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ]) ?>
+                    <?= $form->field($model, 'first_time')->radioList(FormOptions::getYesNoOptions()) ?>
 
-                    <?= $form->field($model, 'approach')->radioList([
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                    ]) ?>
+                    <?= $form->field($model, 'approach')->radioList(FormOptions::getYesNoOptions()) ?>
 
                     <div id="approach-type-field" style="display: none;">
-                        <?= $form->field($model, 'approach_type')->checkboxList([
-                            'CBT' => 'Cognitive Behavioral Therapy (CBT)',
-                            'Gestalt' => 'Gestalt Therapy',
-                        ]) ?>
+                        <?= $form->field($model, 'approach_type')->checkboxList(FormOptions::getApproachTypeOptions()) ?>
                     </div>
 
-                    <?= $form->field($model, 'language')->radioList([
-                        'ukrainian' => 'Ukrainian',
-                        'english' => 'English',
-                    ]) ?>
+                    <?= $form->field($model, 'language')->radioList(FormOptions::getLanguageOptions()) ?>
 
-                    <?= $form->field($model, 'gender')->radioList([
-                        'male' => 'Male',
-                        'female' => 'Female',
-                    ]) ?>
+                    <?= $form->field($model, 'gender')->radioList(FormOptions::getGenderOptions()) ?>
 
-                    <?= $form->field($model, 'age')->checkboxList([
-                        '18-25' => '18-25',
-                        '26-35' => '26-35',
-                    ]) ?>
+                    <?= $form->field($model, 'age')->checkboxList(FormOptions::getAgeOptions()) ?>
 
                     <?= $form->field($model, 'lgbt')->checkbox(['label' => 'LGBTQ+ friendly']) ?>
 
-                    <?= $form->field($model, 'mititary')->checkbox(['label' => 'Work with military personnel']) ?>
+                    <?= $form->field($model, 'military')->checkbox(['label' => 'Work with military personnel']) ?>
 
                     <div class="form-group">
                         <?= Html::submitButton('One moment', ['class' => 'btn btn-primary']) ?>
@@ -113,28 +82,28 @@ $this->title = 'Selection questionnaire';
 
                 <?php
                 $script = <<<JS
-function toggleCity() {
-    var format = $('input[name="QuestionnaireForm[format]"]:checked').val();
-    if (format === 'offline') {
-        $('#city-field').show();
-    } else {
-        $('#city-field').hide();
-    }
-}
-function toggleApproachType() {
-    var approach = $('input[name="QuestionnaireForm[approach]"]:checked').val();
-    if (approach === 'yes') {
-        $('#approach-type-field').show();
-    } else {
-        $('#approach-type-field').hide();
-    }
-}
-$('input[name="QuestionnaireForm[format]"]').change(toggleCity);
-$('input[name="QuestionnaireForm[approach]"]').change(toggleApproachType);
-// Викликати при завантаженні
-toggleCity();
-toggleApproachType();
-JS;
+                function toggleCity() {
+                    var format = $('input[name="QuestionnaireForm[format]"]:checked').val();
+                    if (format === 'offline') {
+                        $('#city-field').show();
+                    } else {
+                        $('#city-field').hide();
+                    }
+                }
+                function toggleApproachType() {
+                    var approach = $('input[name="QuestionnaireForm[approach]"]:checked').val();
+                    if (approach === 'yes') {
+                        $('#approach-type-field').show();
+                    } else {
+                        $('#approach-type-field').hide();
+                    }
+                }
+                $('input[name="QuestionnaireForm[format]"]').change(toggleCity);
+                $('input[name="QuestionnaireForm[approach]"]').change(toggleApproachType);
+                // Викликати при завантаженні
+                toggleCity();
+                toggleApproachType();
+                JS;
                 $this->registerJs($script);
                 ?>
 
