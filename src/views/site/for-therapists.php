@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var app\models\TherapistJoinForm $model */
+/** @var app\models\forms\TherapistJoinForm $model */
 
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
@@ -135,7 +135,7 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                                     'en' => Yii::t('app', 'English'),
                                 ])->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'therapyTypes')->checkboxList([
+                                <?= $form->field($model, 'therapy_types')->checkboxList([
                                     'individual' => Yii::t('app', 'Therapy Types 1'),
                                     'group' => Yii::t('app', 'Therapy Types 2'),
                                 ])->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>

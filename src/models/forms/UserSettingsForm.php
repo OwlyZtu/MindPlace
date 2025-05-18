@@ -1,9 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
+use app\models\User;
+use app\services\FieldRulesService;
 
 /**
  * 
@@ -26,7 +28,7 @@ class UserSettingsForm extends Model
         $birthDate = new \DateTime($this->$attribute);
         $today = new \DateTime();
         $age = $today->diff($birthDate)->y;
-    
+
         if ($age < $minAge) {
             $this->addError($attribute, Yii::t('app', 'Ви повинні бути старше {minAge} років', ['minAge' => $minAge]));
         }
@@ -37,7 +39,7 @@ class UserSettingsForm extends Model
     public function rules()
     {
         return array_merge(
-            User::nameRules(),
+            FieldRulesService::nameRules(),
             [
                 ['email', 'unique', 'targetClass' => User::class, 'filter' => function ($query) {
                     $currentUser = Yii::$app->user->identity;
@@ -46,8 +48,8 @@ class UserSettingsForm extends Model
                     }
                 }]
             ],
-            User::contactNumberRules(),
-            User::date_of_birthRules(),
+            FieldRulesService::contactNumberRules(),
+            FieldRulesService::date_of_birthRules(),
             [
                 ['password', 'string', 'min' => 6],
                 ['re_password', 'compare', 'compareAttribute' => 'password'],
@@ -61,11 +63,24 @@ class UserSettingsForm extends Model
      * then logs in.
      * @return string|null generated access token
      */
-    public function userUpdateSettings()
+    public function userUpdateSettingsForm()
     {
-        if ($this->validate()) {
-            return User::userUpdateSettings($this->name, $this->email, $this->date_of_birth, $this->password, $this->re_password, $this->contact_number);
+        if (!$this->validate()) {
+            return false;
         }
-        return false;
+        
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'contact_number' => $this->contact_number,
+            'date_of_birth' => $this->date_of_birth,
+        ];
+        
+        if (!empty($this->password) && !empty($this->re_password)) {
+            $data['password'] = $this->password;
+            $data['re_password'] = $this->re_password;
+        }
+        
+        return User::userUpdateSettings($data);
     }
 }

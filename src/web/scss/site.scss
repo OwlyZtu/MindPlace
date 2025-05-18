@@ -7,6 +7,11 @@ $secondary-color: #5D704F;
 $secondary-light-color: #8c9e7f;
 $secondary-hover: #2c3823;
 
+$warning-color: #eabf84;
+$error-color: #dd7e7a;
+$success-color: #75a591;
+$info-color: #b2f0d6;
+
 $text-color: #323f33;
 $text-muted: #999;
 $text-error: #a94442;
@@ -99,7 +104,30 @@ main > .container {
   font-style: italic;
 }
 
+.bg-primary {
+  background-color: $primary-color;
+  color: white;
+}
 
+.bg-warning {
+  background-color: $warning-color;
+  color: black;
+}
+
+.bg-success {
+  background-color: $success-color;
+  color: black;
+}
+
+.bg-info {
+  background-color: $info-color;
+  color: black;
+}
+
+.bg-danger {
+  background-color: $error-color;
+  color: black;
+}
 
 
 // =======================
@@ -217,7 +245,7 @@ h2 { font-size: 2rem; }
 h3 { font-size: 1.75rem; }
 h4 { font-size: 1.50rem; }
 h5 { font-size: 1.35rem; }
-p { font-size: 1.30rem; }
+p { font-size: 1.10rem; }
 
 //======================
 // FONTS
@@ -250,6 +278,13 @@ p { font-size: 1.30rem; }
   }
 }
 
+.link-primary {
+  color: $primary-color;
+}
+
+.link-secondary {
+  color: $secondary-color;
+}
 
 
 
@@ -263,3 +298,4 @@ p { font-size: 1.30rem; }
   }
 
 }
+

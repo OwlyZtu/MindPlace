@@ -7,11 +7,15 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\SignupForm;
-use app\models\ContactForm;
-use app\models\TherapistJoinForm;
-use app\models\UserSettingsForm;
+use app\services\DebugService;
+
+use app\models\forms\LoginForm;
+use app\models\forms\SignupForm;
+use app\models\forms\ContactForm;
+use app\models\forms\TherapistJoinForm;
+use app\models\forms\UserSettingsForm;
+use app\models\forms\QuestionnaireForm;
+use app\models\forms\FilterForm;
 
 class SiteController extends Controller
 {
@@ -157,8 +161,15 @@ class SiteController extends Controller
         }
 
         $model = new UserSettingsForm();
-        if ($model->load(Yii::$app->request->post()) && $model->userUpdateSettings()) {
-            return $this->goBack();
+        
+        Yii::info(Yii::$app->request->post(), 'debug-post');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->userUpdateSettingsForm()) {
+                Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
+            } else {
+                Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
+            }
+            return $this->refresh();
         }
 
         return $this->render('profile', [
@@ -193,6 +204,7 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
+
     public function actionForTherapists()
     {
         $model = new TherapistJoinForm();
@@ -209,6 +221,42 @@ class SiteController extends Controller
 
         return $this->render('for-therapists', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays questionnaire page.
+     *
+     * @return Response|string
+     */
+    public function actionQuestionnaire()
+    {
+        $model = new QuestionnaireForm();
+        if ($model->load(Yii::$app->request->post()) && $model->questionnaire('questionnaireData')) {
+            return $this->render('specialists', [
+                'filter' => Yii::$app->session->get('questionnaireData'),
+            ]);
+        }
+        return $this->render('questionnaire', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays specialists page with optional filtering.
+     * @return string
+     */
+    public function actionSpecialists()
+    {
+        $model = new FilterForm();
+        $filterData = null;
+        if ($model->load(Yii::$app->request->post()) && $model->saveFilterToSession()) {
+            $filterData = FilterForm::getSessionFilter();
+        }
+
+        return $this->render('specialists', [
+            'model' => $model,
+            'filter' => $filterData
         ]);
     }
 
