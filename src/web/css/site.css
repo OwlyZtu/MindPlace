@@ -41,6 +41,31 @@ main > .container {
   font-style: italic;
 }
 
+.bg-primary {
+  background-color: #3A7782;
+  color: white;
+}
+
+.bg-warning {
+  background-color: #eabf84;
+  color: black;
+}
+
+.bg-success {
+  background-color: #75a591;
+  color: black;
+}
+
+.bg-info {
+  background-color: #b2f0d6;
+  color: black;
+}
+
+.bg-danger {
+  background-color: #dd7e7a;
+  color: black;
+}
+
 a.asc::after {
   content: "";
   left: 3px;
@@ -169,7 +194,7 @@ h5 {
 }
 
 p {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .gradient-text {
@@ -197,6 +222,14 @@ p {
 .bg-main span {
   color: #a19a35;
   font-size: 2rem;
+}
+
+.link-primary {
+  color: #3A7782;
+}
+
+.link-secondary {
+  color: #5D704F;
 }
 
 .question-row .accordion-item {

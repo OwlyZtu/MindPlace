@@ -16,8 +16,6 @@ AppAsset::register($this);
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no']);
-$this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
-$this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 ?>
 <?php $this->beginPage() ?>
@@ -25,9 +23,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 
 <head>
-    <title><?= Html::encode($this->title) ?></title>
+    <title>Admin Panel</title>
     <?php $this->head() ?>
-    <link rel="stylesheet" href="<?= Yii::getAlias('@web/css/site.css') ?>">
+    <?php $this->registerCssFile('@web/css/site.css', ['depends' => [\yii\bootstrap5\BootstrapAsset::class]]); ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
@@ -73,13 +71,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav flex-md-grow-1 justify-content-center'],
             'items' => [
-                ['label' => Yii::t('app', 'Our specialists'), 'url' => ['/site/specialists'], 'options' => ['class' => 'px-3']],
-                ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists'], 'options' => ['class' => 'px-3']],
-                ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog'], 'options' => ['class' => 'px-3']],
-                ['label' => Yii::t('app', 'About'), 'url' => ['/site/about'], 'options' => ['class' => 'px-3']],
-                // Yii::$app->user->identity && Yii::$app->user->identity->isAdmin()
-                //     ? ['label' => 'GII', 'url' => ['/gii'], 'options' => ['class' => 'px-3']]
-                //     : '',
+                ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Blog'), 'url' => ['/admin/blog'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Reports'), 'url' => ['/admin/reports'], 'options' => ['class' => 'px-3']],
             ],
         ]);
 
@@ -87,33 +81,27 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav d-flex align-content-sm-start px-3'],
             'items' => [
-                Yii::$app->user->isGuest
-                    ? ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
-                    : [
-                        'label' => Yii::$app->user->identity->name,
-                        'items' => [
-                            ['label' => 'Мій профіль', 'url' => ['/site/profile']],
-                            Yii::$app->user->identity && Yii::$app->user->identity->isAdmin()
-                            ? ['label'=> Yii::t('app','Admin Panel'),'url'=> ['/admin/'], 'options' => ['class' => 'px-3']]
-                             : '',
-                            [
-                                'label' => 'Вийти ' . Html::tag(
-                                    'span',
-                                    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                [
+                    'label' => Yii::$app->user->identity->name,
+                    'items' => [
+                        [
+                            'label' => 'Вийти ' . Html::tag(
+                                'span',
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                                     </svg>',
-                                    ['class' => 'ms-1']
-                                ),
-                                'encode' => false,
-                                'url' => ['/site/logout'],
-                                'linkOptions' => [
-                                    'data-method' => 'post',
-                                    'class' => 'nav-link text-danger ps-3'
-                                ],
+                                ['class' => 'ms-1']
+                            ),
+                            'encode' => false,
+                            'url' => ['/site/logout'],
+                            'linkOptions' => [
+                                'data-method' => 'post',
+                                'class' => 'nav-link text-danger ps-3'
                             ],
                         ],
                     ],
+                ],
                 [
                     'label' =>
                     Html::tag(
