@@ -42,6 +42,82 @@ class Specialist extends User
         return 'specialist';
     }
 
+        /**
+     * Оновлює дані користувача з форми TherapistJoinForm
+     * та створює запис у таблиці specialist
+     *
+     * @param int $userId ID користувача
+     * @param array $formData дані з форми TherapistJoinForm
+     * @return bool результат операції
+     */
+    public static function updateUserFromTherapistForm($userId, $formData)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            // Оновлення даних користувача
+            $user = User::findOne($userId);
+            if (!$user) {
+                Yii::error('User is null', 'therapist-join');
+                return false;
+            }
+
+            // Оновлення основних полів користувача
+            $user->name = $formData['name'] ?? $user->name;
+            $user->email = $formData['email'] ?? $user->email;
+            $user->contact_number = $formData['contact_number'] ?? $user->contact_number;
+            $user->date_of_birth = $formData['date_of_birth'] ?? $user->date_of_birth;
+            $user->city = $formData['city'] ?? $user->city;
+            $user->gender = $formData['gender'] ?? $user->gender;
+            
+            // Оновлення JSON полів
+            $jsonFields = ['language', 'therapy_types', 'theme', 'approach_type', 'format', 'specialization', 'experience'];
+            foreach ($jsonFields as $field) {
+                if (isset($formData[$field]) && is_array($formData[$field])) {
+                    $user->$field = json_encode($formData[$field]);
+                }
+            }
+            
+            // Оновлення інших полів
+            $user->lgbt = $formData['lgbt'] ?? $user->lgbt;
+            $user->military = $formData['military'] ?? $user->military;
+            $user->education_name = $formData['education_name'] ?? $user->education_name;
+            $user->education_file = $formData['education_file'] ?? $user->education_file;
+            $user->additional_certification = $formData['additional_certification'] ?? $user->additional_certification;
+            $user->additional_certification_file = $formData['additional_certification_file'] ?? $user->additional_certification_file;
+            $user->social_media = $formData['social_media'] ?? $user->social_media;
+            
+            if (!$user->save()) {
+                throw new \Exception('Помилка при збереженні даних користувача: ' . json_encode($user->getErrors()));
+            }
+            
+            // Створення або оновлення запису в таблиці specialist
+            $specialist = Yii::$app->db->createCommand('SELECT id FROM {{%specialist}} WHERE user_id = :userId')
+                ->bindValue(':userId', $userId)
+                ->queryScalar();
+                
+            if (!$specialist) {
+                // Створення нового запису
+                Yii::$app->db->createCommand()->insert('{{%specialist}}', [
+                    'user_id' => $userId,
+                    'status' => 'pending',
+                    'created_at' => new \yii\db\Expression('NOW()'),
+                ])->execute();
+            } else {
+                // Оновлення існуючого запису
+                Yii::$app->db->createCommand()->update('{{%specialist}}', [
+                    'status' => 'pending',
+                    'updated_at' => new \yii\db\Expression('NOW()'),
+                ], 'user_id = :userId', [':userId' => $userId])->execute();
+            }
+            
+            $transaction->commit();
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            Yii::error('Failed to save specialist: ' . $e->getMessage(), 'therapist-join');
+            return false;
+        }
+    }
 
     #region CRUD
     public static function createSpecialist($data)
@@ -63,6 +139,8 @@ class Specialist extends User
         $specialist->specialization = $data['specialization'] ?? [];
         $specialist->education_name = $data['education_name'] ?? '';
         $specialist->education_file = $data['education_file'] ?? '';
+        Yii::error('Education file: ' . print_r($specialist->education_file, true), 'therapist-join');
+
         $specialist->additional_certification = $data['additional_certification'] ?? '';
         $specialist->additional_certification_file = $data['additional_certification_file'] ?? '';
         $specialist->experience = $data['experience'] ?? '';

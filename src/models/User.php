@@ -34,8 +34,10 @@ use yii\db\ActiveRecord;
  * @property string[]|null $specialization JSON-масив
  * @property string|null $education_name
  * @property string|null $education_file
+ * @property string|null $education_file_url
  * @property string|null $additional_certification
  * @property string|null $additional_certification_file
+ * @property string|null $additional_certification_file_url
  * @property string[]|null $experience JSON-масив
  * @property string[]|null $social_media JSON-масив
  */
@@ -87,9 +89,11 @@ class User extends ActiveRecord implements IdentityInterface
         $user->military = $data['military'] ?? false;
         $user->specialization = json_encode($data['specialization'] ?? []);
         $user->education_name = $data['education_name'] ?? '';
-        $user->education_file = $data['education_file'] ?? '';
+        $user->education_file = $data['education_file'] ?? null;
+        $user->education_file_url = $data['education_file_url']?? '';
         $user->additional_certification = $data['additional_certification'] ?? '';
-        $user->additional_certification_file = $data['additional_certification_file'] ?? '';
+        $user->additional_certification_file = $data['additional_certification_file'] ?? null;
+        $user->additional_certification_url = $data['additional_certification_url']?? '';
         $user->experience = json_encode($data['experience'] ?? '');
         $user->social_media = json_encode($data['social_media'] ?? '');
 
@@ -365,4 +369,6 @@ class User extends ActiveRecord implements IdentityInterface
         return !Yii::$app->user->isGuest;
     }
     #endregion
+
+
 }

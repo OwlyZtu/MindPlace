@@ -4,8 +4,10 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var app\models\forms\TherapistJoinForm $model */
 
+
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
+use app\models\forms\FormOptions;
 
 $this->title = Yii::t('app', 'FT title');
 $this->params['breadcrumbs'][] = $this->title;
@@ -101,7 +103,12 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                 <div class="col-lg-11">
                     <div class="row my-3 justify-content-center">
                         <div class="col-lg-9 w-100">
-                            <?php $form = ActiveForm::begin(['id' => 'therapist-join-form']); ?>
+                            <?php $form = ActiveForm::begin([
+                                'id' => 'therapist-join-form',
+                                'options' => [
+                                    'enctype' => 'multipart/form-data'
+                                ]
+                            ]); ?>
 
                             <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
                                 <legend><?= Yii::t('app', 'Personal Information') ?></legend>
@@ -118,11 +125,14 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                                     'max' => date('Y-m-d', strtotime('-18 years')), // Мінімальний вік 18 років
                                 ])->label(Yii::t('app', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'gender')->radioList([
-                                    'male' => Yii::t('app', 'Male'),
-                                    'female' => Yii::t('app', 'Female'),
-                                ])->label(Yii::t('app', 'Gender') . '<span class="text-danger"> *</span>') ?>
+                                <?= $form->field($model, 'gender')->radioList(
+                                    FormOptions::getGenderOptions()
+                                )->label(Yii::t('app', 'Gender') . '<span class="text-danger"> *</span>') ?>
 
+                                <?= $form->field($model, 'city')->dropDownList(
+                                    FormOptions::getCityOptions(),
+                                    ['promt' => 'Select city']
+                                ) ?>
                                 <?= $form->field($model, 'social_media')->textarea(['rows' => 3, 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('app', 'Social Media')) ?>
 
                             </fieldset>
@@ -130,29 +140,25 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                             <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
                                 <legend><?= Yii::t('app', 'Therapy Specific') ?></legend>
 
-                                <?= $form->field($model, 'language')->checkboxList([
-                                    'uk' => Yii::t('app', 'Українська'),
-                                    'en' => Yii::t('app', 'English'),
-                                ])->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
+                                <?= $form->field($model, 'language')->checkboxList(
+                                    FormOptions::getLanguageOptions()
+                                )->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'therapy_types')->checkboxList([
-                                    'individual' => Yii::t('app', 'Therapy Types 1'),
-                                    'group' => Yii::t('app', 'Therapy Types 2'),
-                                ])->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>
+                                <?= $form->field($model, 'therapy_types')->checkboxList(
+                                    FormOptions::getTherapyTypesOptions()
+                                )->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'theme')->checkboxList([
-                                    'anxiety' => Yii::t('app', 'Themes 1'),
-                                    'depression' => Yii::t('app', 'Themes 2'),
-                                    'stress' => Yii::t('app', 'Themes 3'),
-                                    'relationship' => Yii::t('app', 'Themes 4'),
-                                    'self-esteem' => Yii::t('app', 'Themes 5'),
-                                    'trauma' => Yii::t('app', 'Themes 6'),
-                                ])->label(Yii::t('app', 'Themes') . '<span class="text-danger"> *</span>') ?>
+                                <?= $form->field($model, 'approach_type')->checkboxList(
+                                    FormOptions::getApproachTypeOptions()
+                                )->label(Yii::t('app', 'approach_type') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'format')->checkboxList([
-                                    'online' => 'Online',
-                                    'offline' => 'Offline',
-                                ])->label(Yii::t('app', 'Format') . '<span class="text-danger"> *</span>') ?>
+                                <?= $form->field($model, 'theme')->checkboxList(
+                                    FormOptions::getThemeOptions()
+                                )->label(Yii::t('app', 'Themes') . '<span class="text-danger"> *</span>') ?>
+
+                                <?= $form->field($model, 'format')->checkboxList(
+                                    FormOptions::getFormatOptions()
+                                )->label(Yii::t('app', 'Format') . '<span class="text-danger"> *</span>') ?>
 
                                 <?= $form->field($model, 'lgbt')->checkbox(['label' => Yii::t('app', 'LGBTQ+ friendly')]) ?>
 
@@ -176,7 +182,7 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
 
                             <?= $form->field($model, 'privacy_policy')->checkbox()->label(Yii::t('app', 'I agree to the privacy policy') . '<span class="text-danger"> *</span>') ?>
 
-                            <div class="form-group text-center">
+                            <div class="form-group text-center mt-3">
                                 <?= Html::submitButton(Yii::t('app', 'One moment'), ['class' => 'btn btn-primary']) ?>
                             </div>
 

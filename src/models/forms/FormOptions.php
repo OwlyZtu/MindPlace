@@ -43,6 +43,7 @@ class FormOptions
         ];
     }
 
+
     /**
      * Отримати опції для тем
      * @return array

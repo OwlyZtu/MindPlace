@@ -161,7 +161,7 @@ class SiteController extends Controller
         }
 
         $model = new UserSettingsForm();
-        
+
         Yii::info(Yii::$app->request->post(), 'debug-post');
         if ($model->load(Yii::$app->request->post())) {
             if ($model->userUpdateSettingsForm()) {
@@ -208,15 +208,26 @@ class SiteController extends Controller
     public function actionForTherapists()
     {
         $model = new TherapistJoinForm();
+        $s3 = Yii::$app->get('s3Storage');
+        if (!$s3->testConnection()) {
+            Yii::error('S3 client not initialized properly', 'upload');
+            Yii::$app->session->setFlash('error', 'Сталася внутрішня помилка. Спробуйте пізніше.');
+            return $this->render('for-therapists', ['model' => $model]);
+        }
 
         if ($model->load(Yii::$app->request->post())) {
-            // Адреса, куди відправляти заявку
-            $adminEmail = 'nightmare.owl16@gmail.com'; // Замініть на реальну адресу
 
-            if ($model->contact($adminEmail)) {
+            if ($model->updateUserAsTherapist()) {
                 Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
                 return $this->refresh();
             }
+                
+            // $adminEmail = 'nightmare.owl16@gmail.com';
+
+            // if ($model->contact($adminEmail)) {
+            //     Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
+            //     return $this->refresh();
+            // }
         }
 
         return $this->render('for-therapists', [
@@ -259,5 +270,4 @@ class SiteController extends Controller
             'filter' => $filterData
         ]);
     }
-
 }

@@ -3,6 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
+
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -18,6 +19,13 @@ $config = [
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
             'dirMode' => 0777,
+        ],
+        's3Storage' => [
+            'class' => app\components\S3Storage::class,
+            'key' => $_ENV['AWS_ACCESS_KEY_ID'] ?? null,
+            'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'] ?? null,
+            'bucket' => $_ENV['AWS_BUCKET'] ?? 'mindplacediploma',
+            'region' => $_ENV['AWS_REGION'] ?? 'eu-north-1',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -39,11 +47,11 @@ $config = [
             'useFileTransport' => true, // !!!set this property to false to send mails to real email addresses,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'dsn' => 'smtp://nightmare.owl16@gmail.com:pkue wkyj vjwc posb@smtp.gmail.com:587',
+                'dsn' => $_ENV['DSN_MAILER'] ?? null,
                 'scheme' => 'smtp',
                 'host' => 'smtp.gmail.com',
-                'username' => 'nightmare.owl16@gmail.com',
-                'password' => 'pkue wkyj vjwc posb', // Не звичайний пароль, а спеціальний пароль додатку
+                'username' => $_ENV['USERNAME_MAILER']?? null,
+                'password' => $_ENV['PASSWORD_MAILER']?? null, // Не звичайний пароль, а спеціальний пароль додатку
                 'port' => '587',
                 'encryption' => 'tls',
             ],
@@ -66,17 +74,24 @@ $config = [
                     'logFile' => '@runtime/logs/validation-errors.log',
                     'logVars' => [],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'categories' => ['therapist-join'],
+                    'logFile' => '@runtime/logs/therapist-join.log',
+                    'logVars' => [],
+                ],
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        
         'i18n' => [
             'translations' => [
                 '*' => [

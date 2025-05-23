@@ -23,7 +23,7 @@ return [
 
 
     // #region SIGNUP PAGE
-    'SignupBread' => 'Реєстація',
+    'SignupBread' => 'Реєстрація',
     'Signup title' => 'Створюємо нового користувача',
     'Signup please...' => 'Будь ласка, заповніть наступні поля:',
     'Form email' => 'Ваш email',
