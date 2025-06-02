@@ -4,67 +4,45 @@ namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
-use app\models\User;
-use app\models\Specialist;
-
+use app\models\SpecialistApplication;
 use yii\web\UploadedFile;
 
-
-/**
- * TherapistJoinForm is the model behind the TherapistJoin form.
- */
 class TherapistJoinForm extends Model
 {
+    private $_applicationStatus;
 
     /**
-     * @return array the validation rules.
+     * Ініціалізація моделі
      */
-    public function rules()
+    public function init()
     {
-        return [
-            // required fields
-            [
-                [
-                    'name',
-                    'email',
-                    'contact_number',
-                    'city',
-                    'date_of_birth',
-                    'gender',
-                    'language',
-                    'therapy_types',
-                    'theme',
-                    'approach_type',
-                    'format',
-                    'education_name',
-                    'education_file',
-                    'experience',
-                ],
-                'required'
-            ],
-            ['email', 'email'],
-            ['contact_number', 'string', 'max' => 13],
-            ['privacy_policy', 'boolean'],
-            ['privacy_policy', 'compare', 'compareValue' => true, 'message' => 'Please accept the Privacy Policy'],
-            ['education_file', 'file', 'extensions' => 'pdf, doc, docx'],
-            ['additional_certification_file', 'file', 'extensions' => 'pdf, doc, docx'],
-        ];
+        parent::init();
+        if (!Yii::$app->user->isGuest) {
+            $this->_applicationStatus = SpecialistApplication::getStatusById(Yii::$app->user->id);
+        }
     }
 
-    // Personal Information
+    /**
+     * Отримати статус заявки
+     * @return mixed
+     */
+    public function getApplicationStatus()
+    {
+        return $this->_applicationStatus;
+    }
+
+    // Особиста інформація
     public $name;
     public $date_of_birth = '';
-
     public $city = '';
-
     public $gender;
 
-    // Contact Information
+    // Контактна інформація
     public $email;
     public $contact_number;
     public $social_media = '';
 
-    // Therapy spesific
+    // Специфіка терапії
     public $language = [];
     public $therapy_types = [];
     public $theme = [];
@@ -73,7 +51,7 @@ class TherapistJoinForm extends Model
     public $lgbt = false;
     public $military = false;
 
-    // Education and Experience
+    // Освіта та досвід
     public $specialization = [];
     public $education_name = '';
     public $education_file;
@@ -81,77 +59,132 @@ class TherapistJoinForm extends Model
     public $additional_certification_file;
     public $experience = '';
 
-
-    // Privacy Policy
+    // Політика конфіденційності
     public $privacy_policy;
 
-    // public $subject = 'New Therapist Application';
-    // public $body;
+    /**
+     * Правила валідації
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            // Обов'язкові поля
+            [
+                [
+                    'name', 'email', 'contact_number', 'city',
+                    'date_of_birth', 'gender', 'language',
+                    'therapy_types', 'theme', 'approach_type',
+                    'format', 'education_name', 'education_file',
+                    'experience',
+                ],
+                'required'
+            ],
+            ['email', 'email'],
+            ['contact_number', 'string', 'max' => 13],
+            ['privacy_policy', 'boolean'],
+            ['privacy_policy', 'compare', 'compareValue' => true, 'message' => 'Будь ласка, прийміть Політику конфіденційності'],
+            
+            // Валідація файлів
+            [
+                'education_file',
+                'file',
+                'skipOnEmpty' => false,
+                'extensions' => 'pdf, doc, docx',
+                'maxSize' => 2 * 1024 * 1024,
+                'tooBig' => 'Розмір файлу не може перевищувати 2MB',
+                'wrongExtension' => 'Дозволені формати файлів: PDF, DOC, DOCX',
+                'message' => 'Будь ласка, завантажте документ'
+            ],
+            [
+                'additional_certification_file',
+                'file',
+                'skipOnEmpty' => true,
+                'extensions' => 'pdf, doc, docx',
+                'maxSize' => 2 * 1024 * 1024,
+                'tooBig' => 'Розмір файлу не може перевищувати 2MB',
+                'wrongExtension' => 'Дозволені формати файлів: PDF, DOC, DOCX'
+            ],
+            ['education_file', 'validateMimeType'],
+            ['additional_certification_file', 'validateMimeType'],
+        ];
+    }
 
+    /**
+     * Валідація MIME-типів файлів
+     * @param string $attribute
+     * @param array $params
+     */
+    public function validateMimeType($attribute, $params)
+    {
+        $file = UploadedFile::getInstance($this, $attribute);
+        if ($file) {
+            $allowedMimeTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
 
-    // public function body_message_join_form()
-    // {
-    //     return "New therapist application from: {$this->name}\n"
-    //         . "Email: {$this->email}\n"
-    //         . "Contact number: {$this->contact_number}\n"
-    //         . "City: {$this->city}\n"
-    //         . "Date of birth: {$this->date_of_birth}\n"
-    //         . "Gender: {$this->gender}\n"
-    //         . "Languages: " . implode(', ', $this->language) . "\n"
-    //         . "Therapy types: " . implode(', ', $this->therapy_types) . "\n"
-    //         . "Themes: " . implode(', ', $this->theme) . "\n"
-    //         . "Approach type: " . implode(', ', $this->approach_type) . "\n"
-    //         . "Format: " . implode(', ', $this->format) . "\n"
-    //         . "Education: {$this->education_name} "
-    //         . "[Education file {$this->education_file}]\n"
-    //         . "Experience: {$this->experience}";
-    // }
+            if (!in_array($file->type, $allowedMimeTypes)) {
+                $this->addError($attribute, 'Недопустимий тип файлу. Дозволені типи: PDF, DOC, DOCX');
+            }
 
-    // public function contact($email)
-    // {
-    //     if ($this->validate()) {
-    //         $this->body = $this->body_message_join_form();
+            if ($file->size > 0) {
+                try {
+                    $content = file_get_contents($file->tempName);
+                    if ($content === false) {
+                        $this->addError($attribute, 'Помилка читання файлу');
+                        return;
+                    }
+                    
+                    $forbidden = ['<?php', '<script', '<iframe'];
+                    foreach ($forbidden as $tag) {
+                        if (stripos($content, $tag) !== false) {
+                            $this->addError($attribute, 'Файл містить недопустимий код');
+                            return;
+                        }
+                    }
+                } catch (\Exception $e) {
+                    Yii::error('Помилка при перевірці файлу: ' . $e->getMessage(), 'file-validation');
+                    $this->addError($attribute, 'Помилка обробки файлу');
+                    return;
+                }
+            }
+        }
+    }
 
-    //         Yii::$app->mailer->compose()
-    //             ->setTo($email)
-    //             ->setFrom([Yii::$app->params['senderEmail'] => Yii::$app->params['senderName']])
-    //             ->setReplyTo([$this->email => $this->name])
-    //             ->setSubject($this->subject)
-    //             ->setTextBody($this->body)
-    //             ->send();
-
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-
+    /**
+     * Оновлення користувача як терапевта
+     * @return bool
+     */
     public function updateUserAsTherapist()
     {
         if ($this->validate()) {
             $uploadedFiles = $this->uploadToS3();
 
             if ($uploadedFiles === false) {
-                Yii::error('Failed to upload files to S3', 'therapist-join');
+                Yii::error('Помилка завантаження файлів на S3', 'therapist-join');
                 return false;
             }
 
             $user = Yii::$app->user->identity;
             if (!$user->id) {
-                Yii::error('User ID is null', 'therapist-join');
+                Yii::error('ID користувача відсутній', 'therapist-join');
                 return false;
             }
 
-            Specialist::updateUserFromTherapistForm($user->id, $this->getAttributes());
+            SpecialistApplication::updateUserFromTherapistForm($user->id, $this->getAttributes());
             return true;
         }
 
-        Yii::error('Validation error!' . $this->getErrors(), 'therapist-join');
-
+        Yii::error('Помилка валідації: ' . json_encode($this->getErrors()), 'therapist-join');
         return false;
     }
 
-
+    /**
+     * Перевірка перед валідацією
+     * @return bool
+     */
     public function beforeValidate()
     {
         if (parent::beforeValidate()) {
@@ -167,19 +200,21 @@ class TherapistJoinForm extends Model
         return false;
     }
 
-
+    /**
+     * Завантаження файлів на S3
+     * @return array|false
+     */
     public function uploadToS3()
     {
         if (!$this->validate()) {
-            Yii::error('education_file is null in beforeValidate', 'therapist-join');
+            Yii::error('education_file відсутній в beforeValidate', 'therapist-join');
             return false;
         }
 
         $s3 = Yii::$app->get('s3Storage');
 
-        // Перевірка ініціалізації S3
         if (!$s3 || !$s3->client) {
-            Yii::error('S3 client not initialized properly', 'therapist-join');
+            Yii::error('S3 клієнт не ініціалізовано коректно', 'therapist-join');
             return false;
         }
 
@@ -193,7 +228,7 @@ class TherapistJoinForm extends Model
             if ($this->education_file instanceof UploadedFile) {
                 $educationFileInfo = $s3->upload($this->education_file, $directory);
                 if (!$educationFileInfo) {
-                    Yii::error('Failed to upload education file to S3', 'therapist-join');
+                    Yii::error('Помилка завантаження файлу освіти на S3', 'therapist-join');
                     return false;
                 }
             }
@@ -201,7 +236,7 @@ class TherapistJoinForm extends Model
             if ($this->additional_certification_file instanceof UploadedFile) {
                 $certificationFileInfo = $s3->upload($this->additional_certification_file, $directory);
                 if (!$certificationFileInfo) {
-                    Yii::error('Failed to upload certification file to S3', 'therapist-join');
+                    Yii::error('Помилка завантаження файлу сертифікації на S3', 'therapist-join');
                     return false;
                 }
             }
@@ -213,7 +248,7 @@ class TherapistJoinForm extends Model
                 'additional_certification_file_url' => $certificationFileInfo ? $certificationFileInfo['url'] : null,
             ];
         } catch (\Exception $e) {
-            Yii::error('Exception during S3 upload: ' . $e->getMessage(), 'therapist-join');
+            Yii::error('Виняток під час завантаження на S3: ' . $e->getMessage(), 'therapist-join');
             return false;
         }
     }

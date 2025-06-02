@@ -6,9 +6,11 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\filters\VerbFilter;
 
 class AdminController extends Controller
 {
+    public $enableCsrfValidation = true;
     public $layout = 'admin';
     /**
      * {@inheritdoc}
@@ -26,6 +28,14 @@ class AdminController extends Controller
                             return Yii::$app->user->identity->isAdmin();
                         }
                     ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'users' => ['get', 'post'],
+                    'index' => ['get'],
+                    'set-language' => ['get'],
                 ],
             ],
         ];
@@ -98,6 +108,4 @@ class AdminController extends Controller
     {
         return $this->render('users/index');
     }
-
-    
 }

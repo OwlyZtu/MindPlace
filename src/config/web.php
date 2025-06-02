@@ -64,9 +64,19 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                        'application.runtime.logs.*',
+                    ],
+                    'maskVars' => [
+                        '_SERVER.AWS_ACCESS_KEY_ID',
+                        '_SERVER.AWS_SECRET_ACCESS_KEY',
+                        '_SERVER.DSN_MAILER',
+                        '_SERVER.USERNAME_MAILER',
+                        '_SERVER.PASSWORD_MAILER',
+                    ],
                 ],
-                // Окремий файл для логування помилок валідації
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error'],
@@ -80,6 +90,15 @@ $config = [
                     'categories' => ['therapist-join'],
                     'logFile' => '@runtime/logs/therapist-join.log',
                     'logVars' => [],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info', 'error'],
+                    'categories' => ['admin.*'],
+                    'logFile' => '@runtime/logs/admin.log',
+                    'logVars' => [],
+                    'prefix' => fn($message) => date('Y-m-d H:i:s'),
+                    
                 ],
             ],
         ],

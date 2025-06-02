@@ -4,7 +4,6 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var app\models\forms\TherapistJoinForm $model */
 
-
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use app\models\forms\FormOptions;
@@ -81,117 +80,142 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
         </div>
         <!-- #endregion -->
 
-        <div class="col-lg-6 shadow-lg p-3 my-5 bg-body-tertiary-cstm rounded-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center mt-2">
-                    <h1>
-                        <?= Yii::t('app', 'FT Join Form') ?>
-                        <span>
-                            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <path d="M12 5.50063L11.4596 6.02073C11.463 6.02421 11.4664 6.02765 11.4698 6.03106L12 5.50063ZM8.96173 18.9109L8.49742 19.4999L8.96173 18.9109ZM15.0383 18.9109L14.574 18.3219L15.0383 18.9109ZM7.00061 16.4209C6.68078 16.1577 6.20813 16.2036 5.94491 16.5234C5.68169 16.8432 5.72758 17.3159 6.04741 17.5791L7.00061 16.4209ZM2.34199 13.4115C2.54074 13.7749 2.99647 13.9084 3.35988 13.7096C3.7233 13.5108 3.85677 13.0551 3.65801 12.6917L2.34199 13.4115ZM13.4698 8.03034C13.7627 8.32318 14.2376 8.32309 14.5304 8.03014C14.8233 7.7372 14.8232 7.26232 14.5302 6.96948L13.4698 8.03034ZM2.75 9.1371C2.75 6.98623 3.96537 5.18252 5.62436 4.42419C7.23607 3.68748 9.40166 3.88258 11.4596 6.02073L12.5404 4.98053C10.0985 2.44352 7.26409 2.02539 5.00076 3.05996C2.78471 4.07292 1.25 6.42503 1.25 9.1371H2.75ZM8.49742 19.4999C9.00965 19.9037 9.55955 20.3343 10.1168 20.6599C10.6739 20.9854 11.3096 21.25 12 21.25V19.75C11.6904 19.75 11.3261 19.6293 10.8736 19.3648C10.4213 19.1005 9.95208 18.7366 9.42605 18.3219L8.49742 19.4999ZM15.5026 19.4999C16.9292 18.3752 18.7528 17.0866 20.1833 15.4758C21.6395 13.8361 22.75 11.8026 22.75 9.1371H21.25C21.25 11.3345 20.3508 13.0282 19.0617 14.4798C17.7469 15.9603 16.0896 17.1271 14.574 18.3219L15.5026 19.4999ZM22.75 9.1371C22.75 6.42503 21.2153 4.07292 18.9992 3.05996C16.7359 2.02539 13.9015 2.44352 11.4596 4.98053L12.5404 6.02073C14.5983 3.88258 16.7639 3.68748 18.3756 4.42419C20.0346 5.18252 21.25 6.98623 21.25 9.1371H22.75ZM14.574 18.3219C14.0479 18.7366 13.5787 19.1005 13.1264 19.3648C12.6739 19.6293 12.3096 19.75 12 19.75V21.25C12.6904 21.25 13.3261 20.9854 13.8832 20.6599C14.4405 20.3343 14.9903 19.9037 15.5026 19.4999L14.574 18.3219ZM9.42605 18.3219C8.63014 17.6945 7.82129 17.0963 7.00061 16.4209L6.04741 17.5791C6.87768 18.2624 7.75472 18.9144 8.49742 19.4999L9.42605 18.3219ZM3.65801 12.6917C3.0968 11.6656 2.75 10.5033 2.75 9.1371H1.25C1.25 10.7746 1.66995 12.1827 2.34199 13.4115L3.65801 12.6917ZM11.4698 6.03106L13.4698 8.03034L14.5302 6.96948L12.5302 4.97021L11.4698 6.03106Z" fill="currentColor"></path>
-                                </g>
-                            </svg>
-                        </span>
-                    </h1>
-                </div>
+        <?php if (Yii::$app->user->isGuest): ?>
+            <div class="col-lg-6 text-center my-5">
+                <h3><?= Yii::t('app', 'FT login first') ?></h3>
+                <?= Html::a(Yii::t('app', 'Login'), ['/site/login'], ['class' => 'btn btn-primary btn-lg mt-3']) ?>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-11">
-                    <div class="row my-3 justify-content-center">
-                        <div class="col-lg-9 w-100">
-                            <?php $form = ActiveForm::begin([
-                                'id' => 'therapist-join-form',
-                                'options' => [
-                                    'enctype' => 'multipart/form-data'
-                                ]
-                            ]); ?>
+        <?php elseif ($model->getApplicationStatus() === 'pending'): ?>
+            <div class="col-lg-6 text-center my-5">
+                <h3><?= Yii::t('app', 'Your application is being reviewed') ?></h3>
+                <p><?= Yii::t('app', 'We will notify you once we review your application') ?></p>
+            </div>
 
-                            <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
-                                <legend><?= Yii::t('app', 'Personal Information') ?></legend>
-                                <?= $form->field($model, 'name')->textInput()->label(Yii::t('app', 'Full name') . '<span class="text-danger"> *</span>') ?>
+        <?php elseif ($model->getApplicationStatus() === 'rejected'): ?>
+            <div class="col-lg-6 text-center my-5">
+                <h3><?= Yii::t('app', 'Your application has been rejected') ?></h3>
+                <p><?= Yii::t('app', 'Please contact us for more information') ?></p>
+            </div>
 
-                                <?= $form->field($model, 'email')->label(Yii::t('app', 'Email') . '<span class="text-danger">*</span>') ?>
+        <?php elseif ($model->getApplicationStatus() === 'approved'): ?>
+            <div class="col-lg-6 text-center my-5">
+                <h3><?= Yii::t('app', 'Your application has been approved') ?></h3>
+                <p><?= Yii::t('app', 'You can now start using MindPlace') ?></p>
+            </div>
+        <?php else: ?>
+            <div class="col-lg-6 shadow-lg p-3 my-5 bg-body-tertiary-cstm rounded-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 text-center mt-2 gradient-text-alt">
+                        <h1>
+                            <?= Yii::t('app', 'FT Join Form') ?>
+                            <span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracurrentColorerCarrier" stroke-linecurrentcap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_icurrentColoronCarrier">
+                                        <path d="M9 13.4L10.7143 15L15 11" stroke="currentColor" stroke-width="1.5" stroke-linecurrentcap="round" stroke-linejoin="round"></path>
+                                        <path d="M21 16.0002C21 18.8286 21 20.2429 20.1213 21.1215C19.2426 22.0002 17.8284 22.0002 15 22.0002H9C6.17157 22.0002 4.75736 22.0002 3.87868 21.1215C3 20.2429 3 18.8286 3 16.0002V13.0002M16 4.00195C18.175 4.01406 19.3529 4.11051 20.1213 4.87889C21 5.75757 21 7.17179 21 10.0002V12.0002M8 4.00195C5.82497 4.01406 4.64706 4.11051 3.87868 4.87889C3.11032 5.64725 3.01385 6.82511 3.00174 9" stroke="currentColor" stroke-width="1.5" stroke-linecurrentcap="round"></path>
+                                        <path d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z" stroke="currentColor" stroke-width="1.5"></path>
+                                    </g>
+                                </svg>
+                            </span>
+                        </h1>
+                    </div>
+                </div>
 
-                                <?= $form->field($model, 'contact_number')->label(Yii::t('app', 'Contact Number') . '<span class="text-danger"> *</span>') ?>
+                <div class="row justify-content-center">
+                    <div class="col-lg-11">
+                        <div class="row my-3 justify-content-center">
+                            <div class="col-lg-9 w-100">
+                                <?php $form = ActiveForm::begin([
+                                    'id' => 'therapist-join-form',
+                                    'options' => [
+                                        'enctype' => 'multipart/form-data'
+                                    ]
+                                ]); ?>
 
-                                <?= $form->field($model, 'date_of_birth')->textInput([
-                                    'type' => 'date',
-                                    'value' => '2000-01-01',
-                                    'min' => '1970-01-01',
-                                    'max' => date('Y-m-d', strtotime('-18 years')), // Мінімальний вік 18 років
-                                ])->label(Yii::t('app', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
+                                <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
+                                    <legend><?= Yii::t('app', 'Personal Information') ?></legend>
+                                    <?= $form->field($model, 'name')->textInput()->label(Yii::t('app', 'Full name') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'gender')->radioList(
-                                    FormOptions::getGenderOptions()
-                                )->label(Yii::t('app', 'Gender') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'email')->label(Yii::t('app', 'Email') . '<span class="text-danger">*</span>') ?>
 
-                                <?= $form->field($model, 'city')->dropDownList(
-                                    FormOptions::getCityOptions(),
-                                    ['promt' => 'Select city']
-                                ) ?>
-                                <?= $form->field($model, 'social_media')->textarea(['rows' => 3, 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('app', 'Social Media')) ?>
+                                    <?= $form->field($model, 'contact_number')->label(Yii::t('app', 'Contact Number') . '<span class="text-danger"> *</span>') ?>
 
-                            </fieldset>
+                                    <?= $form->field($model, 'date_of_birth')->textInput([
+                                        'type' => 'date',
+                                        'value' => '2000-01-01',
+                                        'min' => '1970-01-01',
+                                        'max' => date('Y-m-d', strtotime('-16 years')), // Мінімальний вік 16 років
+                                    ])->label(Yii::t('app', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
 
-                            <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
-                                <legend><?= Yii::t('app', 'Therapy Specific') ?></legend>
+                                    <?= $form->field($model, 'gender')->radioList(
+                                        FormOptions::getGenderOptions()
+                                    )->label(Yii::t('app', 'Gender') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'language')->checkboxList(
-                                    FormOptions::getLanguageOptions()
-                                )->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'city')->dropDownList(
+                                        FormOptions::getCityOptions(),
+                                        ['promt' => 'Select city']
+                                    ) ?>
+                                    <?= $form->field($model, 'social_media')->textarea(['rows' => 3, 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('app', 'Social Media')) ?>
 
-                                <?= $form->field($model, 'therapy_types')->checkboxList(
-                                    FormOptions::getTherapyTypesOptions()
-                                )->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>
+                                </fieldset>
 
-                                <?= $form->field($model, 'approach_type')->checkboxList(
-                                    FormOptions::getApproachTypeOptions()
-                                )->label(Yii::t('app', 'approach_type') . '<span class="text-danger"> *</span>') ?>
+                                <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
+                                    <legend><?= Yii::t('app', 'Therapy Specific') ?></legend>
 
-                                <?= $form->field($model, 'theme')->checkboxList(
-                                    FormOptions::getThemeOptions()
-                                )->label(Yii::t('app', 'Themes') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'language')->checkboxList(
+                                        FormOptions::getLanguageOptions()
+                                    )->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'format')->checkboxList(
-                                    FormOptions::getFormatOptions()
-                                )->label(Yii::t('app', 'Format') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'therapy_types')->checkboxList(
+                                        FormOptions::getTherapyTypesOptions()
+                                    )->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'lgbt')->checkbox(['label' => Yii::t('app', 'LGBTQ+ friendly')]) ?>
+                                    <?= $form->field($model, 'approach_type')->checkboxList(
+                                        FormOptions::getApproachTypeOptions()
+                                    )->label(Yii::t('app', 'approach_type') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'military')->checkbox(['label' => Yii::t('app', 'Work with military personnel')]) ?>
+                                    <?= $form->field($model, 'theme')->checkboxList(
+                                        FormOptions::getThemeOptions()
+                                    )->label(Yii::t('app', 'Themes') . '<span class="text-danger"> *</span>') ?>
 
-                            </fieldset>
+                                    <?= $form->field($model, 'format')->checkboxList(
+                                        FormOptions::getFormatOptions()
+                                    )->label(Yii::t('app', 'Format') . '<span class="text-danger"> *</span>') ?>
 
-                            <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
-                                <legend><?= Yii::t('app', 'Education and Experience') ?></legend>
-                                <?= $form->field($model, 'education_name')->textInput(['placeholder' => 'e.g. University Name'])->label(Yii::t('app', 'Education Name') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'lgbt')->checkbox(['label' => Yii::t('app', 'LGBTQ+ friendly')]) ?>
 
-                                <?= $form->field($model, 'education_file')->fileInput()->label(Yii::t('app', 'Education File') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'military')->checkbox(['label' => Yii::t('app', 'Work with military personnel')]) ?>
 
-                                <?= $form->field($model, 'additional_certification')->textInput(['placeholder' => 'e.g. Certification Name'])->label(Yii::t('app', 'Additional Certification')) ?>
+                                </fieldset>
 
-                                <?= $form->field($model, 'additional_certification_file')->fileInput()->label(Yii::t('app', 'Additional Certification File')) ?>
+                                <fieldset class="border p-3 mb-3 shadow-lg p-3 mb-5 bg-body-tertiary-cstm rounded-5">
+                                    <legend><?= Yii::t('app', 'Education and Experience') ?></legend>
+                                    <?= $form->field($model, 'education_name')->textInput(['placeholder' => 'e.g. University Name'])->label(Yii::t('app', 'Education Name') . '<span class="text-danger"> *</span>') ?>
 
-                                <?= $form->field($model, 'experience')->textarea(['rows' => 6, 'placeholder' => 'e.g. Place: 5 years'])->label(Yii::t('app', 'Experience') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'education_file')->fileInput()->hint('Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 10MB') ?>
 
-                            </fieldset>
+                                    <?= $form->field($model, 'additional_certification_file')->fileInput()->hint('Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 10MB') ?>
 
-                            <?= $form->field($model, 'privacy_policy')->checkbox()->label(Yii::t('app', 'I agree to the privacy policy') . '<span class="text-danger"> *</span>') ?>
+                                    <?= $form->field($model, 'experience')->textarea(['rows' => 6, 'placeholder' => 'e.g. Place: 5 years'])->label(Yii::t('app', 'Experience') . '<span class="text-danger"> *</span>') ?>
 
-                            <div class="form-group text-center mt-3">
-                                <?= Html::submitButton(Yii::t('app', 'One moment'), ['class' => 'btn btn-primary']) ?>
+                                </fieldset>
+
+                                <?= $form->field($model, 'privacy_policy')->checkbox()->label(Yii::t('app', 'I agree to the privacy policy') . '<span class="text-danger"> *</span>') ?>
+
+                                <div class="form-group text-center mt-3">
+                                    <?= Html::submitButton(Yii::t('app', 'One moment'), ['class' => 'btn btn-primary']) ?>
+                                </div>
+
+                                <?php ActiveForm::end(); ?>
                             </div>
-
-                            <?php ActiveForm::end(); ?>
                         </div>
                     </div>
                 </div>
+            <? endif; ?>
             </div>
-        </div>
     </div>
 </div>
 

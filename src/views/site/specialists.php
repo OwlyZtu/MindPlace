@@ -5,9 +5,7 @@
 /** @var app\models\forms\FilterForm $model */
 
 
-use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use app\models\forms\FormOptions;
 
 $this->title = 'Our specialists';
 $this->params['breadcrumbs'][] = $this->title;
@@ -79,4 +77,13 @@ $this->params['meta_keywords'] = ['name' => 'keywords', 'content' => 'Our specia
         </div>
     </div>
 </div>
-</div>
+<?php if ($filter): ?>
+    <?php
+    // Встановлюємо значення фільтру в модель
+    foreach ($filter as $key => $value) {
+        if (property_exists($model, $key)) {
+            $model->$key = $value;
+        }
+    }
+    ?>
+<?php endif; ?>

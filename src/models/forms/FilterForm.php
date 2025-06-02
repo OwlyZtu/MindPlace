@@ -26,6 +26,8 @@ class FilterForm extends Model
     public function getFilterData()
     {
         if ($this->validate()) {
+            Yii::info('validate success');
+            //($this->format !== 'offline') ?: ($this->city = null);
             return [
                 'format' => $this->format,
                 'city' => $this->city,
@@ -35,25 +37,24 @@ class FilterForm extends Model
                 'language' => $this->language,
                 'gender' => $this->gender,
                 'age' => $this->age,
-                'specialization'=> $this->specialization,
+                'specialization' => $this->specialization,
                 'lgbt' => $this->lgbt,
                 'military' => $this->military,
             ];
         }
+        Yii::error('validate fail');
         return false;
     }
 
     /**
      * Зберігає дані фільтра в сесію
-     * @return bool
+     * @return array|bool
      */
     public function saveFilterToSession()
     {
-        if ($filterData = $this->getFilterData()) {
-            Yii::$app->session->set('filterData', $filterData);
-            return true;
-        }
-        return false;
+        $filterData = $this->getFilterData();
+        Yii::$app->session->set('filterData', $filterData);
+        return $filterData !== false;
     }
 
     /**
@@ -64,5 +65,14 @@ class FilterForm extends Model
     {
         $session = Yii::$app->session;
         return $session->get('filterData') ?: $session->get('questionnaireData');
+    }
+
+    public function rules()
+    {
+        return [
+            [['format', 'city', 'gender', 'age'], 'safe'],
+            [['therapy_types', 'theme', 'approach_type', 'language', 'specialization'], 'safe'],
+            [['lgbt', 'military'], 'boolean'],
+        ];
     }
 }

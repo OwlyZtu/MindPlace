@@ -90,10 +90,10 @@ class User extends ActiveRecord implements IdentityInterface
         $user->specialization = json_encode($data['specialization'] ?? []);
         $user->education_name = $data['education_name'] ?? '';
         $user->education_file = $data['education_file'] ?? null;
-        $user->education_file_url = $data['education_file_url']?? '';
+        $user->education_file_url = $data['education_file_url'] ?? '';
         $user->additional_certification = $data['additional_certification'] ?? '';
         $user->additional_certification_file = $data['additional_certification_file'] ?? null;
-        $user->additional_certification_url = $data['additional_certification_url']?? '';
+        $user->additional_certification_file_url = $data['additional_certification_file_url'] ?? '';
         $user->experience = json_encode($data['experience'] ?? '');
         $user->social_media = json_encode($data['social_media'] ?? '');
 
@@ -217,6 +217,33 @@ class User extends ActiveRecord implements IdentityInterface
         return self::findOne(['email' => $email]);
     }
 
+    public static function getSpecialists($params = '')
+    {
+        return self::find()->where(['role' => 'specialist'])->all();
+    }
+
+    public static function getPatients($params = [])
+    {
+        return self::find()->where(['role' => 'default'])->all();
+    }
+
+    public static function getSpecializationList($params = '')
+    {
+        return [
+            'psyhotherapist' => 'Psyhotherapist',
+            'psychologist' => 'Psychologist',
+        ];
+    }
+
+    public static function getStatusList($params = '')
+    {
+        return [
+            'pending' => 'Pending',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'blocked' => 'Blocked',
+        ];
+    }
     #endregion
 
 

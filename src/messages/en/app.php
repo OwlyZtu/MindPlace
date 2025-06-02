@@ -139,6 +139,8 @@ return [
     'FT benefits 3' => 'A professional community and development opportunities.',
     'FT benefits 4' => 'MindPlace is your partner for growth and client support.',
 
+    'FT login first'=> 'Login first or create new account to continue',
+
     // Therapist Join Form
     'Personal Information' => 'Personal Information',
     'Full name' => 'Full name',

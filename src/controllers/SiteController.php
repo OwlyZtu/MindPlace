@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\services\DebugService;
 
+use app\models\User;
+
 use app\models\forms\LoginForm;
 use app\models\forms\SignupForm;
 use app\models\forms\ContactForm;
@@ -19,6 +21,7 @@ use app\models\forms\FilterForm;
 
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = true;
     /**
      * {@inheritdoc}
      */
@@ -27,10 +30,14 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'login', 'signup', 'error', 'contact', 'about', 'for-therapists', 'questionnaire', 'specialists', 'set-language'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'actions' => ['logout', 'profile'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -40,6 +47,8 @@ class SiteController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
+                    'profile' => ['get', 'post'],
+                    'for-therapists' => ['get', 'post'],
                 ],
             ],
         ];
@@ -221,7 +230,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
                 return $this->refresh();
             }
-                
+
             // $adminEmail = 'nightmare.owl16@gmail.com';
 
             // if ($model->contact($adminEmail)) {
@@ -261,13 +270,19 @@ class SiteController extends Controller
     {
         $model = new FilterForm();
         $filterData = null;
-        if ($model->load(Yii::$app->request->post()) && $model->saveFilterToSession()) {
-            $filterData = FilterForm::getSessionFilter();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->saveFilterToSession()) {
+                $filterData = FilterForm::getSessionFilter();
+                Yii::info('Filter data saved: ' . print_r($filterData, true), 'debug');
+            } else {
+                Yii::error('Failed to save filter data', 'debug');
+            }
         }
 
         return $this->render('specialists', [
             'model' => $model,
-            'filter' => $filterData
+            'filter' => $filterData,
         ]);
     }
 }

@@ -6,45 +6,26 @@ use app\services\UserAuthService;
 use Yii;
 
 /**
- * Specialist model
+ * SpecialistApplication model
  *
  * @property int $id
- * @property string $name
- * @property string $email
- * @property string $contact_number (optional)
- * @property string $date_of_birth
- * @property string $password_hash
- * @property string $role
- * @property string $auth_key
- * @property string $access_token
+ * @property string $user_id
+ * @property string $admin_id (optional)
+ * @property string $status
+ * @property string $comment (optional)
  * @property string $created_at
- * @property string $city
- * @property array $gender
- * @property array $language
- * @property array $therapy_types
- * @property array $theme
- * @property array $approach_type
- * @property array $format
- * @property bool $lgbt
- * @property bool $military
- * @property array $specialization
- * @property string $education_name
- * @property string $education_file
- * @property string $additional_certification
- * @property string $additional_certification_file
- * @property string $experience
- * @property string $social_media
+ * @property string $updated_at
  */
-class Specialist extends User
+class SpecialistApplication extends User
 {
     public static function tableName()
     {
-        return 'specialist';
+        return 'specialist_application';
     }
 
-        /**
+    /**
      * Оновлює дані користувача з форми TherapistJoinForm
-     * та створює запис у таблиці specialist
+     * та створює запис у таблиці Specialist_application
      *
      * @param int $userId ID користувача
      * @param array $formData дані з форми TherapistJoinForm
@@ -90,21 +71,21 @@ class Specialist extends User
                 throw new \Exception('Помилка при збереженні даних користувача: ' . json_encode($user->getErrors()));
             }
             
-            // Створення або оновлення запису в таблиці specialist
-            $specialist = Yii::$app->db->createCommand('SELECT id FROM {{%specialist}} WHERE user_id = :userId')
+            // Створення або оновлення запису в таблиці SpecialistApplication
+            $SpecialistApplication = Yii::$app->db->createCommand('SELECT id FROM {{%SpecialistApplication}} WHERE user_id = :userId')
                 ->bindValue(':userId', $userId)
                 ->queryScalar();
                 
-            if (!$specialist) {
+            if (!$SpecialistApplication) {
                 // Створення нового запису
-                Yii::$app->db->createCommand()->insert('{{%specialist}}', [
+                Yii::$app->db->createCommand()->insert('{{%SpecialistApplication}}', [
                     'user_id' => $userId,
                     'status' => 'pending',
                     'created_at' => new \yii\db\Expression('NOW()'),
                 ])->execute();
             } else {
                 // Оновлення існуючого запису
-                Yii::$app->db->createCommand()->update('{{%specialist}}', [
+                Yii::$app->db->createCommand()->update('{{%SpecialistApplication}}', [
                     'status' => 'pending',
                     'updated_at' => new \yii\db\Expression('NOW()'),
                 ], 'user_id = :userId', [':userId' => $userId])->execute();
@@ -114,76 +95,92 @@ class Specialist extends User
             return true;
         } catch (\Exception $e) {
             $transaction->rollBack();
-            Yii::error('Failed to save specialist: ' . $e->getMessage(), 'therapist-join');
+            Yii::error('Failed to save SpecialistApplication: ' . $e->getMessage(), 'therapist-join');
             return false;
         }
     }
 
     #region CRUD
-    public static function createSpecialist($data)
+    public static function createSpecialistApplication($data)
     {
-        $specialist = new self();
-        $specialist->name = $data['name'] ?? null;
-        $specialist->email = $data['email'] ?? null;
-        $specialist->contact_number = $data['contact_number'] ?? null;
-        $specialist->date_of_birth = $data['date_of_birth'] ?? null;
-        $specialist->city = $data['city'] ?? null;
-        $specialist->gender = $data['gender'] ?? [];
-        $specialist->language = $data['language'] ?? [];
-        $specialist->therapy_types = $data['therapy_types'] ?? [];
-        $specialist->theme = $data['theme'] ?? [];
-        $specialist->approach_type = $data['approach_type'] ?? [];
-        $specialist->format = $data['format'] ?? [];
-        $specialist->lgbt = $data['lgbt'] ?? false;
-        $specialist->military = $data['military'] ?? false;
-        $specialist->specialization = $data['specialization'] ?? [];
-        $specialist->education_name = $data['education_name'] ?? '';
-        $specialist->education_file = $data['education_file'] ?? '';
-        Yii::error('Education file: ' . print_r($specialist->education_file, true), 'therapist-join');
+        $SpecialistApplication = new self();
+        $SpecialistApplication->name = $data['name'] ?? null;
+        $SpecialistApplication->email = $data['email'] ?? null;
+        $SpecialistApplication->contact_number = $data['contact_number'] ?? null;
+        $SpecialistApplication->date_of_birth = $data['date_of_birth'] ?? null;
+        $SpecialistApplication->city = $data['city'] ?? null;
+        $SpecialistApplication->gender = $data['gender'] ?? [];
+        $SpecialistApplication->language = $data['language'] ?? [];
+        $SpecialistApplication->therapy_types = $data['therapy_types'] ?? [];
+        $SpecialistApplication->theme = $data['theme'] ?? [];
+        $SpecialistApplication->approach_type = $data['approach_type'] ?? [];
+        $SpecialistApplication->format = $data['format'] ?? [];
+        $SpecialistApplication->lgbt = $data['lgbt'] ?? false;
+        $SpecialistApplication->military = $data['military'] ?? false;
+        $SpecialistApplication->specialization = $data['specialization'] ?? [];
+        $SpecialistApplication->education_name = $data['education_name'] ?? '';
+        $SpecialistApplication->education_file = $data['education_file'] ?? '';
+        Yii::error('Education file: ' . print_r($SpecialistApplication->education_file, true), 'therapist-join');
 
-        $specialist->additional_certification = $data['additional_certification'] ?? '';
-        $specialist->additional_certification_file = $data['additional_certification_file'] ?? '';
-        $specialist->experience = $data['experience'] ?? '';
-        $specialist->social_media = $data['social_media'] ?? '';
-        $specialist->role = 'specialist';
-        $specialist->auth_key = Yii::$app->security->generateRandomString();
-        $specialist->access_token = Yii::$app->security->generateRandomString(255);
+        $SpecialistApplication->additional_certification = $data['additional_certification'] ?? '';
+        $SpecialistApplication->additional_certification_file = $data['additional_certification_file'] ?? '';
+        $SpecialistApplication->experience = $data['experience'] ?? '';
+        $SpecialistApplication->social_media = $data['social_media'] ?? '';
+        $SpecialistApplication->role = 'SpecialistApplication';
+        $SpecialistApplication->auth_key = Yii::$app->security->generateRandomString();
+        $SpecialistApplication->access_token = Yii::$app->security->generateRandomString(255);
 
         // Якщо є пароль
         if (isset($data['password'])) {
-            $specialist->password_hash = UserAuthService::hashPassword($data['password']);
+            $SpecialistApplication->password_hash = UserAuthService::hashPassword($data['password']);
         }
 
-        return $specialist->save() ? $specialist : null;
+        return $SpecialistApplication->save() ? $SpecialistApplication : null;
     }
 
-    public static function updateSpecialist($id, $data)
+    //public static function getSpecialistApplications($params = [])
+    // {
+    //     return self::find()->where($params)->all();
+    // }
+
+    public static function updateSpecialistApplication($id, $data)
     {
-        $specialist = self::findOne($id);
-        if (!$specialist) {
+        $SpecialistApplication = self::findOne($id);
+        if (!$SpecialistApplication) {
             return false;
         }
 
         foreach ($data as $key => $value) {
-            if (property_exists($specialist, $key) && $value !== null) {
-                $specialist->$key = $value;
+            if (property_exists($SpecialistApplication, $key) && $value !== null) {
+                $SpecialistApplication->$key = $value;
             }
         }
 
         // Оновлення пароля, якщо передано
         if (isset($data['password']) && isset($data['re_password']) && $data['password'] === $data['re_password']) {
-            $specialist->password_hash = UserAuthService::hashPassword($data['password']);
+            $SpecialistApplication->password_hash = UserAuthService::hashPassword($data['password']);
         } elseif (isset($data['password']) && isset($data['re_password']) && $data['password'] !== $data['re_password']) {
             return false;
         }
 
-        return $specialist->save();
+        return $SpecialistApplication->save();
     }
 
-    public static function deleteSpecialist($id)
+    public static function deleteSpecialistApplication($id)
     {
-        $specialist = self::findOne($id);
-        return $specialist ? (bool)$specialist->delete() : false;
+        $SpecialistApplication = self::findOne($id);
+        return $SpecialistApplication ? (bool)$SpecialistApplication->delete() : false;
+    }
+
+    public static function getByStatus($status)
+    {
+        return self::find()->where(['status' => $status])->all();
+    }
+
+    public static function getStatusById($userId)
+    {
+        $SpecialistApplication = self::findOne(['user_id' => $userId]);
+        return $SpecialistApplication?->status;
     }
     #endregion
 }
