@@ -1,6 +1,7 @@
 {
     "name": "yiisoft/yii2-app-basic",
     "description": "Yii 2 Basic Project Template",
+
     "keywords": [
         "yii2",
         "framework",
@@ -40,6 +41,7 @@
     "config": {
         "allow-plugins": {
             "yiisoft/yii2-composer": true
+
         },
         "process-timeout": 1800,
         "fxp-asset": {
@@ -83,3 +85,4 @@
         }
     }
 }
+
