@@ -1,0 +1,301 @@
+// =======================
+// VARIABLES
+// =======================
+$primary-color: #3A7782;
+$primary-hover: #083c48;
+$secondary-color: #5D704F;
+$secondary-light-color: #8c9e7f;
+$secondary-hover: #2c3823;
+
+$warning-color: #eabf84;
+$error-color: #dd7e7a;
+$success-color: #75a591;
+$info-color: #b2f0d6;
+
+$text-color: #323f33;
+$text-muted: #999;
+$text-error: #a94442;
+$gradient-start: #467471;
+$gradient-end: #91944D;
+$gradient-alt-end: #616340;
+$background-main: #eeeeee;
+$footer-bg: #f5f5f5;
+$not-set-color: #c55;
+
+
+
+// =======================
+// MIXINS
+// =======================
+@mixin gradient-text($start, $end) {
+  background: -webkit-linear-gradient($start, $end);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@mixin sorting-arrow($direction) {
+  content: '';
+  left: 3px;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border: solid 5px transparent;
+  margin: 4px 4px 2px 4px;
+  background: transparent;
+
+  @if $direction == asc {
+    border-bottom: solid 7px #212529;
+    border-top-width: 0;
+  } @else if $direction == desc {
+    border-top: solid 7px #212529;
+    border-bottom-width: 0;
+  }
+}
+
+// =======================
+// BASE STYLES
+// =======================
+body {
+  color: $text-color;
+  font-family: 'Comfortaa', sans-serif;
+}
+
+.navbar-bg{
+  background-color: transparent;
+}
+
+.mobile-nav-svg {
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: auto;
+  z-index: -1;
+
+  &.visible {
+    display: block;
+  }
+}
+
+
+footer {
+  .container-fluid{
+    background-color: $background-main;
+  }
+}
+
+main > .container {
+  padding: 70px 15px 20px;
+}
+
+.footer {
+  font-size: 0.9em;
+  height: 60px;
+
+  > .container {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+.not-set {
+  color: $not-set-color;
+  font-style: italic;
+}
+
+.bg-primary {
+  background-color: $primary-color;
+  color: white;
+}
+
+.bg-warning {
+  background-color: $warning-color;
+  color: black;
+}
+
+.bg-success {
+  background-color: $success-color;
+  color: black;
+}
+
+.bg-info {
+  background-color: $info-color;
+  color: black;
+}
+
+.bg-danger {
+  background-color: $error-color;
+  color: black;
+}
+
+
+// =======================
+// GRIDVIEW SORT ICONS
+// =======================
+a.asc::after {
+  @include sorting-arrow(asc);
+}
+a.desc::after {
+  @include sorting-arrow(desc);
+}
+
+.grid-view th {
+  white-space: nowrap;
+}
+
+.hint-block {
+  display: block;
+  margin-top: 5px;
+  color: $text-muted;
+}
+
+.error-summary {
+  color: $text-error;
+  background: #fdf7f7;
+  border-left: 3px solid #eed3d7;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+}
+
+// =======================
+// NAV LOGOUT
+// =======================
+.nav {
+  font-size: larger;
+  li {
+    > form {
+      > button.logout {
+        padding-top: 7px;
+        color: rgba(255, 255, 255, 0.863);
+
+        &:focus,
+        &:hover {
+          text-decoration: none;
+          color: white;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        @media (max-width: 767px) {
+          display: block;
+          text-align: left;
+          width: 100%;
+          padding: 10px 0;
+        }
+      }
+    }
+  }
+}
+
+// =======================
+// FORMS AND BUTTONS
+// =======================
+.form-group {
+  margin-bottom: 1rem;
+}
+
+#main {
+  background-color: $background-main;
+}
+
+.btn-primary {
+  background-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-hover;
+    color: white;
+  }
+}
+
+.btn-secondary {
+  background-color: $secondary-color;
+
+  &:hover {
+    background-color: $secondary-hover;
+    color: white;
+  }
+}
+
+.nav-tabs > .active{
+  background-color: $secondary-light-color;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
+.tab-content > .tab-pane{
+  background-color: $secondary-light-color;
+}
+
+
+// =======================
+// HEADINGS
+// =======================
+h1, h2, h3, h4, h5 {
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.50rem; }
+h5 { font-size: 1.35rem; }
+p { font-size: 1.10rem; }
+
+//======================
+// FONTS
+// =======================
+
+// =======================
+// ADDITIONAL STYLES
+// =======================
+.gradient-text {
+  @include gradient-text($gradient-start, $gradient-end);
+}
+
+.gradient-text-alt {
+  @include gradient-text($gradient-start, $gradient-alt-end);
+}
+
+.main-row {
+  min-height: 65vh;
+}
+
+.bg-main {
+  h1 {
+    color: $gradient-start;
+    font-size: 3rem;
+  }
+
+  span {
+    color: #a19a35;
+    font-size: 2rem;
+  }
+}
+
+.link-primary {
+  color: $primary-color;
+}
+
+.link-secondary {
+  color: $secondary-color;
+}
+
+
+
+.question-row {
+  .accordion-item {
+    border-width: 0.25rem;
+    border-color: #abbfbe;
+    .accordion-text-alt {
+      color: $gradient-alt-end;
+    }
+  }
+
+}
+

@@ -1,0 +1,288 @@
+<?php
+
+namespace app\controllers;
+
+use Yii;
+use yii\filters\AccessControl;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\filters\VerbFilter;
+use app\services\DebugService;
+
+use app\models\User;
+
+use app\models\forms\LoginForm;
+use app\models\forms\SignupForm;
+use app\models\forms\ContactForm;
+use app\models\forms\TherapistJoinForm;
+use app\models\forms\UserSettingsForm;
+use app\models\forms\QuestionnaireForm;
+use app\models\forms\FilterForm;
+
+class SiteController extends Controller
+{
+    public $enableCsrfValidation = true;
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => ['index', 'login', 'signup', 'error', 'contact', 'about', 'for-therapists', 'questionnaire', 'specialists', 'set-language'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'actions' => ['logout', 'profile'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'logout' => ['post'],
+                    'profile' => ['get', 'post'],
+                    'for-therapists' => ['get', 'post'],
+                ],
+            ],
+        ];
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+
+        if ($lang = Yii::$app->session->get('language')) {
+            Yii::$app->language = $lang;
+        }
+
+        return parent::beforeAction($action);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+        ];
+    }
+
+    /**
+     * Sets the language for the application.
+     *
+     * @param string $lang The language code (e.g., 'uk', 'en').
+     * @return Response
+     */
+    public function actionSetLanguage($lang)
+    {
+        if (in_array($lang, ['uk', 'en'])) {
+            Yii::$app->session->set('language', $lang);
+            Yii::$app->language = $lang;
+        }
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
+    /**
+     * Login action.
+     *
+     * @return Response|string
+     */
+    public function actionLogin()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        }
+
+        $model->password = '';
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSignup()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            return $this->goBack();
+        }
+
+        $model->password = '';
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Logout action.
+     *
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
+    public function actionProfile()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new UserSettingsForm();
+
+        Yii::info(Yii::$app->request->post(), 'debug-post');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->userUpdateSettingsForm()) {
+                Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
+            } else {
+                Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
+            }
+            return $this->refresh();
+        }
+
+        return $this->render('profile', [
+            'model' => $model,
+        ]);
+    }
+    /**
+     * Displays contact page.
+     *
+     * @return Response|string
+     */
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        }
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays about page.
+     *
+     * @return string
+     */
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+
+
+    public function actionForTherapists()
+    {
+        $model = new TherapistJoinForm();
+        $s3 = Yii::$app->get('s3Storage');
+        if (!$s3->testConnection()) {
+            Yii::error('S3 client not initialized properly', 'upload');
+            Yii::$app->session->setFlash('error', 'Сталася внутрішня помилка. Спробуйте пізніше.');
+            return $this->render('for-therapists', ['model' => $model]);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if ($model->updateUserAsTherapist()) {
+                Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
+                return $this->refresh();
+            }
+
+            // $adminEmail = 'nightmare.owl16@gmail.com';
+
+            // if ($model->contact($adminEmail)) {
+            //     Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
+            //     return $this->refresh();
+            // }
+        }
+
+        return $this->render('for-therapists', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays questionnaire page.
+     *
+     * @return Response|string
+     */
+    public function actionQuestionnaire()
+    {
+        $model = new QuestionnaireForm();
+        if ($model->load(Yii::$app->request->post()) && $model->questionnaire('questionnaireData')) {
+            return $this->render('specialists', [
+                'filter' => Yii::$app->session->get('questionnaireData'),
+            ]);
+        }
+        return $this->render('questionnaire', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays specialists page with optional filtering.
+     * @return string
+     */
+    public function actionSpecialists()
+    {
+        $model = new FilterForm();
+        $filterData = null;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->saveFilterToSession()) {
+                $filterData = FilterForm::getSessionFilter();
+                Yii::info('Filter data saved: ' . print_r($filterData, true), 'debug');
+            } else {
+                Yii::error('Failed to save filter data', 'debug');
+            }
+        }
+
+        return $this->render('specialists', [
+            'model' => $model,
+            'filter' => $filterData,
+        ]);
+    }
+}

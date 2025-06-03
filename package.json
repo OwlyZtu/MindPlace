@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "bootstrap-icons": "^1.11.3",
+    "node": "^22.15.0",
+    "npm": "^11.3.0"
+  },
+  "devDependencies": {
+    "sass": "^1.87.0"
+  },
+  "scripts": {
+  "sass": "sass --watch src/web/scss:src/web/css",
+  "scss:watch": "sass --watch assets/scss:assets/css"
+}
+
+}
