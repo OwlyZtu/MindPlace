@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models\forms;
+use Yii;
 
 /**
  * FormOptions містить всі опції для селектів та чекбоксів, які використовуються в формах
@@ -49,20 +50,20 @@ class FormOptions
     public static function getCityOptions()
     {
         return [
-            'kyiv' => 'Kyiv',
-            'lviv' => 'Lviv',
-            'kharkiv' => 'Kharkiv',
-            'dnipro' => 'Dnipro',
-            'odesa' => 'Odesa',
-            'ivano-frankivsk' => 'Ivano-Frankivsk',
-            'zaporizhzhya' => 'Zaporizhzhya',
-            'ternopil' => 'Ternopil',
-            'kherson' => 'Kherson',
-            'khmelnytskyi' => 'Khmelnytskyi',
-            'cherkasy' => 'Cherkasy',
-            'chernihiv' => 'Chernihiv',
-            'chernivtsi' => 'Chernivtsi',
-            'sumy' => 'Sumy',
+            'kyiv' => Yii::t('form-options', 'kyiv'),
+            'lviv' => Yii::t('form-options', 'lviv'),
+            'kharkiv' => Yii::t('form-options', 'kharkiv'),
+            'dnipro' => Yii::t('form-options', 'dnipro'),
+            'odesa' => Yii::t('form-options', 'odesa'),
+            'ivano-frankivsk' => Yii::t('form-options', 'ivano-frankivsk'),
+            'zaporizhzhya' => Yii::t('form-options', 'zaporizhzhya'),
+            'ternopil' => Yii::t('form-options', 'ternopil'),
+            'kherson' => Yii::t('form-options', 'kherson'),
+            'khmelnytskyi' => Yii::t('form-options', 'khmelnytskyi'),
+            'cherkasy' => Yii::t('form-options', 'cherkasy'),
+            'chernihiv' => Yii::t('form-options', 'chernihiv'),
+            'chernivtsi' => Yii::t('form-options', 'chernivtsi'),
+            'sumy' => Yii::t('form-options', 'sumy'),
         ];
     }
 
@@ -73,11 +74,11 @@ class FormOptions
     public static function getTherapyTypesOptions()
     {
         return [
-            'individual' => 'Individual',
-            'couples' => 'Couples',
-            'couching' => 'Couching',
-            'child' => 'Children (<12 y.o.)',
-            'teen' => 'Teens (12-18 y.o.)',
+            'individual' => Yii::t('form-options', 'individual'),
+            'couples' => Yii::t('form-options', 'couples'),
+            'couching' => Yii::t('form-options', 'couching'),
+            'child' => Yii::t('form-options', 'child'),
+            'teen' => Yii::t('form-options', 'teen'),
         ];
     }
 
@@ -89,22 +90,22 @@ class FormOptions
     public static function getThemeOptions()
     {
         return [
-            'depression' => 'Depression',
-            'stress' => 'Stress',
-            'anxiety' => 'Anxiety',
-            'relationships' => 'Relationships',
-            'self-esteem' => 'Self-esteem',
-            'trauma' => 'Trauma',
-            'relationship' => 'Relationship Issues',
-            'parenting' => 'Parenting',
-            'family' => 'Family Issues',
-            'sex' => 'Sexual Issues',
-            'loneliness' => 'Loneliless',
-            'professional' => 'Professional self-realization',
-            'pregnancy' => 'Pregnancy',
-            'death' => 'Grief and loss',
-            'suicide' => 'Suicide',
-            'cheat' => 'Partner cheat',
+            'depression' => Yii::t('form-options', 'depression'),
+            'stress' => Yii::t('form-options', 'stress'),
+            'anxiety' => Yii::t('form-options', 'anxiety'),
+            'relationships' => Yii::t('form-options', 'relationships'),
+            'self-esteem' => Yii::t('form-options', 'self-esteem'),
+            'trauma' => Yii::t('form-options', 'trauma'),
+            'relationship' => Yii::t('form-options', 'relationship'),
+            'parenting' => Yii::t('form-options', 'parenting'),
+            'family' => Yii::t('form-options', 'family'),
+            'sex' => Yii::t('form-options', 'sex'),
+            'loneliness' => Yii::t('form-options', 'loneliness'),
+            'professional' => Yii::t('form-options', 'professional'),
+            'pregnancy' => Yii::t('form-options', 'pregnancy'),
+            'death' => Yii::t('form-options', 'death'),
+            'suicide' => Yii::t('form-options', 'suicide'),
+            'cheat' => Yii::t('form-options', 'cheat'),
         ];
     }
 
@@ -115,11 +116,10 @@ class FormOptions
     public static function getApproachTypeOptions()
     {
         return [
-            'cbt' => 'Cognitive Behavioral Therapy (CBT)',
-            'gestalt' => 'Gestalt Therapy',
-            'psychoanalyst' => 'Psychoanalyst',
-            'art' => 'Art Therapy',
-            'gestalt' => 'Gestalt Therapy',
+            'cbt' => Yii::t('form-options', 'cbt'),
+            'gestalt' => Yii::t('form-options', 'gestalt'),
+            'psychoanalyst' => Yii::t('form-options', 'psychoanalyst'),
+            'art' => Yii::t('form-options', 'art'),
         ];
     }
 
@@ -130,8 +130,8 @@ class FormOptions
     public static function getLanguageOptions()
     {
         return [
-            'uk' => 'Ukrainian',
-            'en' => 'English',
+            'uk' => Yii::t('form-options', 'ukrainian'),
+            'en' => Yii::t('form-options', 'english'),
         ];
     }
 
@@ -142,8 +142,8 @@ class FormOptions
     public static function getGenderOptions()
     {
         return [
-            'male' => 'Male',
-            'female' => 'Female',
+            'male' => Yii::t('form-options', 'Male'),
+            'female' => Yii::t('form-options', 'Female'),
         ];
     }
 
@@ -168,10 +168,10 @@ class FormOptions
     public static function getSpecializationOptions()
     {
         return [
-            'psychologist' => 'Psychologist',
-            'psychotherapist' => 'Psychotherapist',
-            'child_psychologist' => 'Child Psychologist',
-            'counselor' => 'Counselor',
+            'psychologist' => Yii::t('form-options', 'psychologist'),
+            'psychotherapist' => Yii::t('form-options', 'psychotherapist'),
+            'child_psychologist' => Yii::t('form-options', 'child_psychologist'),
+            'counselor' => Yii::t('form-options', 'counselor'),
         ];
     }
 
@@ -182,8 +182,8 @@ class FormOptions
     public static function getYesNoOptions()
     {
         return [
-            'yes' => 'Yes',
-            'no' => 'No',
+            'yes' => Yii::t('form-options', 'yes'),
+            'no' => Yii::t('form-options', 'no'),
         ];
     }
 }

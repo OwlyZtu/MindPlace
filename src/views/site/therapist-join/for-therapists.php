@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Yii::t('app', 'FT title');
+$this->title = Yii::t('therapist-join-page', 'FT title');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = 'For therapists in MindPlace';
 $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy, specialists';
@@ -20,16 +20,16 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
         <div class=" gradient-text-alt mt-4">
             <div class="for-therapists-header text-center">
                 <h1>
-                    <?= Yii::t('app', 'FT intro h1') ?>
+                    <?= Yii::t('therapist-join-page', 'FT intro h1') ?>
                 </h1>
                 <h2>
-                    <?= Yii::t('app', 'FT intro h2') ?>
+                    <?= Yii::t('therapist-join-page', 'FT intro h2') ?>
                 </h2>
                 <p>
-                    <?= Yii::t('app', 'FT intro p1') ?>
+                    <?= Yii::t('therapist-join-page', 'FT intro p1') ?>
                 </p>
                 <p>
-                    <?= Yii::t('app', 'FT intro p2') ?>
+                    <?= Yii::t('therapist-join-page', 'FT intro p2') ?>
                 </p>
             </div>
 
@@ -37,7 +37,7 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
             <!-- #region Benefits -->
             <div class="for-therapists-text text-center mb-3">
                 <h3 class="mb-5">
-                    <?= Yii::t('app', 'FT benefits title') ?>
+                    <?= Yii::t('therapist-join-page', 'FT benefits title') ?>
                 </h3>
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-3 mb-3">
@@ -47,7 +47,7 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                                 d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z" />
                         </svg>
                         <h4>
-                            <?= Yii::t('app', 'FT benefits 1') ?>
+                            <?= Yii::t('therapist-join-page', 'FT benefits 1') ?>
                         </h4>
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -57,7 +57,7 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                         </svg>
                         <h4>
-                            <?= Yii::t('app', 'FT benefits 2') ?>
+                            <?= Yii::t('therapist-join-page', 'FT benefits 2') ?>
                         </h4>
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -67,12 +67,12 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
                                 d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5" />
                         </svg>
                         <h4>
-                            <?= Yii::t('app', 'FT benefits 3') ?>
+                            <?= Yii::t('therapist-join-page', 'FT benefits 3') ?>
                         </h4>
                     </div>
                 </div>
                 <h4>
-                    <?= Yii::t('app', 'FT benefits 4') ?>
+                    <?= Yii::t('therapist-join-page', 'FT benefits 4') ?>
                 </h4>
             </div>
             <!-- #endregion -->
@@ -81,34 +81,34 @@ $this->params['meta_keywords'] = 'MindPlace, psychologists, information, therapy
 
         <?php if (Yii::$app->user->isGuest): ?>
             <div class="col-lg-6 text-center my-5">
-                <h3><?= Yii::t('app', 'FT login first') ?></h3>
-                <?= Html::a(Yii::t('app', 'Login'), ['/site/login'], ['class' => 'btn btn-primary btn-lg mt-3']) ?>
+                <h3><?= Yii::t('therapist-join-page', 'FT login first') ?></h3>
+                <?= Html::a(Yii::t('therapist-join-page', 'Login'), ['/site/login'], ['class' => 'btn btn-primary btn-lg mt-3']) ?>
             </div>
 
         <?php else: ?>
             <?php if ($model->getApplicationStatus() === 'pending'): ?>
                 <div class="col-lg-6 text-center my-5">
-                    <h3><?= Yii::t('app', 'Your application is being reviewed') ?></h3>
-                    <p><?= Yii::t('app', 'We will notify you once we review your application') ?></p>
+                    <h3><?= Yii::t('therapist-join-page', 'Your application is being reviewed') ?></h3>
+                    <p><?= Yii::t('therapist-join-page', 'We will notify you once we review your application') ?></p>
                 </div>
 
             <?php elseif ($model->getApplicationStatus() === 'rejected'): ?>
                 <div class="col-lg-6 text-center my-5">
-                    <h3><?= Yii::t('app', 'Your application has been rejected') ?></h3>
-                    <p><?= Yii::t('app', 'Please contact us for more information') ?></p>
+                    <h3><?= Yii::t('therapist-join-page', 'Your application has been rejected') ?></h3>
+                    <p><?= Yii::t('therapist-join-page', 'Please contact us for more information') ?></p>
                 </div>
 
             <?php elseif ($model->getApplicationStatus() === 'approved'): ?>
                 <div class="col-lg-6 text-center my-5">
-                    <h3><?= Yii::t('app', 'Your application has been approved') ?></h3>
-                    <p><?= Yii::t('app', 'You can now start using MindPlace') ?></p>
+                    <h3><?= Yii::t('therapist-join-page', 'Your application has been approved') ?></h3>
+                    <p><?= Yii::t('therapist-join-page', 'You can now start using MindPlace') ?></p>
                 </div>
             <?php else: ?>
                 <div class="col-lg-6 shadow-lg p-3 my-5 bg-body-tertiary-cstm rounded-5">
                     <div class="row justify-content-center">
                         <div class="col-lg-10 text-center mt-2 gradient-text-alt">
                             <h1>
-                                <?= Yii::t('app', 'FT Join Form') ?>
+                                <?= Yii::t('therapist-join-page', 'FT Join Form') ?>
                                 <span>
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

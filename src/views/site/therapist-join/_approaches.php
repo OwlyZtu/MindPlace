@@ -17,31 +17,31 @@ use app\models\forms\FormOptions;
         'enableAjaxValidation' => true
     ]); ?>
 
-    <legend><?= Yii::t('app', 'Therapy Specific') ?></legend>
+    <legend><?= Yii::t('therapist-join-page', 'Therapy Specific') ?></legend>
 
     <?= $form->field($model, 'language')->checkboxList(
         FormOptions::getLanguageOptions()
-    )->label(Yii::t('app', 'Language') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Language') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'therapy_types')->checkboxList(
         FormOptions::getTherapyTypesOptions()
-    )->label(Yii::t('app', 'Type') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Type') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'approach_type')->checkboxList(
         FormOptions::getApproachTypeOptions()
-    )->label(Yii::t('app', 'approach_type') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Approach') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'theme')->checkboxList(
         FormOptions::getThemeOptions()
-    )->label(Yii::t('app', 'Themes') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Themes') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'format')->checkboxList(
         FormOptions::getFormatOptions()
-    )->label(Yii::t('app', 'Format') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Format') . '<span class="text-danger"> *</span>') ?>
 
-    <?= $form->field($model, 'lgbt')->checkbox()->label(Yii::t('app', 'LGBTQ+ friendly')) ?>
+    <?= $form->field($model, 'lgbt')->checkbox()->label(Yii::t('therapist-join-page', 'LGBTQ+ friendly')) ?>
 
-    <?= $form->field($model, 'military')->checkbox()->label(Yii::t('app', 'Work with military personnel')) ?>
+    <?= $form->field($model, 'military')->checkbox()->label(Yii::t('therapist-join-page', 'Work with military personnel')) ?>
     
     <?= Html::submitButton('Зберегти') ?>
     <?php ActiveForm::end(); ?>

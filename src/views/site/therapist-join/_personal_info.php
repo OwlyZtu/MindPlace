@@ -21,38 +21,38 @@ use app\models\forms\FormOptions;
         ]
     ]); ?>
 
-    <legend><?= Yii::t('app', 'Personal Information') ?></legend>
+    <legend><?= Yii::t('therapist-join-page', 'Personal Information') ?></legend>
     <?= $form->field($model, 'name')->textInput([
             'value' => Yii::$app->user->identity->name,
         ])
-        ->label(Yii::t('app', 'Full name') . '<span class="text-danger"> *</span>') ?>
+        ->label(Yii::t('therapist-join-page', 'Full name') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'email')->textInput([
         'value' => Yii::$app->user->identity->email,
     ])
-        ->label(Yii::t('app', 'Email') . '<span class="text-danger">*</span>') ?>
+        ->label(Yii::t('therapist-join-page', 'Email') . '<span class="text-danger">*</span>') ?>
 
     <?= $form->field($model, 'contact_number')->textInput([
         'value' => Yii::$app->user->identity->contact_number,
     ])
-        ->label(Yii::t('app', 'Contact Number') . '<span class="text-danger"> *</span>') ?>
+        ->label(Yii::t('therapist-join-page', 'Contact Number') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'date_of_birth')->textInput([
         'type' => 'date',
         'value' => Yii::$app->user->identity->date_of_birth,
         'format' => 'dd-MM-yyyy'
         ])
-    ->label(Yii::t('app', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
+    ->label(Yii::t('therapist-join-page', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'gender')->radioList(
         FormOptions::getGenderOptions()
-    )->label(Yii::t('app', 'Gender') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Gender') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'city')->dropDownList(
         FormOptions::getCityOptions(),
-        ['promt' => 'Select city']
+        ['promt' => Yii::t('therapist-join-page', 'City')]
     ) ?>
-    <?= $form->field($model, 'social_media')->textarea(['id' => 'social_media', 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('app', 'Social Media')) ?>
+    <?= $form->field($model, 'social_media')->textarea(['id' => 'social_media', 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('therapist-join-page', 'Social Media')) ?>
 
     <?= Html::submitButton('Зберегти') ?>
     <?php ActiveForm::end(); ?>

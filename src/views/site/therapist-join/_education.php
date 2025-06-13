@@ -15,18 +15,18 @@ use app\models\forms\FormOptions;
         'enableAjaxValidation' => true
     ]); ?>
 
-    <legend><?= Yii::t('app', 'Education and Experience') ?></legend>
+    <legend><?= Yii::t('therapist-join-page', 'Education and Experience') ?></legend>
 
-    <?= $form->field($model, 'education_name')->textInput(['placeholder' => 'e.g. University Name'])->label(Yii::t('app', 'Education Name') . '<span class="text-danger"> *</span>') ?>
+    <?= $form->field($model, 'education_name')->textInput(['placeholder' => 'e.g. University Name'])->label(Yii::t('therapist-join-page', 'Education Name') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'specialization')->checkboxList(
         FormOptions::getSpecializationOptions()
-    )->label(Yii::t('app', 'Specialization') . '<span class="text-danger"> *</span>') ?>
+    )->label(Yii::t('therapist-join-page', 'Specialization') . '<span class="text-danger"> *</span>') ?>
 
-    <?= $form->field($model, 'additional_certification')->textInput(['placeholder' => 'e.g. Courses Name'])->label(Yii::t('app', 'Additional certification')) ?>
+    <?= $form->field($model, 'additional_certification')->textInput(['placeholder' => 'e.g. Courses Name'])->label(Yii::t('therapist-join-page', 'Additional certification')) ?>
 
     <?= $form->field($model, 'experience')->textarea(['id' => 'experience', 'placeholder' => 'e.g. Place, position: 5 years'])
-    ->label(Yii::t('app', 'Experience') . '<span class="text-danger"> *</span>') ?>
+    ->label(Yii::t('therapist-join-page', 'Experience') . '<span class="text-danger"> *</span>') ?>
 
     <?= Html::submitButton('Зберегти') ?>
     <?php ActiveForm::end(); ?>

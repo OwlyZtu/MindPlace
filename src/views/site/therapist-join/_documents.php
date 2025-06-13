@@ -16,13 +16,13 @@ use yii\bootstrap5\Html;
         'method' => 'post'
     ]); ?>
 
-    <legend><?= Yii::t('app', 'Documents') ?></legend>
+    <legend><?= Yii::t('therapist-join-page', 'Documents') ?></legend>
 
-    <?= $form->field($model, 'education_file')->fileInput()->hint('Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 2MB') ?>
+    <?= $form->field($model, 'education_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint')) ?>
 
-    <?= $form->field($model, 'additional_certification_file')->fileInput()->hint('Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 2MB') ?>
+    <?= $form->field($model, 'additional_certification_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint')) ?>
 
-    <?= $form->field($model, 'photo')->fileInput()->hint('Дозволені формати: JPG, JPEG, PNG. Максимальний розмір: 1MB')?>
+    <?= $form->field($model, 'photo')->fileInput()->hint(Yii::t('therapist-join-page', 'photo hint'))?>
 
     <?= Html::submitButton('Зберегти', ['class' => 'btn btn-primary']) ?>
     <?php ActiveForm::end(); ?>

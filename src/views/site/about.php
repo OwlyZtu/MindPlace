@@ -11,33 +11,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="body-content container-fluid row row-gap-4 justify-content-center gradient-text-alt">
         <div class="row justify-content-center">
             <h1 class="col-lg-6 text-center">
-                <?= Yii::t('app', 'About title'); ?>
+                <?= Yii::t('about-page', 'About title'); ?>
             </h1>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-9 text-center">
                 <p class="fw-bold fs-5">
-                    <?= Yii::t('app', 'About h-1') ?>
+                    <?= Yii::t('about-page', 'About h-1') ?>
                 </p>
                 <p>
-                    <?= Yii::t('app', 'About p-1') ?>
+                    <?= Yii::t('about-page', 'About p-1') ?>
                 </p>
                 <p class="fw-bold fs-5">
-                    <?= Yii::t('app', 'About h-2') ?>
+                    <?= Yii::t('about-page', 'About h-2') ?>
                 </p>
                 <p>
-                    <?= Yii::t('app', 'About p-2') ?>
+                    <?= Yii::t('about-page', 'About p-2') ?>
                 </p>
                 <p class="fw-bold fs-5">
-                    <?= Yii::t('app', 'About h-3') ?>
+                    <?= Yii::t('about-page', 'About h-3') ?>
                 </p>
                 <p>
-                    <?= Yii::t('app', 'About p-3') ?>
+                    <?= Yii::t('about-page', 'About p-3') ?>
                 </p>
 
                 <span class="fw-bold fs-4">
-                    <?= Yii::t('app', 'About post scriptum') ?>
+                    <?= Yii::t('about-page', 'About post scriptum') ?>
                 </span>
             </div>
         </div>
@@ -45,17 +45,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row justify-content-center">
             <div class="col-lg-9 text-center">
                 <h2 class="fw-bold my-5">
-                    <?= Yii::t('app', 'About Team') ?>
+                    <?= Yii::t('about-page', 'About Team') ?>
                 </h2>
                 <div class="row row-gap-4 justify-content-center">
                     <div class="col-lg-4">
                         <img src="/images/team/photo_2025-05-01_18-33-02.jpg" alt="team member1" class="rounded-5 rounded-bottom-0 w-75">
                         <hr class="border border-success border-3 opacity-75">
                         <p class="fw-bold fs-5">
-                            <?= Yii::t('app', 'About Team member 1') ?>
+                            <?= Yii::t('about-page', 'About Team member 1') ?>
                         </p>
                         <p>
-                            <?= Yii::t('app', 'About Team member 1 descr') ?>
+                            <?= Yii::t('about-page', 'About Team member 1 descr') ?>
                         </p>
                         <span>
                             <a href="https://www.instagram.com/sonne_sonechko/">
@@ -69,10 +69,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <img src="/images/team/photo_2025-04-19_18-49-55.jpg" alt="team member2" class="rounded-5 rounded-bottom-0 w-75">
                         <hr class="border border-secondary border-3 opacity-75">
                         <p class="fw-bold fs-5">
-                            <?= Yii::t('app', 'About Team member 2') ?>
+                            <?= Yii::t('about-page', 'About Team member 2') ?>
                         </p>
                         <p>
-                            <?= Yii::t('app', 'About Team member 2 descr') ?>
+                            <?= Yii::t('about-page', 'About Team member 2 descr') ?>
                         </p>
                     </div>
                 </div>
