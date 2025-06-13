@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Model;
 use app\models\User;
 use app\services\UserAuthService;
+use app\services\FieldRulesService;
+
 
 /**
  * SignupForm is the model behind the login form.
@@ -28,7 +30,7 @@ class SignupForm extends Model
      */
     public function rules()
     {
-        return [
+        return array_merge([
             ['name', 'required', 'message' => Yii::t('app', 'Name cannot be blank.')],
 
             ['email', 'required', 'message' => Yii::t('app', 'Email cannot be blank.')],
@@ -42,7 +44,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 8, 'message' => Yii::t('app', 'Password should contain at least 8 characters.')],
 
             ['re_password', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('app', 'Passwords don\'t match')],
-        ];
+        ], FieldRulesService::date_of_birthRules());
     }
 
 

@@ -8,6 +8,7 @@ services:
       - ./src:/var/www/html
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./src/web/assets:/var/www/html/web/assets
+      - ./src/runtime:/app/runtime
     networks:
       - yii2-network
     depends_on:

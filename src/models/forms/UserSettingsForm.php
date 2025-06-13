@@ -22,17 +22,6 @@ class UserSettingsForm extends Model
     public $contact_number;
     public $date_of_birth;
 
-    public function validateAge($attribute, $params)
-    {
-        $minAge = 16;
-        $birthDate = new \DateTime($this->$attribute);
-        $today = new \DateTime();
-        $age = $today->diff($birthDate)->y;
-
-        if ($age < $minAge) {
-            $this->addError($attribute, Yii::t('app', 'Ви повинні бути старше {minAge} років', ['minAge' => $minAge]));
-        }
-    }
     /**
      * @return array the validation rules.
      */
@@ -68,19 +57,19 @@ class UserSettingsForm extends Model
         if (!$this->validate()) {
             return false;
         }
-        
+
         $data = [
             'name' => $this->name,
             'email' => $this->email,
             'contact_number' => $this->contact_number,
             'date_of_birth' => $this->date_of_birth,
         ];
-        
+
         if (!empty($this->password) && !empty($this->re_password)) {
             $data['password'] = $this->password;
             $data['re_password'] = $this->re_password;
         }
-        
+
         return User::userUpdateSettings($data);
     }
 }

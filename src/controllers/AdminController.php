@@ -11,7 +11,6 @@ use yii\filters\VerbFilter;
 class AdminController extends Controller
 {
     public $enableCsrfValidation = true;
-    public $layout = 'admin';
     /**
      * {@inheritdoc}
      */
@@ -106,6 +105,6 @@ class AdminController extends Controller
      */
     public function actionUsers()
     {
-        return $this->render('users/index');
+        return $this->redirect(['admin/specialist-request/index']);
     }
 }

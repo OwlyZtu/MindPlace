@@ -23,7 +23,7 @@ class S3Storage extends Component
                 Yii::warning('AWS credentials not set properly', 'therapist-join');
                 return null;
             }
-    
+
             $this->_client = new S3Client([
                 'version' => 'latest',
                 'region' => $this->region,
@@ -33,23 +33,21 @@ class S3Storage extends Component
                 ],
             ]);
         }
-    
+
         return $this->_client;
     }
-    
+
 
     public function init()
     {
         parent::init();
 
-        // Використовуємо clientConfig, якщо він заданий
         if ($this->clientConfig) {
             $credentials = $this->clientConfig['credentials'] ?? [];
             $this->key = $credentials['key'] ?? $this->key;
             $this->secret = $credentials['secret'] ?? $this->secret;
             $this->region = $this->clientConfig['region'] ?? $this->region;
             Yii::info("S3Storage init: key={$this->key}, secret=" . ($this->secret ? 'set' : 'empty'), 'therapist-join');
-
         }
 
         if (!$this->key || !$this->secret) {
@@ -67,33 +65,35 @@ class S3Storage extends Component
         ]);
     }
 
-    public function upload(UploadedFile $file, $directory = 'documents')
+    public function upload(UploadedFile|string $file, string $path)
     {
         if (!$this->client) {
             return false;
         }
 
-        $fileName = uniqid() . '_' . time() . '.' . $file->extension;
-        $filePath = $directory . '/' . $fileName;
-
-        try {
-            $this->client->putObject([
-                'Bucket' => $this->bucket,
-                'Key' => $filePath,
-                'Body' => fopen($file->tempName, 'r'),
-                'ContentType' => $file->type,
-            ]);
-
-            return [
-                'name' => $fileName,
-                'path' => $filePath,
-                'url' => "https://{$this->bucket}.s3.{$this->region}.amazonaws.com/{$filePath}",
-            ];
-        } catch (\Exception $e) {
-            Yii::error('Error uploading to S3: ' . $e->getMessage(), 'therapist-join');
-            return false;
+        if (is_string($file)) {
+            $stream = fopen($file, 'rb');
+        } else {
+            $stream = fopen($file->tempName, 'rb');
         }
+
+        $result = $this->client->putObject([
+            'Bucket' => $this->bucket,
+            'Key'    => $path,
+            'Body'   => $stream,
+            'ContentType' => mime_content_type($file),
+        ]);
+
+        fclose($stream);
+
+        return [
+            'name' => basename($file),
+            'path' => $path,
+            'url' => $result['ObjectURL'] ?? null,
+        ];
     }
+
+
 
     public function delete($filePath)
     {

@@ -16,6 +16,7 @@ $config = [
     'sourceLanguage' => 'en-US',
     'components' => [
         'assetManager' => [
+            'appendTimestamp' => true,
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
             'dirMode' => 0777,
@@ -40,21 +41,6 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-        ],
-        'mailer' => [
-            'class' => yii\swiftmailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            'useFileTransport' => true, // !!!set this property to false to send mails to real email addresses,
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'dsn' => $_ENV['DSN_MAILER'] ?? null,
-                'scheme' => 'smtp',
-                'host' => 'smtp.gmail.com',
-                'username' => $_ENV['USERNAME_MAILER']?? null,
-                'password' => $_ENV['PASSWORD_MAILER']?? null, // Не звичайний пароль, а спеціальний пароль додатку
-                'port' => '587',
-                'encryption' => 'tls',
-            ],
         ],
         'symfonyMailer' => [
             'class' => 'app\components\SymfonyMailer',
@@ -98,19 +84,23 @@ $config = [
                     'logFile' => '@runtime/logs/admin.log',
                     'logVars' => [],
                     'prefix' => fn($message) => date('Y-m-d H:i:s'),
-                    
+
                 ],
             ],
         ],
         'db' => $db,
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'admin/specialist-request/<action:\w+>/<id:\d+>' => 'admin/specialist-request/<action>',
+                'admin/specialist-request/<action:\w+>' => 'admin/specialist-request/<action>',
+                'admin/specialist-request' => 'admin/specialist-request/index',
+                'admin/specialist-request/<action>/<id:\d+>' => 'admin/specialist-request/<action>',
             ],
         ],
-        
+
         'i18n' => [
             'translations' => [
                 '*' => [

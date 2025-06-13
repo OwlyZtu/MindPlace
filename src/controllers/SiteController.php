@@ -4,27 +4,28 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\services\DebugService;
-
-use app\models\User;
+use yii\web\UploadedFile;
 
 use app\models\forms\LoginForm;
 use app\models\forms\SignupForm;
 use app\models\forms\ContactForm;
-use app\models\forms\TherapistJoinForm;
 use app\models\forms\UserSettingsForm;
 use app\models\forms\QuestionnaireForm;
 use app\models\forms\FilterForm;
 
+use app\models\forms\therapistJoin\TherapistJoinForm;
+use app\models\forms\therapistJoin\TherapistPersonalInfoForm;
+use app\models\forms\therapistJoin\TherapistEducationForm;
+use app\models\forms\therapistJoin\TherapistDocumentsForm;
+use app\models\forms\therapistJoin\TherapistApproachesForm;
+
 class SiteController extends Controller
 {
     public $enableCsrfValidation = true;
-    /**
-     * {@inheritdoc}
-     */
+
     public function behaviors()
     {
         return [
@@ -32,7 +33,30 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'login', 'signup', 'error', 'contact', 'about', 'for-therapists', 'questionnaire', 'specialists', 'set-language'],
+                        'actions' => [
+                            'index',
+                            'login',
+                            'signup',
+                            'error',
+                            'contact',
+                            'about',
+                            'for-therapists',
+                            'questionnaire',
+                            'specialists',
+                            'set-language',
+                        ],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
+                    [
+                        'actions' => [
+                            'load-step',
+                            'save-personal-info',
+                            'save-education',
+                            'save-documents',
+                            'save-approaches',
+                            'final-submit'
+                        ],
                         'allow' => true,
                         'roles' => ['?', '@'],
                     ],
@@ -213,35 +237,151 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-
-    public function actionForTherapists()
+    public function actionLoadStep($step = 'personal-info')
     {
-        $model = new TherapistJoinForm();
-        $s3 = Yii::$app->get('s3Storage');
-        if (!$s3->testConnection()) {
-            Yii::error('S3 client not initialized properly', 'upload');
-            Yii::$app->session->setFlash('error', 'Сталася внутрішня помилка. Спробуйте пізніше.');
-            return $this->render('for-therapists', ['model' => $model]);
+        $model = Yii::$app->session->get('therapistJoinForm') ?? new TherapistJoinForm();
+        switch ($step) {
+            case 'personal-info':
+                return $this->renderPartial('therapist-join/_personal_info', ['model' => $model->personalInfo]);
+            case 'education':
+                return $this->renderPartial('therapist-join/_education', ['model' => $model->education]);
+            case 'documents':
+                return $this->renderPartial('therapist-join/_documents', ['model' => $model->documents]);
+            case 'approaches':
+                return $this->renderPartial('therapist-join/_approaches', ['model' => $model->approaches]);
+            default:
+                return $this->asJson(['success' => false, 'error' => 'Invalid step']);
         }
+    }
 
+    public function actionSavePersonalInfo()
+    {
+        $model = new TherapistPersonalInfoForm();
+        return $this->handleFormSave($model, 'therapistPersonalInfoForm');
+    }
+
+    public function actionSaveEducation()
+    {
+        $model = new TherapistEducationForm();
+        return $this->handleFormSave($model, 'therapistEducationForm');
+    }
+
+    public function actionSaveApproaches()
+    {
+        $model = new TherapistApproachesForm();
+        return $this->handleFormSave($model, 'therapistApproachesForm');
+    }
+
+    private function handleFormSave($model, $sessionKey)
+    {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            Yii::$app->session->set($sessionKey, $model);
+            return $this->asJson(['success' => true]);
+        }
+        return $this->asJson(['success' => false, 'errors' => $model->getErrors()]);
+    }
+
+    public function actionSaveDocuments()
+    {
+        $model = new TherapistDocumentsForm();
         if ($model->load(Yii::$app->request->post())) {
-
-            if ($model->updateUserAsTherapist()) {
-                Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
-                return $this->refresh();
+            $educationFile = UploadedFile::getInstance($model, 'education_file');
+            $additionalFile = UploadedFile::getInstance($model, 'additional_certification_file');
+            $photoFile = UploadedFile::getInstance($model, 'photo');
+            if ($photoFile) {
+                $photoFileName = uniqid('photo_'). '.'. $photoFile->extension;
+                $photoPath = Yii::getAlias('@runtime/uploads/'. $photoFileName);
+                if (!$photoFile->saveAs($photoPath)) {
+                    return $this->asJson(['success' => false, 'errors' => ['photo' => ['Не вдалося зберегти фото']]]);
+                }
+                $model->photo = $photoPath;
+            }
+            if ($educationFile) {
+                $educationFileName = uniqid('edu_') . '.' . $educationFile->extension;
+                $educationPath = Yii::getAlias('@runtime/uploads/' . $educationFileName);
+                if (!$educationFile->saveAs($educationPath)) {
+                    return $this->asJson(['success' => false, 'errors' => ['education_file' => ['Не вдалося зберегти файл освіти']]]);
+                }
+                $model->education_file_path = $educationPath;
+                $model->education_file = $educationFile;
             }
 
-            // $adminEmail = 'nightmare.owl16@gmail.com';
+            if ($additionalFile) {
+                $additionalFileName = uniqid('cert_') . '.' . $additionalFile->extension;
+                $additionalPath = Yii::getAlias('@runtime/uploads/' . $additionalFileName);
+                if (!$additionalFile->saveAs($additionalPath)) {
+                    return $this->asJson(['success' => false, 'errors' => ['additional_certification_file' => ['Не вдалося зберегти сертифікат']]]);
+                }
+                $model->additional_certification_file_path = $additionalPath;
+                $model->additional_certification_file = $additionalFile;
+            }
 
-            // if ($model->contact($adminEmail)) {
-            //     Yii::$app->session->setFlash('success', 'Дякуємо за вашу заявку. Ми зв&#039;яжемося з вами найближчим часом.');
-            //     return $this->refresh();
-            // }
+            if ($model->validate()) {
+                $filesData = $model->uploadToS3();
+                Yii::$app->session->set('therapistDocumentsForm', $filesData);
+                return $this->asJson(['success' => true]);
+            } else {
+                Yii::error('Validation error', 'therapist-join');
+                return $this->asJson(['success' => false, 'errors' => $model->getErrors()]);
+            }
         }
 
-        return $this->render('for-therapists', [
+        return $this->asJson(['success' => false, 'errors' => ['save' => ['Некоректний запит']]]);
+    }
+
+    public function actionForTherapists($step = 'personal-info')
+    {
+        $model = new TherapistJoinForm();
+
+        if (!Yii::$app->user->isGuest) {
+            $this->actionLoadStep();
+
+            $s3 = Yii::$app->get('s3Storage');
+            if (!$s3->testConnection()) {
+                Yii::error('S3 client not initialized properly', 'upload');
+                Yii::$app->session->setFlash('error', 'Сталася внутрішня помилка. Спробуйте пізніше.');
+                return $this->render('therapist-join/for-therapists', [
+                    'model' => $model,
+                    'step' => $step
+                ]);
+            }
+            if ($model->load(Yii::$app->request->post())) {
+                if (!$model->validate()) {
+                    Yii::info('Fuck submit if false', 'therapist-join');
+
+                    return $this->asJson([
+                        'success' => false,
+                        'errors' => $model->getErrors(),
+                    ]);
+                }
+            }
+
+            return $this->render('therapist-join/for-therapists', [
+                'model' => $model,
+                'step' => $step,
+            ]);
+        }
+
+        return $this->render('therapist-join/for-therapists', [
             'model' => $model,
         ]);
+    }
+
+    public function actionFinalSubmit()
+    {
+        $model = new TherapistJoinForm();
+
+        if (!Yii::$app->user->isGuest && Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+
+            if ($model->validate() && $model->updateUserAsTherapist()) {
+                return $this->asJson(['success' => true]);
+            }
+
+            return $this->asJson(['success' => false, 'errors' => $model->getErrors()]);
+        }
+
+        return $this->asJson(['success' => false, 'errors' => ['submit' => ['Некоректний запит або неавторизовано']]]);
     }
 
     /**

@@ -12,7 +12,6 @@ use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
 
-
 $this->registerCsrfMetaTags();
 $this->registerMetaTag(['charset' => Yii::$app->charset], 'charset');
 $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, initial-scale=1, shrink-to-fit=no']);
@@ -27,11 +26,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <head>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <?= Html::csrfMetaTags() ?>
     <link rel="stylesheet" href="<?= Yii::getAlias('@web/css/site.css') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-</head>
+    <script src="https://cdn.tiny.cloud/1/zoicd24dcfgq6woaxwh06rzccp4u6az5cmtxma9sk7ytmpab/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    </head>
 
 <body class="d-flex flex-column vh-100">
     <?php $this->beginBody() ?>

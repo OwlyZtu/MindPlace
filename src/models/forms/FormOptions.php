@@ -7,6 +7,29 @@ namespace app\models\forms;
  */
 class FormOptions
 {
+    protected static array $optionsMap = [
+        'format' => 'getFormatOptions',
+        'city' => 'getCityOptions',
+        'therapy_types' => 'getTherapyTypesOptions',
+        'theme' => 'getThemeOptions',
+        'approach_type' => 'getApproachTypeOptions',
+        'language' => 'getLanguageOptions',
+        'gender' => 'getGenderOptions',
+        'age' => 'getAgeOptions',
+        'specialization' => 'getSpecializationOptions',
+        'yesno' => 'getYesNoOptions',
+    ];
+
+    public static function getLabel(string $category, string $key): ?string
+    {
+        $method = static::$optionsMap[$category] ?? null;
+        if ($method && method_exists(static::class, $method)) {
+            $options = static::$method();
+            return $options[$key] ?? null;
+        }
+        return null;
+    }
+
     /**
      * Отримати опції для формату терапії
      * @return array
@@ -26,8 +49,20 @@ class FormOptions
     public static function getCityOptions()
     {
         return [
-            'Kyiv' => 'Kyiv',
+            'kyiv' => 'Kyiv',
             'lviv' => 'Lviv',
+            'kharkiv' => 'Kharkiv',
+            'dnipro' => 'Dnipro',
+            'odesa' => 'Odesa',
+            'ivano-frankivsk' => 'Ivano-Frankivsk',
+            'zaporizhzhya' => 'Zaporizhzhya',
+            'ternopil' => 'Ternopil',
+            'kherson' => 'Kherson',
+            'khmelnytskyi' => 'Khmelnytskyi',
+            'cherkasy' => 'Cherkasy',
+            'chernihiv' => 'Chernihiv',
+            'chernivtsi' => 'Chernivtsi',
+            'sumy' => 'Sumy',
         ];
     }
 
@@ -39,7 +74,10 @@ class FormOptions
     {
         return [
             'individual' => 'Individual',
-            'group' => 'Group',
+            'couples' => 'Couples',
+            'couching' => 'Couching',
+            'child' => 'Children (<12 y.o.)',
+            'teen' => 'Teens (12-18 y.o.)',
         ];
     }
 
@@ -58,6 +96,15 @@ class FormOptions
             'self-esteem' => 'Self-esteem',
             'trauma' => 'Trauma',
             'relationship' => 'Relationship Issues',
+            'parenting' => 'Parenting',
+            'family' => 'Family Issues',
+            'sex' => 'Sexual Issues',
+            'loneliness' => 'Loneliless',
+            'professional' => 'Professional self-realization',
+            'pregnancy' => 'Pregnancy',
+            'death' => 'Grief and loss',
+            'suicide' => 'Suicide',
+            'cheat' => 'Partner cheat',
         ];
     }
 
@@ -68,12 +115,11 @@ class FormOptions
     public static function getApproachTypeOptions()
     {
         return [
-            'CBT' => 'Cognitive Behavioral Therapy (CBT)',
-            'Gestalt' => 'Gestalt Therapy',
+            'cbt' => 'Cognitive Behavioral Therapy (CBT)',
+            'gestalt' => 'Gestalt Therapy',
             'psychoanalyst' => 'Psychoanalyst',
-            'cognitive_behavioral_therapy' => 'Cognitive Behavioral Therapy',
-            'art_therapy' => 'Art Therapy',
-            'gestalt_therapy' => 'Gestalt Therapy',
+            'art' => 'Art Therapy',
+            'gestalt' => 'Gestalt Therapy',
         ];
     }
 
@@ -98,7 +144,6 @@ class FormOptions
         return [
             'male' => 'Male',
             'female' => 'Female',
-            'both' => 'Not matter',
         ];
     }
 
@@ -125,6 +170,8 @@ class FormOptions
         return [
             'psychologist' => 'Psychologist',
             'psychotherapist' => 'Psychotherapist',
+            'child_psychologist' => 'Child Psychologist',
+            'counselor' => 'Counselor',
         ];
     }
 

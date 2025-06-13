@@ -38,8 +38,10 @@ $this->title = 'My Profile';
             </div>
             <div class="row justify-content-center mb-2 justify-content-evenly">
                 <div class="col-lg-3 justify-content-center mb-1">
-                    <!-- <img src="<//?= $user->getAvatar()?>" class="img-fluid rounded-circle" alt="avatar"> -->
-                    <img src="/images/defaultProfile.jpg" class="img-fluid rounded-circle" alt="avatar">
+                    <?php
+                    $photoUrl = Yii::$app->user->identity->photo_url ?? '/images/defaultProfile.jpg';
+                    ?>
+                    <img src="<?= Html::encode($photoUrl) ?>" class="img-fluid rounded-circle" alt="avatar">
                 </div>
                 <div class="col-lg-8">
                     <nav class="row">
@@ -120,7 +122,7 @@ $this->title = 'My Profile';
                                         <?= Yii::t('app', 'Profile phone'); ?>
                                     </p>
                                     <p class="mt-1">
-                                       <?=  Yii::$app->user->identity->contact_number?>
+                                        <?= Yii::$app->user->identity->contact_number ?>
                                     </p>
                                 </div>
                                 <div class="col-lg-6">

@@ -29,6 +29,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/zoicd24dcfgq6woaxwh06rzccp4u6az5cmtxma9sk7ytmpab/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body class="d-flex flex-column vh-100">

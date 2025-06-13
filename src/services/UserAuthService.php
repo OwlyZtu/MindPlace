@@ -49,6 +49,4 @@ class UserAuthService
     {
         return Yii::$app->security->generatePasswordHash($password);
     }
-
-    // Інші методи авторизації...
 }

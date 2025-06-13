@@ -3,8 +3,9 @@
 namespace app\services;
 
 use Yii;
+use yii\base\Model;
 
-class FieldRulesService
+class FieldRulesService extends Model
 {
     public static function nameRules()
     {
@@ -42,7 +43,21 @@ class FieldRulesService
     {
         return [
             ['date_of_birth', 'date', 'format' => 'php:Y-m-d'],
-            ['date_of_birth', 'validateAge'],
+            ['date_of_birth', function($attribute, $params) {
+                $minAge = 16;
+                $value = $this->$attribute;
+                if (empty($value)) {
+                    return;
+                }
+            
+                $birthDate = new \DateTime($value);
+                $today = new \DateTime();
+                $age = $today->diff($birthDate)->y;
+            
+                if ($age < $minAge) {
+                    $this->addError($attribute, Yii::t('app', 'Ви повинні бути старше {minAge} років', ['minAge' => $minAge]));
+                }
+            }],            
         ];
     }
 
@@ -77,20 +92,4 @@ class FieldRulesService
             ['role', 'in', 'range' => ['admin', 'default', 'moderator', 'specialist', 'guest']],
         ];
     }
-
-    // public static function validateAge($attribute, $params, $validator)
-    // {
-    //     $minAge = 16;
-    //     $model = $validator->owner;
-
-    //     try {
-    //         $birthDate = new \DateTime($model->$attribute);
-    //         $age = (new \DateTime())->diff($birthDate)->y;
-    //         if ($age < $minAge) {
-    //             $model->addError($attribute, Yii::t('app', 'Ви повинні бути старше {minAge} років', ['minAge' => $minAge]));
-    //         }
-    //     } catch (\Exception $e) {
-    //         $model->addError($attribute, 'Невірний формат дати.');
-    //     }
-    // }
 }

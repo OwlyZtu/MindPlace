@@ -1,57 +1,70 @@
 <?php
-
 namespace app\models\admin;
 
-use Yii;
-use yii\base\Model;
+use app\models\SpecialistApplication;
 use yii\data\ActiveDataProvider;
-use app\models\User;
 
-class UserSearch extends Model
+class UserSearch extends SpecialistApplication
 {
-    public $id;
-    public $username;
-    public $email;
-    public $status;
-    public $created_at;
+    public $name;
     public $specialization;
     public $city;
 
     public function rules()
     {
         return [
-            [['id', 'status'], 'integer'],
-            [['username', 'email', 'created_at', 'specialization', 'city'], 'safe'],
+            [['id', 'user_id', 'admin_id'], 'integer'],
+            [['status'], 'string'],
+            [['comment', 'name', 'specialization', 'city', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
     public function search($params)
     {
-        $query = User::find()->where(['role' => 'specialist']);
+        $query = SpecialistApplication::find()->joinWith(['user']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
-                'defaultOrder' => ['created_at' => SORT_DESC]
+                'defaultOrder' => ['created_at' => SORT_DESC],
+                'attributes' => [
+                    'id',
+                    'comment',
+                    'status',
+                    'created_at',
+                    'updated_at',
+                    'name' => [
+                        'asc' => ['user.name' => SORT_ASC],
+                        'desc' => ['user.name' => SORT_DESC],
+                    ],
+                    'specialization' => [
+                        'asc' => ['user.specialization' => SORT_ASC],
+                        'desc' => ['user.specialization' => SORT_DESC],
+                    ],
+                    'city' => [
+                        'asc' => ['user.city' => SORT_ASC],
+                        'desc' => ['user.city' => SORT_DESC],
+                    ],
+                ],
             ],
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+            'pagination' => ['pageSize' => 10],
         ]);
 
-        if (!($this->load($params) && $this->validate())) {
+        $this->load($params);
+
+        if (!$this->validate()) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'specialist_application.id' => $this->id,
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'specialization', $this->specialization]);
+        $query->andFilterWhere(['like', 'user.name', $this->name])
+              ->andFilterWhere(['like', 'user.specialization', $this->specialization])
+              ->andFilterWhere(['like', 'user.city', $this->city])
+              ->andFilterWhere(['like', 'specialist_application.comment', $this->comment]);
 
         return $dataProvider;
     }
