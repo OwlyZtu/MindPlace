@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
  * @property string $auth_key
  * @property string $access_token
  * @property string $created_at
+ * @property string $auth_type
  * @property string|null $city
  * @property string|null $gender
  * @property string[]|null $language
@@ -125,7 +126,8 @@ class User extends ActiveRecord implements IdentityInterface
             'experience',
             'education_name',
             'additional_certification',
-            'social_media'
+            'social_media',
+            'auth_type'
         ];
         foreach ($fields as $field) {
             if (isset($data[$field])) {

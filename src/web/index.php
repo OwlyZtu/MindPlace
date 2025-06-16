@@ -1,5 +1,7 @@
 <?php
 // Завантаження змінних середовища
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 if (file_exists(__DIR__ . '/../.env')) {
     require __DIR__ . '/../vendor/autoload.php';
     $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/..');

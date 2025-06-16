@@ -5,6 +5,7 @@
         "bower-asset/jquery": "*",
         "bower-asset/bootstrap": "*",
         "aws/aws-sdk-php": "^3.343",
+        "google/apiclient": "2.14",
         "vlucas/phpdotenv": "^5.6"
     },
     "config": {

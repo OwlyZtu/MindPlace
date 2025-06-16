@@ -76,6 +76,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
 
                         <?php ActiveForm::end(); ?>
+                        <a href="<?= \yii\helpers\Url::to(['site/auth-google']) ?>" class="btn btn-danger">
+                            Увійти через Google
+                        </a>
 
                         <div class="row mt-4 text-center">
                             <p>

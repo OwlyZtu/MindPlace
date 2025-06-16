@@ -41,6 +41,12 @@ return [
     'Profile email'=> 'Email',
     'Profile phone'=> 'Номер телефону',
     'Profile date_of_birth'=> 'Дата народження',  
+    'Profile city'=> 'Місто',
+    'Profile gender'=> 'Стать',
+    'Profile experience'=> 'Стаж роботи',
+    'Profile about'=> 'Про себе',
+    'Profile photo'=> 'Фото',
+    'Profile photo change'=> 'Змінити фото',
     'Profile future_sessions' => 'Майбутні сесії',
     'Profile history' => 'Історія сесій',  
     'Profile future_sessions empty' => 'У вас немає майбутніх сесій',
@@ -65,4 +71,5 @@ return [
     // #endregion
 
 
+    'rating' => 'Рейтинг',
 ];

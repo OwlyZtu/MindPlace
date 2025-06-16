@@ -7,6 +7,7 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'LoginBread');;
 $this->params['breadcrumbs'][] = $this->title;
@@ -64,11 +65,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) ?>
                         </div>
                         <div class="form-group row justify-content-center">
-                            <div class="col-lg-3">
-                                <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'login-button']) ?>
+                            <div class="col-lg-5 text-center">
+                                <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-lg m-2', 'name' => 'login-button']) ?>
+                                <p>або</p>
+                                <a href="<?= Url::to(['site/auth-google']) ?>" class="btn btn-secondary">
+                                    Увійти через Google
+                                </a>
                             </div>
-                        </div>
 
+                        </div>
                         <?php ActiveForm::end(); ?>
                     </div>
 

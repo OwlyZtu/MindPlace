@@ -9,18 +9,28 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\web\UploadedFile;
 
+use app\models\User;
+
 use app\models\forms\LoginForm;
 use app\models\forms\SignupForm;
 use app\models\forms\ContactForm;
 use app\models\forms\UserSettingsForm;
 use app\models\forms\QuestionnaireForm;
 use app\models\forms\FilterForm;
+use app\models\forms\UserProfileForm;
 
 use app\models\forms\therapistJoin\TherapistJoinForm;
 use app\models\forms\therapistJoin\TherapistPersonalInfoForm;
 use app\models\forms\therapistJoin\TherapistEducationForm;
 use app\models\forms\therapistJoin\TherapistDocumentsForm;
 use app\models\forms\therapistJoin\TherapistApproachesForm;
+
+
+use app\components\GoogleClient;
+
+use Google\Service\Calendar;
+use Google\Service\Calendar\Event;
+use app\services\UserAuthService;
 
 class SiteController extends Controller
 {
@@ -44,6 +54,10 @@ class SiteController extends Controller
                             'questionnaire',
                             'specialists',
                             'set-language',
+                            'google-callback',
+                            'google-callback-success',
+                            'auth-google',
+                            'gmeet'
                         ],
                         'allow' => true,
                         'roles' => ['?', '@'],
@@ -61,7 +75,7 @@ class SiteController extends Controller
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['logout', 'profile'],
+                        'actions' => ['logout', 'profile', 'specialist-profile'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -189,7 +203,7 @@ class SiteController extends Controller
 
     public function actionProfile()
     {
-        if (Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest || !Yii::$app->user->identity->isUser()) {
             return $this->goHome();
         }
 
@@ -209,6 +223,30 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionSpecialistProfile()
+    {
+        if (Yii::$app->user->isGuest || !Yii::$app->user->identity->isSpecialist()) {
+            return $this->goHome();
+        }
+
+        $model = new UserSettingsForm();
+
+        Yii::info(Yii::$app->request->post(), 'debug-post');
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->userUpdateSettingsForm()) {
+                Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
+            } else {
+                Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
+            }
+            return $this->refresh();
+        }
+
+        return $this->render('specialist-profile', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Displays contact page.
      *
@@ -289,8 +327,8 @@ class SiteController extends Controller
             $additionalFile = UploadedFile::getInstance($model, 'additional_certification_file');
             $photoFile = UploadedFile::getInstance($model, 'photo');
             if ($photoFile) {
-                $photoFileName = uniqid('photo_'). '.'. $photoFile->extension;
-                $photoPath = Yii::getAlias('@runtime/uploads/'. $photoFileName);
+                $photoFileName = uniqid('photo_') . '.' . $photoFile->extension;
+                $photoPath = Yii::getAlias('@runtime/uploads/' . $photoFileName);
                 if (!$photoFile->saveAs($photoPath)) {
                     return $this->asJson(['success' => false, 'errors' => ['photo' => ['Не вдалося зберегти фото']]]);
                 }
@@ -402,27 +440,114 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays specialists page with optional filtering.
-     * @return string
-     */
     public function actionSpecialists()
     {
-        $model = new FilterForm();
-        $filterData = null;
+        return $this->redirect(['specialist/index']);
+    }
 
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->saveFilterToSession()) {
-                $filterData = FilterForm::getSessionFilter();
-                Yii::info('Filter data saved: ' . print_r($filterData, true), 'debug');
-            } else {
-                Yii::error('Failed to save filter data', 'debug');
+    public function actionAuthGoogle()
+    {
+        $client = GoogleClient::getClient();
+        $authService = new UserAuthService($client);
+    
+        if ($client->getAccessToken() && !$client->isAccessTokenExpired()) {
+            return $this->redirect(['site/google-callback']);
+        }
+        return $this->redirect($authService->getAuthUrl());
+    }
+
+    public function actionGoogleCallback()
+    {
+        $client = GoogleClient::getClient();
+        $authService = new UserAuthService($client);
+    
+        $code = Yii::$app->request->get('code');
+    
+        if (!$code) {
+            return $this->renderContent('Не передано code від Google');
+        }
+    
+        $error = $authService->authenticateWithCode($code);
+        if ($error) {
+            Yii::error('Google Auth error: ' . $error, 'google-auth');
+            return $this->renderContent('Помилка авторизації: ' . $error);
+        }
+        return $this->redirect(['site/google-callback-success']);
+
+    }
+
+    public function actionGoogleCallbackSuccess()
+    {
+        $client = GoogleClient::getClient();
+        $authService = new UserAuthService($client);
+
+        $birthDate = $authService->getUserBirthdate();
+        $model = new UserProfileForm();
+    
+        if ($birthDate !== null && $birthDate !== '0000-00-00') {
+            $model->birth_date = $birthDate;
+        }
+    
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $authService->loginOrCreateUser($model);
+            return $this->goHome();
+        }
+    
+        return $this->render('profile-form', [
+            'model' => $model,
+            'birthDateFromGoogle' => $birthDate,
+        ]);
+    }
+
+    public function actionCallback()
+    {
+        $client = GoogleClient::getClient();
+
+        $code = Yii::$app->request->get('code');
+
+        if ($code) {
+            $token = $client->fetchAccessTokenWithAuthCode($code);
+
+            if (isset($token['error'])) {
+                Yii::error('Google Auth error: ' . $token['error_description'], 'google-auth');
+                return $this->renderContent('Помилка авторизації: ' . $token['error_description']);
             }
+
+            $tokenPath = Yii::getAlias('@app/runtime/google-token.json');
+            file_put_contents($tokenPath, json_encode($token));
+            if (file_put_contents($tokenPath, json_encode($token)) === false) {
+                Yii::error('Не вдалося зберегти токен у файл: ' . $tokenPath, 'google-auth');
+            }
+            return $this->redirect(['site/gmeet']);
         }
 
-        return $this->render('specialists', [
-            'model' => $model,
-            'filter' => $filterData,
+        return $this->renderContent('Не передано code від Google');
+    }
+
+
+    public function actionGmeet()
+    {
+        $client = GoogleClient::getClient();
+        $service = new Calendar($client);
+
+        $event = new Event([
+            'summary' => 'Зустріч у Meet',
+            'start' => ['dateTime' => '2025-06-15T20:00:00+03:00'],
+            'end' => ['dateTime' => '2025-06-15T21:00:00+03:00'],
+            'conferenceData' => [
+                'createRequest' => [
+                    'requestId' => uniqid(),
+                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                ],
+            ],
+        ]);
+
+        $event = $service->events->insert('primary', $event, ['conferenceDataVersion' => 1]);
+
+        $meetLink = $event->getHangoutLink();
+
+        return $this->render('gmeet', [
+            'link' => $meetLink,
         ]);
     }
 }

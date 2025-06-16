@@ -98,6 +98,12 @@ $config = [
                 'admin/specialist-request/<action:\w+>' => 'admin/specialist-request/<action>',
                 'admin/specialist-request' => 'admin/specialist-request/index',
                 'admin/specialist-request/<action>/<id:\d+>' => 'admin/specialist-request/<action>',
+
+                'specialists' => 'specialist/index',
+                'specialist/<id:\d+>' => 'specialist/view',
+                'specialist/<id:\d+>/assign' => 'specialist/assign',
+                'specialist/<id:\d+>/rate' => 'specialist/rate',
+                'specialist/<id:\d+>/report' => 'specialist/report',
             ],
         ],
 

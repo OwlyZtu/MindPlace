@@ -130,8 +130,8 @@ class FormOptions
     public static function getLanguageOptions()
     {
         return [
-            'uk' => Yii::t('form-options', 'ukrainian'),
-            'en' => Yii::t('form-options', 'english'),
+            'uk' => Yii::t('form-options', 'uk'),
+            'en' => Yii::t('form-options', 'en'),
         ];
     }
 

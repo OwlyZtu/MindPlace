@@ -23,6 +23,7 @@ class m250430_110546_create_user_table extends Migration
             'auth_key' => $this->string(32)->notNull(),
             'access_token' => $this->string(255)->notNull(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
+            'auth_type' => $this->string()->notNull()->defaultValue('default'),
         ]);
     }
 
