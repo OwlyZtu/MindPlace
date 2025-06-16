@@ -43,6 +43,32 @@ $this->title = 'Specialist Profile';
                     $photoUrl = Yii::$app->user->identity->photo_url ?? '/images/defaultProfile.jpg';
                     ?>
                     <img src="<?= Html::encode($photoUrl) ?>" class="img-fluid rounded-circle" alt="avatar">
+                    <?php
+                    switch ($application_status) {
+                        case 'pending':
+                            $status = Yii::t('app', 'Profile pending');
+                            $alert = 'alert-warning';
+                            break;
+                        case 'rejected':
+                            $status = Yii::t('app', 'Profile rejected');
+                            $alert = 'alert-danger';
+                            break;
+                        case 'approved':
+                            $status = Yii::t('app', 'Profile approved');
+                            $alert = 'alert-success';
+                            break;
+                        case 'blocked':
+                            $status = Yii::t('app', 'Profile blocked');
+                            $alert = 'alert-danger';
+                            break;
+                        default:
+                            $status = Yii::t('app', 'Profile pending');
+                            $alert = 'alert-warning';
+                            break;
+                    } ?>
+                    <div class="alert <?= $alert ?> mt-2" role="alert">
+                        <?= $status; ?>
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <nav class="row">

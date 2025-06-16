@@ -73,12 +73,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'signup-button']
                                 ) ?>
                             </div>
+                            <div class="col-lg-6 text-center">
+                                <a href="<?= \yii\helpers\Url::to(['site/auth-google']) ?>" class="btn btn-danger">
+                                    Увійти через Google
+                                </a>
+                            </div>
+
                         </div>
 
                         <?php ActiveForm::end(); ?>
-                        <a href="<?= \yii\helpers\Url::to(['site/auth-google']) ?>" class="btn btn-danger">
-                            Увійти через Google
-                        </a>
 
                         <div class="row mt-4 text-center">
                             <p>

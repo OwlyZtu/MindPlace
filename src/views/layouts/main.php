@@ -10,6 +10,7 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 use app\services\PhotoService;
+use app\models\SpecialistApplication;
 
 AppAsset::register($this);
 
@@ -99,7 +100,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     ),
                 'encode' => false,
                 'items' => array_filter([
-                    Yii::$app->user->identity->isSpecialist()
+                    (Yii::$app->user->identity->isSpecialist() || SpecialistApplication::getByUserId(Yii::$app->user->identity->id))
                       ? ['label' => 'Мій профіль', 'url' => ['/site/specialist-profile']]
                         : ['label' => 'Мій профіль', 'url' => ['/site/profile']],
                     
