@@ -217,6 +217,16 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by id
+     *
+     * @param int $id
+     * @return static|null
+     */
+    public static function findById($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
+    /**
      * Finds user by email
      *
      * @param string $email
@@ -468,7 +478,7 @@ class User extends ActiveRecord implements IdentityInterface
         $value = $this->$fieldName;
         return FormOptions::getLabel($optionCategory, $value);
     }
-        
+
     protected function decodeJson($value): array
     {
         if (is_array($value)) {

@@ -122,7 +122,11 @@ $this->title = 'My Profile';
                                         <?= Yii::t('app', 'Profile phone'); ?>
                                     </p>
                                     <p class="mt-1">
-                                        <?= Yii::$app->user->identity->contact_number ?>
+                                        <?php if (!empty(Yii::$app->user->identity->contact_number)): ?>
+                                            <?= Yii::$app->user->identity->contact_number ?>
+                                        <?php else: ?>
+                                            <?= Yii::t('app', 'Profile phone not set'); ?>
+                                        <?php endif; ?>
                                     </p>
                                 </div>
                                 <div class="col-lg-6">
@@ -153,10 +157,14 @@ $this->title = 'My Profile';
                             </div>
                         </div>
                         <div class="tab-pane fade rounded-bottom-5" id="nav-future-sessions" role="tabpanel" aria-labelledby="nav-future-sessions-tab" tabindex="0">
-                            Майбутні сесії
+                            <?= $this->render('_schedule_future', [
+                                'futureSchedulesProvider' => $futureSchedulesProvider,
+                            ]) ?>
                         </div>
                         <div class="tab-pane fade rounded-bottom-5" id="nav-sessions-history" role="tabpanel" aria-labelledby="nav-sessions-history-tab" tabindex="0">
-                            Історія сесій
+                            <?= $this->render('_schedule_archive', [
+                                'archiveSchedulesProvider' => $archiveSchedulesProvider,
+                            ]) ?>
                         </div>
                         <div class="tab-pane fade rounded-bottom-5" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab" tabindex="0">
                             <div class="col-lg-10 mt-4">
@@ -175,21 +183,21 @@ $this->title = 'My Profile';
                             ]); ?>
                             <div class="row mt-4">
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 'name')->textInput(['value' => Yii::$app->user->identity->name])
+                                    <?= $form->field($profile_settings_model, 'name')->textInput(['value' => Yii::$app->user->identity->name])
                                         ->label(Yii::t('app', 'Form name')); ?>
                                 </div>
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 'email')->textInput(['value' => Yii::$app->user->identity->email])
+                                    <?= $form->field($profile_settings_model, 'email')->textInput(['value' => Yii::$app->user->identity->email])
                                         ->label(Yii::t('app', 'Form email')) ?>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 'contact_number')->textInput(['placeholder' => Yii::$app->user->identity->contact_number])
+                                    <?= $form->field($profile_settings_model, 'contact_number')->textInput(['placeholder' => Yii::$app->user->identity->contact_number])
                                         ->label(Yii::t('app', 'Form phone')) ?>
                                 </div>
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 'date_of_birth')->input('date', ['value' => Yii::$app->user->identity->date_of_birth])
+                                    <?= $form->field($profile_settings_model, 'date_of_birth')->input('date', ['value' => Yii::$app->user->identity->date_of_birth])
                                         ->label(Yii::t('app', 'Date of birth')) ?>
                                 </div>
                             </div>
@@ -200,11 +208,11 @@ $this->title = 'My Profile';
                                     </h4>
                                 </div>
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 'password')->passwordInput()
+                                    <?= $form->field($profile_settings_model, 'password')->passwordInput()
                                         ->label(Yii::t('app', 'Form password')); ?>
                                 </div>
                                 <div class="col-lg-6">
-                                    <?= $form->field($model, 're_password')->passwordInput()
+                                    <?= $form->field($profile_settings_model, 're_password')->passwordInput()
                                         ->label(Yii::t('app', 'Form password repeat')) ?>
                                 </div>
                             </div>

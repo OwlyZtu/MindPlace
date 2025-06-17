@@ -104,6 +104,12 @@ $config = [
                 'specialist/<id:\d+>/assign' => 'specialist/assign',
                 'specialist/<id:\d+>/rate' => 'specialist/rate',
                 'specialist/<id:\d+>/report' => 'specialist/report',
+
+                // 'profile' => 'specialist-profile/specialist-profile',
+                // 'schedule' => 'specialist/schedule',
+                // 'schedule/<id:\d+>' => 'specialist/schedule',
+                // 'therapist/<id:\d+>' => 'therapist/view',
+
             ],
         ],
 

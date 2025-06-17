@@ -9,7 +9,8 @@ use Google\Service\PeopleService;
 
 class GoogleClient
 {
-    public static function getClient(): Client
+    
+    public static function getClient($accessToken = null): Client
     {
         $client = new Client();
         $client->setApplicationName('MindPlace');

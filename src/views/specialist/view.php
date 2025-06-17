@@ -11,6 +11,7 @@ use yii\helpers\Url;
 /** @var app\models\forms\AssignForm $assignForm */
 /** @var app\models\forms\RatingForm $ratingForm */
 
+
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Спеціалісти', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -220,21 +221,48 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <hr>
+        <div>
+            <h2>Записатись на консультацію</h2>
 
-        <h2>Записатись на консультацію</h2>
-        <?php $form = ActiveForm::begin([
-            'action' => ['specialist/assign', 'id' => $model->id],
-        ]); ?>
+            <div class="row">
+                <?php foreach ($specialistSchedules as $schedule): ?>
+                    <?php
+                    $isFree = !$schedule->isBooked();
+                    $isNotCanceled = ($schedule->status !== $schedule::STATUS_CANCELED);
+                    $cardContent = Html::tag(
+                        'p',
+                        $isFree
+                            ? '<span class="badge rounded-pill bg-warning float-end">Вільний</span>'
+                            : '<span class="badge rounded-pill bg-success float-end">Призначено</span>',
+                        ['class' => 'mb-1']
+                    );
+                    $cardContent .= Html::tag(
+                        'div',
+                        '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'l, d/M/Y') . '</p>' .
+                            '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'H:i') . ' - ' . $schedule->getEndTime() . '</p>' .
+                            '<p class="badge rounded-pill bg-primary mb-0">' . $schedule->duration . ' хв</p>',
+                    );
+                    ?>
+                    <?php if ($isNotCanceled): ?>
+                        <div class="col-md-2 col-lg-2 text-center mx-3 py-1 px-3">
 
-        <?= $form->field($assignForm, 'date')->input('date') ?>
-        <?= $form->field($assignForm, 'time')->input('time') ?>
+                            <?php if ($isFree): ?>
+                                <?= Html::a(
+                                    $cardContent,
+                                    ['specialist/book-session', 'sessionId' => $schedule->id],
+                                    ['class' => 'alert alert-info text-decoration-none text-reset d-block']
+                                ) ?>
+                            <?php else: ?>
+                                <div class="alert alert-info">
+                                    <?= $cardContent ?>
+                                </div>
+                            <?php endif; ?>
 
-        <div class="form-group">
-            <?= Html::submitButton('Записатись', ['class' => 'btn btn-success']) ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
-
-        <?php ActiveForm::end(); ?>
-
         <hr>
 
         <h2>Оцінити спеціаліста</h2>

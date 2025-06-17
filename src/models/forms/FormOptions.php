@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models\forms;
+
 use Yii;
 
 /**
@@ -20,6 +21,41 @@ class FormOptions
         'specialization' => 'getSpecializationOptions',
         'yesno' => 'getYesNoOptions',
     ];
+
+    public static function getDoctorOptions(array|string|null $doctorValues, string $category): array
+    {
+        if (empty($doctorValues)) {
+            return [];
+        }
+    
+        // Якщо рядок — спробуй декодувати JSON
+        if (is_string($doctorValues)) {
+            $decoded = json_decode($doctorValues, true);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $doctorValues = $decoded;
+            } else {
+                $doctorValues = [$doctorValues]; // наприклад, просто "individual"
+            }
+        }
+    
+        $allLabels = self::getLabelOptions($category);
+    
+        return array_filter(
+            $allLabels,
+            fn($key) => in_array($key, $doctorValues),
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+    
+    public static function getLabelOptions(string $category): array
+    {
+        $method = static::$optionsMap[$category] ?? null;
+        if ($method && method_exists(static::class, $method)) {
+            return static::$method();
+        }
+        return [];
+    }
+
 
     public static function getLabel(string $category, string $key): ?string
     {

@@ -101,7 +101,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 'encode' => false,
                 'items' => array_filter([
                     (Yii::$app->user->identity->isSpecialist() || SpecialistApplication::getByUserId(Yii::$app->user->identity->id))
-                      ? ['label' => 'Мій профіль', 'url' => ['/site/specialist-profile']]
+                      ? ['label' => 'Мій профіль', 'url' => ['/specialist/profile']]
                         : ['label' => 'Мій профіль', 'url' => ['/site/profile']],
                     
                     Yii::$app->user->identity->isAdmin()

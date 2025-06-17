@@ -5,6 +5,7 @@
 
 /** @var app\models\forms\UserSettingsForm $model */
 
+
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -12,7 +13,7 @@ use yii\helpers\Url;
 $this->title = 'Specialist Profile';
 ?>
 
-<div class="site-profile">
+<div class="site-specialist-profile">
     <div class="body-content row row-gap-5 justify-content-center">
         <div class="row info-row align-content-center my-5 text-center row-gap-2">
 
@@ -71,7 +72,7 @@ $this->title = 'Specialist Profile';
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <nav class="row">
+                    <nav class="">
                         <div class="nav nav-tabs mb-0 row" id="nav-tab" role="tablist">
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2 active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">
                                 <?= Yii::t('app', 'Profile title'); ?>
@@ -88,7 +89,7 @@ $this->title = 'Specialist Profile';
                         </div>
                     </nav>
                     <div class="tab-content text-black text-start row" id="nav-tabContent">
-                        <div class="tab-pane fade show active rounded-bottom-5 row " id="nav-profile" role="tabpanel" aria-labelledby="nav-home-profile" tabindex="0">
+                        <div class="tab-pane fade show active rounded-bottom-5 " id="nav-profile" role="tabpanel" aria-labelledby="nav-home-profile" tabindex="0">
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <p class="mt-2">
@@ -352,73 +353,47 @@ $this->title = 'Specialist Profile';
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade rounded-bottom-5" id="nav-future-sessions" role="tabpanel" aria-labelledby="nav-future-sessions-tab" tabindex="0">
-                        Майбутні сесії
-                    </div>
-                    <div class="tab-pane fade rounded-bottom-5" id="nav-sessions-history" role="tabpanel" aria-labelledby="nav-sessions-history-tab" tabindex="0">
-                        Історія сесій
-                    </div>
-                    <div class="tab-pane fade rounded-bottom-5" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab" tabindex="0">
-                        <div class="col-lg-10 mt-4">
-                            <h4>
-                                Особисті дані
-                            </h4>
-                        </div>
-                        <?php $form = ActiveForm::begin([
-                            'id' => 'update-user-form',
-                            'fieldConfig' => [
-                                'template' => "{label}\n{input}\n{error}",
-                                'labelOptions' => ['class' => 'col-lg-4 col-form-label mr-lg-3'],
-                                'inputOptions' => ['class' => 'col-lg-3 form-control'],
-                                'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-                            ],
-                        ]); ?>
-                        <div class="row mt-4">
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 'name')->textInput(['value' => Yii::$app->user->identity->name])
-                                    ->label(Yii::t('app', 'Form name')); ?>
-                            </div>
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 'email')->textInput(['value' => Yii::$app->user->identity->email])
-                                    ->label(Yii::t('app', 'Form email')) ?>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 'contact_number')->textInput(['placeholder' => Yii::$app->user->identity->contact_number])
-                                    ->label(Yii::t('app', 'Form phone')) ?>
-                            </div>
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 'date_of_birth')->input('date', ['value' => Yii::$app->user->identity->date_of_birth])
-                                    ->label(Yii::t('app', 'Date of birth')) ?>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-lg-10">
-                                <h4>
-                                    Зміна паролю
-                                </h4>
-                            </div>
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 'password')->passwordInput()
-                                    ->label(Yii::t('app', 'Form password')); ?>
-                            </div>
-                            <div class="col-lg-6">
-                                <?= $form->field($model, 're_password')->passwordInput()
-                                    ->label(Yii::t('app', 'Form password repeat')) ?>
-                            </div>
-                        </div>
-                        <div class="form-group row justify-content-center">
-                            <div class="col-lg-6 text-center">
-                                <?= Html::submitButton(
-                                    Yii::t('app', 'Profile settings button'),
-                                    ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'save-settings-button']
-                                ) ?>
-                            </div>
-                        </div>
 
-                        <?php ActiveForm::end(); ?>
+                        <div class="tab-pane fade rounded-bottom-5" id="nav-future-sessions" role="tabpanel" aria-labelledby="nav-future-sessions-tab" tabindex="0">
+                            <?php if (Yii::$app->user->identity->isSpecialist()): ?>
+                                <?= $this->render('_schedule_future', [
+                                    'futureSchedulesProvider' => $futureSchedulesProvider,
+                                    'schedule_model' => $schedule_model,
+                                ]) ?>
+                            <?php else: ?>
+                                <div class="my-3">
+                                    <div class="alert alert-warning mt-2" role="alert">
+                                        Спочатку вам мають видати дозвіл надавати послуги. Якщо вважаєте, що виникла проблема напишіть нам
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-4">
+                                        <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"
+                                            class="btn btn-primary btn-lg"><?= Yii::t('main-page', "Contact us") ?></a>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="tab-pane fade rounded-bottom-5" id="nav-sessions-history" role="tabpanel" aria-labelledby="nav-sessions-history-tab" tabindex="0">
+                            <?php if (Yii::$app->user->identity->isSpecialist()): ?>
+                                <?= $this->render('_schedule_archive', [
+                                    'archiveSchedulesProvider' => $archiveSchedulesProvider,
+                                ]) ?>
+                            <?php else: ?>
+                                <div class="my-3">
+                                    <div class="alert alert-warning mt-2" role="alert">
+                                        Спочатку вам мають видати дозвіл надавати послуги. Якщо вважаєте, що виникла проблема напишіть нам
+                                    </div>
+                                    <div class="d-flex justify-content-center mt-4">
+                                        <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"
+                                            class="btn btn-primary btn-lg"><?= Yii::t('main-page', "Contact us") ?></a>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="tab-pane fade rounded-bottom-5" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab" tabindex="0">
+                            <?= $this->render('_settings_form', [
+                                'profile_settings_model' => $profile_settings_model
+                            ]) ?>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,9 @@ use yii\web\Response;
 use yii\web\UploadedFile;
 
 use app\models\SpecialistApplication;
+use app\models\Schedule;
+use yii\data\ActiveDataProvider;
+
 
 use app\models\forms\LoginForm;
 use app\models\forms\SignupForm;
@@ -18,6 +21,7 @@ use app\models\forms\UserSettingsForm;
 use app\models\forms\QuestionnaireForm;
 use app\models\forms\FilterForm;
 use app\models\forms\UserProfileForm;
+use app\models\forms\FormOptions;
 
 use app\models\forms\therapistJoin\TherapistJoinForm;
 use app\models\forms\therapistJoin\TherapistPersonalInfoForm;
@@ -73,7 +77,15 @@ class SiteController extends Controller
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['logout', 'profile', 'specialist-profile'],
+                        'actions' => [
+                            'logout',
+                            'profile',
+                            'specialist-profile',
+                            'cancel-schedule',
+                            'book-session',
+                            'session-details',
+                            'session-cancel'
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -84,6 +96,10 @@ class SiteController extends Controller
                 'actions' => [
                     'logout' => ['post'],
                     'profile' => ['get', 'post'],
+                    'specialist-profile' => ['get', 'post'],
+                    'specialists' => ['get', 'post'],
+                    'book-session' => ['get', 'post'],
+                    'questionnaire' => ['get', 'post'],
                     'for-therapists' => ['get', 'post'],
                 ],
             ],
@@ -208,12 +224,27 @@ class SiteController extends Controller
         ) {
             return $this->goHome();
         }
+        $clientId = Yii::$app->user->identity->id;
+        $futureQuery  = Schedule::getSchedulesByClientId($clientId, Schedule::getFutureTimeCondition());
+        $archiveQuery  = Schedule::getSchedulesByClientId($clientId, Schedule::getPastTimeCondition());
+        $futureSchedulesProvider = new ActiveDataProvider([
+            'query' => $futureQuery,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
 
-        $model = new UserSettingsForm();
+        $archiveSchedulesProvider = new ActiveDataProvider([
+            'query' => $archiveQuery,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
 
-        Yii::info(Yii::$app->request->post(), 'debug-post');
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->userUpdateSettingsForm()) {
+        $profile_settings_model = new UserSettingsForm();
+
+        if (Yii::$app->request->isPost) {
+            if ($profile_settings_model->load(Yii::$app->request->post()) && $profile_settings_model->userUpdateSettingsForm()) {
                 Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
             } else {
                 Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
@@ -222,38 +253,85 @@ class SiteController extends Controller
         }
 
         return $this->render('profile', [
-            'model' => $model,
+            'profile_settings_model' => $profile_settings_model,
+            'futureSchedulesProvider' => $futureSchedulesProvider,
+            'archiveSchedulesProvider' => $archiveSchedulesProvider,
         ]);
     }
-
-    public function actionSpecialistProfile()
+    public function actionSessionDetails($id)
     {
-        if (
-            Yii::$app->user->isGuest
-            || (!Yii::$app->user->identity->isSpecialist()
-                && !SpecialistApplication::getByUserId(Yii::$app->user->identity->id))
-        ) {
-            Yii::info('User is not a specialist', 'profile');
+        $session = Schedule::getScheduleById($id);
+        if (!$session) {
             return $this->goHome();
         }
-
-        $model = new UserSettingsForm();
-
-        Yii::info(Yii::$app->request->post(), 'debug-post');
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->userUpdateSettingsForm()) {
-                Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
-            } else {
-                Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
-            }
-            return $this->refresh();
-        }
-
-        return $this->render('specialist-profile', [
-            'model' => $model,
-            'application_status' => SpecialistApplication::getStatusById(Yii::$app->user->identity->id) ?? 'pending',
+        return $this->render('session-details', [
+            'session' => $session,
+            'doctor' => $session->doctor,
+            'user' => Yii::$app->user->identity,
+            'therapyTypes' => FormOptions::getDoctorOptions($session->getTherapyTypes(), 'therapy_types'),
+            'themes' => FormOptions::getDoctorOptions($session->getTheme(), 'theme'),
+            'approachTypes' => FormOptions::getDoctorOptions($session->getApproachType(), 'approach_type'),
         ]);
     }
+
+    public function actionSessionCancel($id)
+    {
+        $session = Schedule::getScheduleById($id);
+    
+        if (!$session) {
+            throw new \yii\web\NotFoundHttpException('Запис не знайдено.');
+        }
+    
+        $now = new \DateTime();
+        $sessionTime = new \DateTime($session->datetime);
+        $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
+    
+        if ($diff <= 3600) {
+            Yii::$app->session->setFlash('error', 'Відмінити запис неможливо, бо до сесії залишилась година або менше.');
+            return $this->redirect(['site/session-details', 'id' => $id]);
+        }
+    
+        if (Yii::$app->request->isPost) {
+            $transaction = Yii::$app->db->beginTransaction();
+    
+            try {
+                // 1. cansel session
+                $session->status = Schedule::STATUS_CANCELED;
+                if (!$session->save(false, ['status'])) {
+                    throw new \Exception('Не вдалося оновити статус.');
+                }
+    
+                // 2. add copy of session
+                $newSession = new Schedule();
+                $newSession->load([
+                    'doctor_id' => $session->doctor_id,
+                    'datetime' => $session->datetime,
+                    'duration' => $session->duration,
+                    'status' => Schedule::STATUS_SCHEDULED,
+                    'client_id' => null,
+                    'meet_url' => null,
+                    'details' => [],
+                ], '');
+    
+                if (!$newSession->save()) {
+                    throw new \Exception('Не вдалося створити новий запис.');
+                }
+    
+                $transaction->commit();
+    
+                Yii::$app->session->setFlash('success', 'Запис скасовано. Час знову доступний для запису.');
+                return $this->redirect(['site/profile']);
+    
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                Yii::error('Помилка при скасуванні запису: ' . $e->getMessage(), 'session');
+                Yii::$app->session->setFlash('error', 'Не вдалося скасувати запис.');
+            }
+        }
+    
+        return $this->render('session-cancel', ['session' => $session]);
+    }
+    
 
     /**
      * Displays contact page.
