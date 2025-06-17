@@ -5,6 +5,7 @@ namespace app\models\forms\therapistJoin;
 use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
+use app\services\FieldRulesService;
 
 class TherapistDocumentsForm extends Model
 {
@@ -16,30 +17,15 @@ class TherapistDocumentsForm extends Model
 
     public function rules()
     {
-        return [
+        return array_merge(
             [
                 ['education_file', 'photo'],
                 'required'
             ],
-            [
-                ['education_file', 'additional_certification_file'],
-                'file',
-                'extensions' => 'pdf, doc, docx',
-                'maxSize' => 2 * 1024 * 1024,
-                'tooBig' => 'Розмір файлу не може перевищувати 2MB',
-                'checkExtensionByMimeType' => false,
-                'wrongExtension' => 'Дозволені формати: PDF, DOC, DOCX',
-            ],
-            [
-                ['photo'],
-                'image',
-                'extensions' => 'jpg, jpeg, png',
-                'maxSize' => 1 * 1024 * 1024,
-                'tooBig' => 'Розмір файлу не може перевищувати 1MB',
-                'checkExtensionByMimeType' => false,
-                'wrongExtension' => 'Дозволені формати: JPG, JPEG, PNG',
-            ]
-        ];
+            FieldRulesService::education_fileRules(),
+            FieldRulesService::additional_certification_fileRules(),
+            FieldRulesService::photoRules()
+        );
     }
 
     public function loadUploadedFiles()
@@ -85,7 +71,7 @@ class TherapistDocumentsForm extends Model
             if ($this->photo && file_exists($this->photo)) {
                 $result['photo'] = $s3->upload(
                     $this->photo,
-                    $photo_directory. '/'. time(). '_'. basename($this->photo)
+                    $photo_directory . '/' . time() . '_' . basename($this->photo)
                 );
                 unlink($this->photo);
             }
@@ -94,8 +80,8 @@ class TherapistDocumentsForm extends Model
                 'education_file_url' => $result['education_file']['url'] ?? null,
                 'additional_certification_file' => $result['additional_certification_file']['name'] ?? null,
                 'additional_certification_file_url' => $result['additional_certification_file']['url'] ?? null,
-                'photo' => $result['photo']['name']?? null,
-                'photo_url' => $result['photo']['url']?? null,
+                'photo' => $result['photo']['name'] ?? null,
+                'photo_url' => $result['photo']['url'] ?? null,
             ];
         } catch (\Throwable $e) {
             Yii::error('Помилка завантаження на S3: ' . $e->getMessage(), 'therapist-join');

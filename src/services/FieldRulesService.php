@@ -43,21 +43,21 @@ class FieldRulesService extends Model
     {
         return [
             ['date_of_birth', 'date', 'format' => 'php:Y-m-d'],
-            ['date_of_birth', function($attribute, $params) {
+            ['date_of_birth', function ($attribute, $params) {
                 $minAge = 16;
                 $value = $this->$attribute;
                 if (empty($value)) {
                     return;
                 }
-            
+
                 $birthDate = new \DateTime($value);
                 $today = new \DateTime();
                 $age = $today->diff($birthDate)->y;
-            
+
                 if ($age < $minAge) {
                     $this->addError($attribute, Yii::t('app', 'Ви повинні бути старше {minAge} років', ['minAge' => $minAge]));
                 }
-            }],            
+            }],
         ];
     }
 
@@ -91,5 +91,44 @@ class FieldRulesService extends Model
             ['role', 'required'],
             ['role', 'in', 'range' => ['admin', 'default', 'moderator', 'specialist', 'guest']],
         ];
+    }
+
+    public static function education_fileRules()
+    {
+        return [[
+            'education_file',
+            'file',
+            'extensions' => 'pdf, doc, docx',
+            'maxSize' => 2 * 1024 * 1024,
+            'tooBig' => 'Розмір файлу не може перевищувати 2MB',
+            'checkExtensionByMimeType' => false,
+            'wrongExtension' => 'Дозволені формати: PDF, DOC, DOCX',
+        ]];
+    }
+
+    public static function additional_certification_fileRules()
+    {
+        return [[
+            'additional_certification_file',
+            'file',
+            'extensions' => 'pdf, doc, docx',
+            'maxSize' => 2 * 1024 * 1024,
+            'tooBig' => 'Розмір файлу не може перевищувати 2MB',
+            'checkExtensionByMimeType' => false,
+            'wrongExtension' => 'Дозволені формати: PDF, DOC, DOCX',
+        ]];
+    }
+
+    public static function photoRules()
+    {
+        return [[
+            'photo',
+            'image',
+            'extensions' => 'jpg, jpeg, png',
+            'maxSize' => 1 * 1024 * 1024,
+            'tooBig' => 'Розмір файлу не може перевищувати 1MB',
+            'checkExtensionByMimeType' => false,
+            'wrongExtension' => 'Дозволені формати: JPG, JPEG, PNG',
+        ]];
     }
 }

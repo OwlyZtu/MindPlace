@@ -83,7 +83,7 @@ class TherapistJoinService
         return ['success' => false, 'errors' => ['save' => ['Некоректний запит']]];
     }
 
-    private function saveUploadedFile(UploadedFile $file, string $prefix): ?string
+    public static function saveUploadedFile(UploadedFile $file, string $prefix): ?string
     {
         $fileName = uniqid($prefix) . '.' . $file->extension;
         $filePath = Yii::getAlias('@runtime/uploads/' . $fileName);

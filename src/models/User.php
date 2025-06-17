@@ -20,6 +20,7 @@ use yii\db\ActiveRecord;
  * @property string $password_hash
  * @property string $role
  * @property string $auth_key
+ * @property string|null $google_token
  * @property string $access_token
  * @property string $created_at
  * @property string $auth_type
@@ -98,77 +99,57 @@ class User extends ActiveRecord implements IdentityInterface
     public static function updateUser($id, $data)
     {
         $user = self::findOne($id);
-        Yii::info('Data: ' . json_encode($data), 'therapist-join');
-        if (
-            !$user
-            || (isset($data['email']) && $data['email'] !== null
-                && ($existing = self::findByEmail($data['email']))
-                && $existing->id !== $id)
-        ) {
+        Yii::info('User update data: ' . json_encode($data), 'user-update');
+    
+        if (!$user) {
+            Yii::error("User ID $id not found", 'user-update');
             return false;
         }
-        $fields = [
-            'name',
-            'email',
-            'contact_number',
-            'date_of_birth',
-            'role',
-            'city',
-            'gender',
-            'lgbt',
-            'military',
-            'language',
-            'therapy_types',
-            'theme',
-            'approach_type',
-            'format',
-            'specialization',
-            'experience',
-            'education_name',
-            'additional_certification',
-            'social_media',
-            'auth_type'
-        ];
-        foreach ($fields as $field) {
-            if (isset($data[$field])) {
-                if (!is_array($data[$field])) {
-                    $user->$field = $data[$field] ?? $user->$field;
-                }
-                if (is_array($data[$field])) {
-                    $user->$field = json_encode($data[$field]);
-                }
+    
+        if (isset($data['email'])) {
+            $existing = self::findByEmail($data['email']);
+            if ($existing && $existing->id !== $id) {
+                Yii::error("Email {$data['email']} is already taken by another user", 'user-update');
+                return false;
             }
         }
-        if (!empty($data['education_file'])) {
-            $user->education_file = $data['education_file'];
-            $user->education_file_url = $data['education_file_url'];
+    
+        $jsonFields = [
+            'language', 'therapy_types', 'theme', 'approach_type',
+            'format', 'specialization', 'experience', 'social_media'
+        ];
+    
+        foreach ($data as $field => $value) {
+            if (in_array($field, $jsonFields, true)) {
+                $user->$field = is_array($value) ? json_encode($value) : $value;
+            } elseif ($user->hasAttribute($field)) {
+                $user->$field = $value;
+            }
         }
-        if (!empty($data['additional_certification_file'])) {
-            $user->additional_certification_file = $data['additional_certification_file'];
-            $user->additional_certification_file_url = $data['additional_certification_file_url'];
+    
+        foreach (['education', 'additional_certification', 'photo'] as $prefix) {
+            if (!empty($data["{$prefix}_file"])) {
+                $user->{"{$prefix}_file"} = $data["{$prefix}_file"];
+                $user->{"{$prefix}_file_url"} = $data["{$prefix}_file_url"] ?? null;
+            }
         }
-        if (!empty($data['photo'])) {
-            $user->photo = $data['photo'];
-            $user->photo_url = $data['photo_url'];
-        }
-
-        if (
-            isset($data['password'], $data['re_password']) &&
-            $data['password'] !== '' && $data['re_password'] !== ''
-        ) {
+    
+        if (!empty($data['password']) && !empty($data['re_password'])) {
             if ($data['password'] !== $data['re_password']) {
+                Yii::warning('Passwords do not match', 'user-update');
                 return false;
             }
             $user->password_hash = UserAuthService::hashPassword($data['password']);
         }
-
+    
         if (!$user->save()) {
-            Yii::error('Failed to save user: ' . json_encode($user->getErrors()), 'therapist-join');
-            throw new \Exception('Помилка при збереженні даних користувача: ' . json_encode($user->getErrors()));
+            Yii::error('User save failed: ' . json_encode($user->getErrors()), 'user-update');
+            throw new \RuntimeException('Помилка збереження користувача.');
         }
-
+    
         return $user->access_token;
     }
+    
 
 
     /**
@@ -177,16 +158,18 @@ class User extends ActiveRecord implements IdentityInterface
      * @param array $data user data
      * @return string|false access_token або false у разі помилки
      */
-    public static function userUpdateSettings($data)
+    public static function userUpdateSettings(array $data)
     {
-        if (!is_array($data) || empty($data)) {
+        if (empty($data)) {
             Yii::error('Дані для оновлення порожні або не є масивом', 'user-update-settings');
+            Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
             return false;
         }
 
         $user = Yii::$app->user->identity;
         if (!$user) {
             Yii::error('Користувач не авторизований', 'user-update-settings');
+            Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
             return false;
         }
 
@@ -435,42 +418,42 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getTherapyTypesAsArray(): array
     {
-        return $this->decodeJson($this->therapy_types);
+        return $this->getDecodedAttribute('therapy_types');
     }
 
     public function getThemeAsArray(): array
     {
-        return $this->decodeJson($this->theme);
+        return $this->getDecodedAttribute('theme');
     }
 
     public function getApproachTypeAsArray(): array
     {
-        return $this->decodeJson($this->approach_type);
+        return $this->getDecodedAttribute('approach_type');
     }
 
     public function getFormatAsArray(): array
     {
-        return $this->decodeJson($this->format);
+        return $this->getDecodedAttribute('format');
     }
 
     public function getSpecializationAsArray(): array
     {
-        return $this->decodeJson($this->specialization);
+        return $this->getDecodedAttribute('specialization');
     }
 
     public function getExperienceAsArray(): array
     {
-        return $this->decodeJson($this->experience);
+        return $this->getDecodedAttribute('experience');
     }
 
     public function getSocialMediaAsArray(): array
     {
-        return $this->decodeJson($this->social_media);
+        return $this->getDecodedAttribute('social_media');
     }
 
     public function getLanguageAsArray(): array
     {
-        return $this->decodeJson($this->language);
+        return $this->getDecodedAttribute('language');
     }
 
     public function getOptionLabel(string $fieldName, string $optionCategory): ?string
@@ -479,33 +462,24 @@ class User extends ActiveRecord implements IdentityInterface
         return FormOptions::getLabel($optionCategory, $value);
     }
 
-    protected function decodeJson($value): array
+    protected function normalizeJsonArray($value): array
     {
-        if (is_array($value)) {
-            return $value;
-        }
-
+        if (is_array($value)) return $value;
         if (is_string($value)) {
             $decoded = json_decode($value, true);
             return is_array($decoded) ? $decoded : [];
         }
-
         return [];
     }
 
     public function getOptionLabels(string $fieldName, string $optionCategory): array
     {
-        $keys = $this->decodeJson($this->$fieldName);
-        $labels = [];
+        $keys = $this->getDecodedAttribute($fieldName);
+        return array_filter(array_map(fn($k) => FormOptions::getLabel($optionCategory, $k), $keys));
+    }
 
-        foreach ($keys as $key) {
-            $label = FormOptions::getLabel($optionCategory, $key);
-
-            if ($label !== null) {
-                $labels[] = $label;
-            }
-        }
-
-        return $labels;
+    public function getDecodedAttribute(string $attr): array
+    {
+        return $this->normalizeJsonArray($this->$attr ?? []);
     }
 }

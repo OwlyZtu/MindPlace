@@ -50,6 +50,11 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
                     <strong>Сеанс:</strong>
                     <?php if ($item->isBooked()): ?>
                         Призначено (ID: <?= $item->client_id ?>)
+                        <?php if ($item->status == $item::STATUS_CANCELED):?>
+                            <span class="badge bg-danger">
+                            (відмінено від клієнта)
+                            </span>
+                        <?php endif;?>
                     <?php else: ?>
                         Вільний на запис
                     <?php endif; ?>

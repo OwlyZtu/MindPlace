@@ -158,7 +158,7 @@ class SpecialistController extends Controller
         if (Yii::$app->request->isPost) {
             $formName = Yii::$app->request->post('form_name');
 
-            if (Yii::$app->request->post('update-profile')) {
+            if ($formName === 'update-profile') {
                 if ($profile_settings_model->load(Yii::$app->request->post()) && $profile_settings_model->userUpdateSettingsForm()) {
                     Yii::$app->session->setFlash('success', 'Профіль успішно оновлено');
                 } else {
