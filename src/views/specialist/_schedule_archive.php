@@ -2,7 +2,10 @@
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $archiveSchedulesProvider */
+
 use yii\widgets\LinkPager;
+use yii\helpers\Html;
+
 $archiveSchedules = $archiveSchedulesProvider->getModels();
 $pagination = $archiveSchedulesProvider->getPagination();
 ?>
@@ -12,6 +15,13 @@ $pagination = $archiveSchedulesProvider->getPagination();
         <ul class="list-group mb-4">
             <?php foreach ($archiveSchedules as $item): ?>
                 <li class="list-group-item">
+                    <span class="float-end">
+                        <p>
+                            <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                            <?php if (!$item->isBooked()): ?>
+                                <?= Html::a('Видалити', ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
+                            <?php endif; ?>
+                    </span>
                     <strong>Дата:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
                     <strong>Тривалість:</strong> <?= $item->duration ?> хв.<br>
                     <strong>Сеанс:</strong>

@@ -43,7 +43,6 @@ class SessionBookingForm extends Model
                 'comment' => $this->comment,
             ],
         ];
-        Yii::info($data, 'sessionBookingForm');
         $session = Schedule::updateSchedule($schedule->id, $data);
         if ($session) {
             $this->addToCalendarForDoctor($schedule->doctor_id, $schedule->datetime);

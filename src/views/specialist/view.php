@@ -186,6 +186,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php endif; ?>
 
             </div>
+            <hr class="border border-success border-2 opacity-75">
 
             <div class="row justify-content-center">
                 <div class="col-md-12">
@@ -224,70 +225,101 @@ $this->params['breadcrumbs'][] = $this->title;
         <div>
             <h2>Записатись на консультацію</h2>
 
-            <div class="row">
-                <?php foreach ($specialistSchedules as $schedule): ?>
-                    <?php
-                    $isFree = !$schedule->isBooked();
-                    $isNotCanceled = ($schedule->status !== $schedule::STATUS_CANCELED);
-                    $cardContent = Html::tag(
-                        'p',
-                        $isFree
-                            ? '<span class="badge rounded-pill bg-warning float-end">Вільний</span>'
-                            : '<span class="badge rounded-pill bg-success float-end">Призначено</span>',
-                        ['class' => 'mb-1']
-                    );
-                    $cardContent .= Html::tag(
-                        'div',
-                        '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'l, d/M/Y') . '</p>' .
-                            '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'H:i') . ' - ' . $schedule->getEndTime() . '</p>' .
-                            '<p class="badge rounded-pill bg-primary mb-0">' . $schedule->duration . ' хв</p>',
-                    );
-                    ?>
-                    <?php if ($isNotCanceled): ?>
-                        <div class="col-md-2 col-lg-2 text-center mx-3 py-1 px-3">
+            <div class="row justify-content-center">
+                <?php if ($specialistSchedules): ?>
+                    <?php foreach ($specialistSchedules as $schedule): ?>
+                        <?php
+                        $isFree = !$schedule->isBooked();
+                        $isNotCanceled = ($schedule->status !== $schedule::STATUS_CANCELED);
+                        $cardContent = Html::tag(
+                            'p',
+                            $isFree
+                                ? '<span class="badge rounded-pill bg-warning float-end">Вільний</span>'
+                                : '<span class="badge rounded-pill bg-success text-bg-success float-end">Призначено</span>',
+                            ['class' => 'mb-1']
+                        );
+                        $cardContent .= Html::tag(
+                            'div',
+                            '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'l, d/M/Y') . '</p>' .
+                                '<p>' . Yii::$app->formatter->asDatetime($schedule->datetime, 'H:i') . ' - ' . $schedule->getEndTime() . '</p>' .
+                                '<p class="badge rounded-pill bg-primary mb-0">' . $schedule->duration . ' хв</p>',
+                        );
+                        ?>
+                        <?php if ($isNotCanceled): ?>
+                            <div class="col-md-2 col-lg-2 text-center mx-1 py-1 px-3">
 
-                            <?php if ($isFree): ?>
-                                <?= Html::a(
-                                    $cardContent,
-                                    ['specialist/book-session', 'sessionId' => $schedule->id],
-                                    ['class' => 'alert alert-info text-decoration-none text-reset d-block']
-                                ) ?>
-                            <?php else: ?>
-                                <div class="alert alert-info">
-                                    <?= $cardContent ?>
-                                </div>
-                            <?php endif; ?>
+                                <?php if ($isFree): ?>
+                                    <?= Html::a(
+                                        $cardContent,
+                                        ['specialist/book-session', 'sessionId' => $schedule->id],
+                                        ['class' => 'alert alert-primary text-decoration-none text-reset d-block']
+                                    ) ?>
+                                <?php else: ?>
+                                    <div class="alert alert-info">
+                                        <?= $cardContent ?>
+                                    </div>
+                                <?php endif; ?>
 
-                        </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>На даний момент немає доступних записів.</p>
+                <?php endif; ?>
             </div>
         </div>
         <hr>
-
-        <h2>Оцінити спеціаліста</h2>
-        <?php $form = ActiveForm::begin([
-            'action' => ['specialist/assign', 'id' => $model->id],
-        ]); ?>
-
-        <?= $form->field($ratingForm, 'rating')->dropDownList([
-            5 => '⭐⭐⭐⭐⭐',
-            4 => '⭐⭐⭐⭐',
-            3 => '⭐⭐⭐',
-            2 => '⭐⭐',
-            1 => '⭐',
-        ], ['prompt' => 'Оберіть рейтинг']) ?>
-
-        <?= $form->field($ratingForm, 'comment')->textarea(['rows' => 3]) ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Надіслати відгук', ['class' => 'btn btn-primary']) ?>
+        <div>
+            <h2>Відгуки</h2>
+            <?php if ($reviews): ?>
+                <?php foreach ($reviews as $review): ?>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p class="card-title">
+                                <strong>
+                                    <?= $review->client->name ?>
+                                </strong>
+                                <span>
+                                    <small class="text-muted"><?= Yii::$app->formatter->asDatetime($review->date, 'd/M/Y') ?></small>
+                                </span>
+                            </p>
+                            <hr>
+                            <p>
+                                <?= str_repeat('⭐', $review->rating) ?> </p>
+                            <blockquote class="blockquote">
+                                <p><?= $review->comment ?? '' ?></p>
+                            </blockquote>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="alert alert-warning">Відгуків ще немає.</p>
+            <?php endif; ?>
         </div>
+        <?php if ($canLeaveReview): ?>
+            <hr>
+            <div class="row">
+                <h2>Оцінити спеціаліста</h2>
+                <?php $form = ActiveForm::begin(); ?>
 
-        <?php ActiveForm::end(); ?>
+                <?= $form->field($newReview, 'rating')->dropDownList([
+                    5 => '⭐⭐⭐⭐⭐',
+                    4 => '⭐⭐⭐⭐',
+                    3 => '⭐⭐⭐',
+                    2 => '⭐⭐',
+                    1 => '⭐',
+                ], ['prompt' => 'Оберіть рейтинг']) ?>
+                <div class="d-none">
+                    <?= $form->field($newReview, 'doctor_id')->textInput(['value' => $model->id]) ?>
+                </div>
+                <?= $form->field($newReview, 'comment')->textarea(['rows' => 3]) ?>
 
-        <?php if (Yii::$app->session->hasFlash('success')): ?>
-            <div class="alert alert-success mt-3">
-                <?= Yii::$app->session->getFlash('success') ?>
+                <div class="form-group">
+                    <?= Html::submitButton('Надіслати відгук', ['class' => 'btn btn-primary']) ?>
+                </div>
+
+                <?php ActiveForm::end(); ?>
             </div>
         <?php endif; ?>
+    </div>
+</div>

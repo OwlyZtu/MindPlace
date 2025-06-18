@@ -14,7 +14,7 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
 ?>
 
 <div>
-    
+
     <?php
     $urlParams = Yii::$app->request->get();
     $toggleBusy = $busyOnly ? 0 : 1;
@@ -25,7 +25,7 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
         <p>
             <?= $busyOnly ? 'Зайняті слоти розкладу:' : 'Увесь майбутній розклад:' ?>
             <span class="float-end">
-            <?= Html::a($buttonLabel, array_merge(['profile'], $urlParams), ['class' => 'btn btn-primary']) ?>
+                <?= Html::a($buttonLabel, array_merge(['profile'], $urlParams), ['class' => 'btn btn-primary']) ?>
 
             </span>
         </p>
@@ -40,6 +40,7 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
                             <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?>
                         </mark>
                         <span class="float-end">
+                            <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
                             <?php if (!$item->isBooked()): ?>
                                 <?= Html::a('Видалити', ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
                             <?php endif; ?>
@@ -50,11 +51,11 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
                     <strong>Сеанс:</strong>
                     <?php if ($item->isBooked()): ?>
                         Призначено (ID: <?= $item->client_id ?>)
-                        <?php if ($item->status == $item::STATUS_CANCELED):?>
+                        <?php if ($item->status == $item::STATUS_CANCELED): ?>
                             <span class="badge bg-danger">
-                            (відмінено від клієнта)
+                                (відмінено від клієнта)
                             </span>
-                        <?php endif;?>
+                        <?php endif; ?>
                     <?php else: ?>
                         Вільний на запис
                     <?php endif; ?>

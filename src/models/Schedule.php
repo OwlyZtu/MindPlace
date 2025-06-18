@@ -70,7 +70,7 @@ class Schedule extends ActiveRecord
         $schedule->datetime = $data['datetime'] ?? null;
         $schedule->duration = $data['duration'] ?? null;
         $schedule->client_id = $data['client_id'] ?? null;
-        $schedule->details = $data['details']?? null;
+        $schedule->details = $data['details'] ?? null;
         $schedule->status = self::STATUS_SCHEDULED;
         $schedule->meet_url = $data['meetUrl'] ?? null;
         $schedule->recommendations = $data['recommendations'] ?? null;
@@ -99,9 +99,9 @@ class Schedule extends ActiveRecord
         $schedule->datetime = $data['datetime'] ?? $schedule->datetime;
         $schedule->duration = $data['duration'] ?? $schedule->duration;
         $schedule->meet_url = $data['meetUrl'] ?? $schedule->meet_url;
-        $schedule->details = $data['details']?? $schedule->details;
+        $schedule->details = $data['details'] ?? $schedule->details;
         $schedule->recommendations = $data['recommendations'] ?? $schedule->recommendations;
-        Yii::info($schedule->getAttributes(),'session-update');
+        Yii::info($schedule->getAttributes(), 'session-update');
         if (!$schedule->save()) {
             Yii::error('Failed to update session' . json_encode($schedule->getErrors()), 'session-update');
             return null;
@@ -124,6 +124,16 @@ class Schedule extends ActiveRecord
         }
     }
 
+    public static function ifCanLeaveReview($client_id, $doctor_id)
+    {
+        return Schedule::find()
+            ->where([
+                'client_id' => $client_id,
+                'doctor_id' => $doctor_id,
+                'status' => Schedule::STATUS_COMPLETED,
+            ])
+            ->exists();
+    }
     public static function getSchedulesByDoctorId($doctorId, $timeCondition = null, $onlyBusy = false)
     {
         $schedulesQuery = self::find()
@@ -145,7 +155,7 @@ class Schedule extends ActiveRecord
                 $schedulesQuery->orderBy(['datetime' => SORT_ASC]);
                 break;
         }
-        return $schedulesQuery;
+        return $schedulesQuery->all();
     }
 
     public static function getSchedulesByClientId($clientId, $timeCondition = null)

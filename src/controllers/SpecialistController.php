@@ -5,16 +5,19 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use app\models\User;
-use app\models\forms\FilterForm;
-use app\models\forms\AssignForm;
-use app\models\forms\RatingForm;
 use yii\data\ActiveDataProvider;
-use app\models\SpecialistApplication;
-use app\models\forms\UserSettingsForm;
+
+use app\models\User;
 use app\models\Schedule;
-use DateTime;
+use app\models\Review;
+use app\models\SpecialistApplication;
+
+use app\models\forms\FilterForm;
+use app\models\forms\ReviewForm;
+use app\models\forms\UserSettingsForm;
 use app\models\forms\SessionBookingForm;
+use app\models\forms\FormOptions;
+
 
 class SpecialistController extends Controller
 {
@@ -75,18 +78,30 @@ class SpecialistController extends Controller
         if (!$specialist) {
             throw new NotFoundHttpException("Спеціаліста не знайдено.");
         }
-        $specialistSchedules = Schedule::find()
-            ->where(['doctor_id' => $specialist->id])
-            ->andWhere(['>', 'datetime', date('Y-m-d H:i:s')])
-            ->orderBy(['datetime' => SORT_ASC])
-            ->all();
 
+        $specialistSchedules = Schedule::getSchedulesByDoctorId($specialist->id, Schedule::getFutureTimeCondition());
+        $reviews = Review::getReviewsByDoctorId($specialist->id);
+        $avgRating = Review::getAverageRating($specialist->id);
+        $canLeaveReview = Schedule::ifCanLeaveReview(Yii::$app->user->identity->id, $specialist->id);
 
+        $newReview = new ReviewForm();
+
+        if ($newReview->load(Yii::$app->request->post()) && $newReview->validate()) {
+            if ($newReview->save()) {
+                Yii::$app->session->setFlash('success', 'Відгук успішно додано.');
+                return $this->refresh();
+            } else {
+                Yii::error('Review save errors: ' . print_r($newReview->getErrors(), true), 'review-save');
+                Yii::$app->session->setFlash('error', 'Помилка при додаванні відгуку.');
+            }
+        }
         return $this->render('view', [
             'model' => $specialist,
+            'reviews' => $reviews,
+            'avgRating' => $avgRating,
+            'newReview' => $newReview,
             'specialistSchedules' => $specialistSchedules,
-            'assignForm' => new AssignForm(),
-            'ratingForm' => new RatingForm(),
+            'canLeaveReview' => $canLeaveReview,
         ]);
     }
 
@@ -107,7 +122,7 @@ class SpecialistController extends Controller
                 return $this->redirect(['site/index']);
             } else {
                 Yii::$app->session->setFlash('error', 'Помилка при записі на сесію.');
-                Yii::error('Session booking errors: '. print_r($model->getErrors(), true),'session-book');
+                Yii::error('Session booking errors: ' . print_r($model->getErrors(), true), 'session-book');
             }
         }
 
@@ -215,5 +230,21 @@ class SpecialistController extends Controller
         }
 
         return $this->redirect(['specialist/profile']);
+    }
+
+    public function actionSessionDetails($id)
+    {
+        $session = Schedule::getScheduleById($id);
+        if (!$session) {
+            return $this->goHome();
+        }
+        return $this->render('session-details', [
+            'session' => $session,
+            'doctor' => Yii::$app->user->identity,
+            'user' => $session->client,
+            'therapyTypes' => FormOptions::getDoctorOptions($session->getTherapyTypes(), 'therapy_types'),
+            'themes' => FormOptions::getDoctorOptions($session->getTheme(), 'theme'),
+            'approachTypes' => FormOptions::getDoctorOptions($session->getApproachType(), 'approach_type'),
+        ]);
     }
 }
