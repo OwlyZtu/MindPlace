@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::encode(implode(', ', $model->getOptionLabels('specialization', 'specialization'))) ?>
                 </i></p>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <p>
                         <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -61,11 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <path d="M20.9605 15.5C21.6259 16.1025 22 16.7816 22 17.5C22 18.4251 21.3797 19.285 20.3161 20M3.03947 15.5C2.37412 16.1025 2 16.7816 2 17.5C2 19.9853 6.47715 22 12 22C13.6529 22 15.2122 21.8195 16.5858 21.5" stroke="currentColor" stroke-width="1.5" stroke-linecurrentcap="round"></path>
                             </g>
                         </svg>
-                        <?= Html::encode($model->getOptionLabel('city', 'city')) ?>
+                        <?= Html::encode($model->getOptionLabel('city', 'city')) .' '. Html::encode($model->address) ?? ''?>
                     </p>
 
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <p>
                         <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

@@ -57,17 +57,28 @@ $this->params['breadcrumbs'][] = $this->title;
                         <strong>Статус:</strong>
                         <?php if ($session->status === $session::STATUS_BOOKED): ?>
                             <span class="badge bg-success text-bg-success">Записано</span>
-                            <?php if ($session->meet_url): ?>
+                            <?php if (
+                                !$session->meet_url
+                                && $timeToLink
+                                && $session->details['format'] === 'online'
+                            ): ?>
+                    <div class="mt-3">
+                        <?= \yii\helpers\Html::a(
+                                    'Створити Google Meet',
+                                    ['specialist/gmeet', 'id' => $session->id],
+                                    ['class' => 'btn btn-success']
+                                ) ?>
+                    </div>
+                <?php elseif ($session->meet_url): ?>
                     <p>
                         <strong>Сесія відбудеться за посиланням:</strong>
-                        <a href="<?= Html::encode($session->meet_url) ?>" target="_blank">
-                            <?= Html::encode($session->meet_url) ?>
+                        <a href="<?= Html::encode($session->meet_url) ?>" target="_blank" class="btn btn-outline-primary">
+                            Перейти до зустрічі
                         </a>
                     </p>
                 <?php else: ?>
                     <p class="text-danger">
-                        Лікар ще не створив посилання на Google Meet.
-                        Воно зʼявиться за 15 хвилин до початку сесії.
+                        Ви зможете створити посилання на сесію у GoogleMeet за годину до назначеного часу.
                     </p>
                 <?php endif; ?>
             <?php elseif ($session->status === $session::STATUS_COMPLETED): ?>

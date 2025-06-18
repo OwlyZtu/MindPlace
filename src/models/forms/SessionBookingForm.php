@@ -45,13 +45,26 @@ class SessionBookingForm extends Model
         ];
         $session = Schedule::updateSchedule($schedule->id, $data);
         if ($session) {
-            $this->addToCalendarForDoctor($schedule->doctor_id, $schedule->datetime);
+            if ($this->add_to_google_calendar) {
+                $user = Yii::$app->user->identity;
+
+                if (!$user->google_token) {
+                    Yii::$app->session->set('calendar_schedule_id', $schedule->id);
+                    Yii::$app->session->set('calendar_action', 'add_client_event');
+
+                    return Yii::$app->controller->redirect(['site/auth-google']);
+                }
+
+                $this->addToCalendar($schedule->doctor_id, $schedule->datetime, $session->details['duration']);
+            }
+
+            $this->addToCalendarForDoctor($schedule->doctor_id, $schedule->datetime, $session->details['duration']);
             return $session;
         }
         return false;
     }
 
-    public function addToCalendar()
+    public static function addToCalendar($doctor_id, $datetime, $duration)
     {
         $client = GoogleClient::getClient();
         if ($client->isAccessTokenExpired()) {
@@ -59,16 +72,16 @@ class SessionBookingForm extends Model
         } else {
             $calendarService = new \Google\Service\Calendar($client);
 
-            $doctorName = $this->getDoctor($this->doctor_id)->name;
+            $doctorName = User::findById($doctor_id)->name;
             $event = new Event([
                 'summary' => 'Консультація з ' . $doctorName,
                 'description' => 'Сеанс на платформі MindPlace',
                 'start' => [
-                    'dateTime' => date(DATE_RFC3339, strtotime($this->datetime)),
+                    'dateTime' => date(DATE_RFC3339, strtotime($datetime)),
                     'timeZone' => 'Europe/Kyiv',
                 ],
                 'end' => [
-                    'dateTime' => date(DATE_RFC3339, strtotime($this->getEndTime())),
+                    'dateTime' => date(DATE_RFC3339, strtotime($datetime) + $duration * 60),
                     'timeZone' => 'Europe/Kyiv',
                 ],
             ]);
@@ -83,7 +96,7 @@ class SessionBookingForm extends Model
         }
     }
 
-    public function addToCalendarForDoctor($doctorId, $datetime, $duration = 50)
+    public static function addToCalendarForDoctor($doctorId, $datetime, $duration = 50)
     {
         // Отримуємо користувача-лікаря
         $doctor = User::findById($doctorId);
@@ -111,7 +124,7 @@ class SessionBookingForm extends Model
                 'timeZone' => 'Europe/Kyiv',
             ],
             'end' => [
-                'dateTime' => date(DATE_RFC3339, strtotime("+$duration minutes", strtotime($datetime))),
+                'dateTime' => date(DATE_RFC3339, strtotime($datetime) + $duration * 60),
                 'timeZone' => 'Europe/Kyiv',
             ],
         ]);

@@ -281,7 +281,8 @@ class SiteController extends Controller
         if (!$session) {
             throw new \yii\web\NotFoundHttpException('Запис не знайдено.');
         }
-    
+        
+        date_default_timezone_set('Europe/Kyiv');
         $now = new \DateTime();
         $sessionTime = new \DateTime($session->datetime);
         $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
@@ -502,6 +503,18 @@ class SiteController extends Controller
             Yii::error('Google Auth error: ' . $error, 'google-auth');
             return $this->renderContent('Помилка авторизації: ' . $error);
         }
+
+        // calendar
+        $action = Yii::$app->session->get('calendar_action');
+        $scheduleId = Yii::$app->session->get('calendar_schedule_id');
+    
+        if ($action === 'add_client_event' && $scheduleId) {
+            Yii::$app->session->remove('calendar_action');
+            Yii::$app->session->remove('calendar_schedule_id');
+    
+            return $this->redirect(['specialist/add-event-to-calendar', 'id' => $scheduleId]);
+        }
+
         return $this->redirect(['site/google-callback-success']);
     }
 
@@ -528,55 +541,4 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionCallback()
-    {
-        $client = GoogleClient::getClient();
-
-        $code = Yii::$app->request->get('code');
-
-        if ($code) {
-            $token = $client->fetchAccessTokenWithAuthCode($code);
-
-            if (isset($token['error'])) {
-                Yii::error('Google Auth error: ' . $token['error_description'], 'google-auth');
-                return $this->renderContent('Помилка авторизації: ' . $token['error_description']);
-            }
-
-            $tokenPath = Yii::getAlias('@app/runtime/google-token.json');
-            file_put_contents($tokenPath, json_encode($token));
-            if (file_put_contents($tokenPath, json_encode($token)) === false) {
-                Yii::error('Не вдалося зберегти токен у файл: ' . $tokenPath, 'google-auth');
-            }
-            return $this->redirect(['site/gmeet']);
-        }
-
-        return $this->renderContent('Не передано code від Google');
-    }
-
-
-    public function actionGmeet()
-    {
-        $client = GoogleClient::getClient();
-        $service = new Calendar($client);
-
-        $event = new Event([
-            'summary' => 'Зустріч у Meet',
-            'start' => ['dateTime' => '2025-06-15T20:00:00+03:00'],
-            'end' => ['dateTime' => '2025-06-15T21:00:00+03:00'],
-            'conferenceData' => [
-                'createRequest' => [
-                    'requestId' => uniqid(),
-                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
-                ],
-            ],
-        ]);
-
-        $event = $service->events->insert('primary', $event, ['conferenceDataVersion' => 1]);
-
-        $meetLink = $event->getHangoutLink();
-
-        return $this->render('gmeet', [
-            'link' => $meetLink,
-        ]);
-    }
 }

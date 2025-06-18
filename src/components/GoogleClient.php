@@ -35,6 +35,10 @@ class GoogleClient
                 $client->setAccessToken($accessToken);
             }
         }
+        if ($accessToken) {
+            $decoded = is_string($accessToken) ? json_decode($accessToken, true) : $accessToken;
+            $client->setAccessToken($decoded);
+        }
 
         return $client;
     }

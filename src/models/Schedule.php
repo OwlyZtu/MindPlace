@@ -109,6 +109,21 @@ class Schedule extends ActiveRecord
             return $schedule;
         }
     }
+
+    public static function updateMeetLink($id,$link)
+    {
+        $schedule = self::getScheduleById($id);
+        if (!$schedule) {
+            return null;
+        }
+        $schedule->meet_url = $link;
+        if (!$schedule->save()) {
+            Yii::error('Failed to update session link'. json_encode($schedule->getErrors()),'session-update');
+            return null;
+        }
+        return $schedule;
+    }
+
     public static function deleteSchedule($id)
     {
         $schedule = self::getScheduleById($id);
@@ -155,7 +170,7 @@ class Schedule extends ActiveRecord
                 $schedulesQuery->orderBy(['datetime' => SORT_ASC]);
                 break;
         }
-        return $schedulesQuery->all();
+        return $schedulesQuery;
     }
 
     public static function getSchedulesByClientId($clientId, $timeCondition = null)

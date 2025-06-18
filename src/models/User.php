@@ -25,6 +25,7 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string $auth_type
  * @property string|null $city
+ * @property string|null $address
  * @property string|null $gender
  * @property string[]|null $language
  * @property string[]|null $therapy_types JSON-масив

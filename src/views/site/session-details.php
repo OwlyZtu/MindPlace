@@ -24,8 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <p>
                         <strong>Код запису №<?= Html::encode($session->id) ?></strong>
-                        <?= Html::a('Відмінити', ['site/session-cancel', 'id' => $session->id], ['class' => 'btn btn-danger btn-sm float-end']) ?>
-
+                        <?php if ($session->isBooked()): ?>
+                            <?= Html::a('Відмінити', ['site/session-cancel', 'id' => $session->id], ['class' => 'btn btn-danger btn-sm float-end']) ?>
+                        <?php endif; ?>
                     </p>
 
                     <p>
@@ -128,7 +129,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div>
                         <p><strong>Формат:</strong></p>
-                        <p><?= Html::encode($session->format ?? '—') ?></p>
+                        <p>
+                            <?= Html::encode($session->format ?? '—') ?>
+                            <?php if ($session->format === 'offline'): ?>
+                                (<?= Html::encode($doctor->city) ?>)
+                            <?php endif; ?>
+                        </p>
                     </div>
 
                     <div>

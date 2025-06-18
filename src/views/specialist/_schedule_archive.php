@@ -25,8 +25,8 @@ $pagination = $archiveSchedulesProvider->getPagination();
                     <strong>Дата:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
                     <strong>Тривалість:</strong> <?= $item->duration ?> хв.<br>
                     <strong>Сеанс:</strong>
-                    <?php if ($item->session): ?>
-                        Призначено (ID: <?= $item->session->id ?>)
+                    <?php if ($item->isBooked()): ?>
+                        Призначено (ID: <?= $item->client_id ?>)
                     <?php else: ?>
                         Вільний
                     <?php endif; ?>

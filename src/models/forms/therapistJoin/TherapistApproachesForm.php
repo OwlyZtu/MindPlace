@@ -23,7 +23,7 @@ class TherapistApproachesForm extends Model
                     'therapy_types',
                     'theme',
                     'approach_type',
-                    'format'
+                    'format',
                 ],
                 'required'
             ],

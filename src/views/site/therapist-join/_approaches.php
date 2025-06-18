@@ -39,10 +39,12 @@ use app\models\forms\FormOptions;
         FormOptions::getFormatOptions()
     )->label(Yii::t('therapist-join-page', 'Format') . '<span class="text-danger"> *</span>') ?>
 
+    <?= $form->field($model, 'address')->textInput(['placeholder' => 'e.g. University Name'])->label(Yii::t('therapist-join-page', 'Address')) ?>
+
     <?= $form->field($model, 'lgbt')->checkbox()->label(Yii::t('therapist-join-page', 'LGBTQ+ friendly')) ?>
 
     <?= $form->field($model, 'military')->checkbox()->label(Yii::t('therapist-join-page', 'Work with military personnel')) ?>
-    
+
     <?= Html::submitButton('Зберегти') ?>
     <?php ActiveForm::end(); ?>
 </fieldset>
