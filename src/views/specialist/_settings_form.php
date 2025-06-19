@@ -11,7 +11,7 @@ use app\models\forms\FormOptions;
 <div>
     <div class="col-lg-10 mt-4">
         <h4>
-            Особисті дані
+            <?= Yii::t('profile', 'Personal data'); ?>
         </h4>
     </div>
     <?php
@@ -50,13 +50,13 @@ use app\models\forms\FormOptions;
     <div class="row mt-4 justify-content-center">
         <!-- Фото профілю -->
         <div class="col-lg-6">
-            <?= $form->field($profile_settings_model, 'photo')->fileInput()->label('Фото') ?>
+            <?= $form->field($profile_settings_model, 'photo')->fileInput()->label(Yii::t('app', 'Form photo')) ?>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col-lg-10">
             <h4>
-                Зміна паролю
+                <?= Yii::t('profile', 'Change password'); ?>
             </h4>
         </div>
         <div class="col-lg-6">
@@ -71,7 +71,9 @@ use app\models\forms\FormOptions;
     <?php if (Yii::$app->user->identity->isSpecialist()): ?>
         <div class="row mt-4">
             <div class="col-lg-10">
-                <h4>Професійна інформація</h4>
+                <h4>
+                    <?= Yii::t('profile', 'Profecional data'); ?>
+                </h4>
             </div>
 
             <!-- Формат -->
@@ -88,7 +90,7 @@ use app\models\forms\FormOptions;
                             ]);
                         }
                     ]
-                )->label('Формат роботи') ?>
+                )->label(Yii::t('therapist-join-page', 'Format')) ?>
             </div>
 
             <!-- Тип терапії -->
@@ -106,7 +108,8 @@ use app\models\forms\FormOptions;
                             ]);
                         }
                     ]
-                )->label('Типи терапії') ?>
+                )->label(Yii::t('therapist-join-page', 'Therapy Specific')) ?>
+
             </div>
 
             <!-- Спеціалізація -->
@@ -124,7 +127,7 @@ use app\models\forms\FormOptions;
                             ]);
                         }
                     ]
-                )->label('Спеціалізація') ?>
+                )->label(Yii::t('therapist-join-page', 'Specialization')) ?>
             </div>
 
             <!-- Підходи -->
@@ -142,7 +145,7 @@ use app\models\forms\FormOptions;
                             ]);
                         }
                     ]
-                )->label('Підходи у роботі') ?>
+                )->label(Yii::t('therapist-join-page', 'Approach')) ?>
             </div>
 
             <!-- Досвід -->
@@ -150,32 +153,32 @@ use app\models\forms\FormOptions;
                 <?= $form->field($profile_settings_model, 'experience')->textarea([
                     'id' => 'profilesettingsform-experience',
                     'value' => $profile_settings_model->experience
-                ])->label('Досвід') ?>
+                ])->label(Yii::t('profile', 'Profile experience')) ?>
 
             </div>
 
             <!-- Диплом (disabled) -->
             <div class="col-lg-6 mt-3">
-                <?= Html::label('Документ про освіту (змінити неможливо)', null, ['class' => 'form-label']) ?>
+                <?= Html::label(Yii::t('profile', 'No change'), null, ['class' => 'form-label']) ?>
                 <?= Html::textInput(null, $profile_settings_model->education_file_url, [
                     'class' => 'form-control',
                     'disabled' => true,
                 ]) ?>
-                <?= Html::a('Завантажити', $profile_settings_model->education_file_url, ['target' => '_blank', 'class' => 'btn btn-outline-primary mt-2']) ?>
+                <?= Html::a(Yii::t('profile', 'Download'), $profile_settings_model->education_file_url, ['target' => '_blank', 'class' => 'btn btn-outline-primary mt-2']) ?>
             </div>
 
             <!-- Додаткові сертифікати -->
             <div class="col-lg-6 mt-3">
                 <?= $form->field($profile_settings_model, 'additional_certification_file[]')
                     ->fileInput(['multiple' => true])
-                    ->label('Додати сертифікати') ?>
+                    ->label(Yii::t('profile', 'Add Additional Certification')) ?>
             </div>
         </div>
     <?php endif; ?>
     <div class="form-group row justify-content-center">
         <div class="col-lg-6 text-center">
             <?= Html::submitButton(
-                Yii::t('app', 'Profile settings button'),
+                Yii::t('profile', 'Profile settings button'),
                 ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'save-settings-button']
             ) ?>
         </div>

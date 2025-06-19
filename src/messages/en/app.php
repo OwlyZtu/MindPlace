@@ -6,7 +6,7 @@ return [
     'Blog' => 'Blog',
     'About' => 'About',
     'Login' => 'Login',
-
+    'Logout' => 'Logout',
 
 
     // #region LOGIN PAGE
@@ -18,8 +18,10 @@ return [
     'Remember Me' => 'Remember Me',
     'Forgot password?' => 'Forgot password?',
     'Login reset password' => 'Reset password',
-    'Form or create' => 'Don&#039;t have an account?',
+    'Form or create' => 'Don\'t have an account?',
     'Link to signup' => 'Sign Up',
+    'Login with Google' => 'Login with Google',
+    'or' => 'or',
 
     // #endregion
 
@@ -33,33 +35,10 @@ return [
     'Signup submit' => 'Sign Up',
     'Form or login' => 'Already have an account?',
     'Link to login' => 'Sign In',
+    'Form phone' => 'Your phone number',
+    'Form date' => 'Your date of birth',
 
     // #endregion
-
-    
-
-    // #region PROFILE PAGE
-    'Greeting' => 'Hey, {name}!',
-    'Profile title' => 'My profile',
-    'Profile name' => 'Name',
-    'Profile email' => 'Email',
-    'Profile phone' => 'Phone number',
-    'Profile date' => 'Date of birth',
-    'Profile future_sessions' => 'Upcoming sessions',
-    'Profile history' => 'My session history',
-    'Profile history empty' => 'You have no history yet',
-    'Profile future_sessions empty' => 'You have no future sessions yet',
-    'Profile settings' => 'Settings',
-    'Profile settings button' => 'Save changes',
-
-    // #endregion 
-
-
-
-
-
-
-
 
 
     // #region Form validation messages
@@ -68,16 +47,22 @@ return [
     'Email is not a valid email address.' => 'Email is not a valid email address.',
     'Password cannot be blank.' => 'Password cannot be blank.',
     'Password should contain at least 8 characters.' => 'Password should contain at least 8 characters.',
-    'Passwords don&#039;t match' => 'Passwords don&#039;t match',
+    'Passwords don\'t match' => 'Passwords don\'t match',
     'This name has already been taken.' => 'This name has already been taken.',
     'This email address has already been taken.' => 'This email address has already been taken.',
 
 
     // #endregion
 
-    // #region Form options
-
-
-
-    // #endregion
+    'If you have business inquiries or other questions, please fill out the following form to contact us.
+            Thank you. We will reply to you as soon as possible.' => 'If you have business inquiries or other questions, please fill out the following form to contact us.
+            Thank you. We will reply to you as soon as possible.',
+    'Contact' => 'Contact',
+    'Thank you for contacting us. We will reply to you as soon as possible.' => 'Thank you for contacting us. We will reply to you as soon as possible.',
+    'Contact form' => 'Contact form',
+    'Your name' => 'Your name',
+    'Your email' => 'Your email',
+    'Subject' => 'Subject',
+    'Your message' => 'Your message',
+    'Send' => 'Send',
 ];

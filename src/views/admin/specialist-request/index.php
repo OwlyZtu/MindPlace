@@ -10,10 +10,11 @@ use yii\bootstrap5\Html;
 use app\models\User;
 use yii\widgets\LinkPager;
 
-$this->title = 'User panel';
+$this->title = Yii::t('admin', 'Specialist requests');
 $columns = [
     'id',
     [
+        'label' => Yii::t('admin', 'Name'),
         'attribute' => 'name',
         'value' => function ($model) {
             return Html::a($model->user->name, ['view', 'id' => $model->id], ['class' => 'link']);
@@ -21,19 +22,29 @@ $columns = [
         'format' => 'raw',
     ],
     [
+        'label' => Yii::t('admin', 'Specialization'),
         'attribute' => 'specialization',
         'value' => function ($model) {
             return Html::encode(implode(', ', $model->user->getOptionLabels('specialization', 'specialization')));
         },
+        'format' => 'raw',
     ],
     [
+        'label' => Yii::t('admin', 'City'),
         'attribute' => 'city',
         'value' => function ($model) {
             return Html::encode($model->user->getOptionLabel('city', 'city'));
         },
+        'format' => 'raw',
     ],
-    'comment',
-    'updated_at:datetime',
+    [
+        'label' => Yii::t('admin', 'Comment'),
+        'attribute' => 'comment',
+        'value' => function ($model) {
+            return Html::encode($model->comment) ?? Yii::t('admin', 'No comment');
+        },
+    ],
+    'created_at:datetime',
 ]
 ?>
 <div class="site-specialists">
@@ -47,31 +58,38 @@ $columns = [
             <div class="col-md-2">
                 <div class="d-flex align-items-start">
                     <div class="nav-tabs flex-column  me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="btn active" id="tab-pending" data-bs-toggle="pill" data-bs-target="#pane-pending" type="button" role="tab">
-                        В обробці
-                    </button>
-                    <button class="btn" id="tab-rejected" data-bs-toggle="pill" data-bs-target="#pane-rejected" type="button" role="tab">
-                        Відхилено
-                    </button>
-                    <button class="btn" id="tab-approved" data-bs-toggle="pill" data-bs-target="#pane-approved" type="button" role="tab">
-                        Прийнято
-                    </button>
-                    <button class="btn" id="tab-blocked" data-bs-toggle="pill" data-bs-target="#pane-blocked" type="button" role="tab">
-                        Заблоковано
-                    </button>
+                        <button class="btn active" id="tab-pending" data-bs-toggle="pill" data-bs-target="#pane-pending" type="button" role="tab">
+                            <?= Yii::t('admin', 'Pending') ?>
+                        </button>
+                        <button class="btn" id="tab-rejected" data-bs-toggle="pill" data-bs-target="#pane-rejected" type="button" role="tab">
+                            <?= Yii::t('admin', 'Rejected') ?>
+                        </button>
+                        <button class="btn" id="tab-approved" data-bs-toggle="pill" data-bs-target="#pane-approved" type="button" role="tab">
+                            <?= Yii::t('admin', 'Approved') ?>
+                        </button>
+                        <button class="btn" id="tab-blocked" data-bs-toggle="pill" data-bs-target="#pane-blocked" type="button" role="tab">
+                            <?= Yii::t('admin', 'Blocked') ?>
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="col-md-10">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <?php foreach (['pending' => 'В обробці', 'rejected' => 'Відхилено', 'approved' => 'Прийнято', 'blocked' => 'Заблоковано'] as $key => $label): ?>
+                    <?php foreach (
+                        [
+                            'pending' => Yii::t('admin', 'Pending'),
+                            'rejected' => Yii::t('admin', 'Rejected'),
+                            'approved' => Yii::t('admin', 'Approved'),
+                            'blocked' => Yii::t('admin', 'Blocked'),
+                        ] as $key => $label
+                    ): ?>
                         <div class="tab-pane fade <?= $key === 'pending' ? 'show active' : '' ?>" id="pane-<?= $key ?>" role="tabpanel" aria-labelledby="tab-<?= $key ?>">
                             <?php
                             $provider = $providers[$key] ?? null;
                             $searchModel = $searchModels[$key];
                             if (!$provider || $provider->getTotalCount() === 0): ?>
                                 <div class="alert alert-info mt-3">
-                                    Немає заявок зі статусом: <?= $label ?>
+                                    <?= Yii::t('admin', 'No with status') ?> <?= $label ?>
                                 </div>
                             <?php else: ?>
                                 <?php Pjax::begin(['id' => 'pjax-' . $key]); ?>

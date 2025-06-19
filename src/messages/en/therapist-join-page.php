@@ -1,6 +1,5 @@
 <?php
 return [
-    // #region FOR THERAPISTS PAGE
     'FT Join Form' => 'Join MindPlace team',
     'FT title' => 'Join MindPlace',
     'FT intro h1' => 'MindPlace for Specialists',
@@ -39,15 +38,23 @@ return [
     'Education Name' => 'Education Name',
     'Specialization' => 'Specialization',
     'Education File' => 'Education File',
-    'file hint' => 'Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 2MB',
-    'photo hint' => 'Дозволені формати: JPG, JPEG, PNG. Максимальний розмір: 1MB',
+    'file hint' => 'Allowed formats: PDF, DOC, DOCX.  Max size: 1MB',
+    'photo hint' => 'Allowed formats: JPG, JPEG, PNG. Max size: 1MB',
     'Additional Certification' => 'Additional Certification',
     'Additional Certification File' => 'Additional Certification File',
     'Experience' => 'Experience',
+    'Address' => 'Address (if you work offline)',
+    'Save btn' => 'Save',
+    'Download' => 'Download',
 
     'Privacy Policy' => 'Privacy Policy',
     'I agree to the privacy policy' => 'I agree to the privacy policy',
     'One moment' => 'Submit',
 
-    // #endregion
+    'Your application is being reviewed' => 'Your application is being reviewed',
+    'We will notify you once we review your application' => 'We will notify you once we review your application',
+    'Your application has been rejected' => 'Your application has been rejected',
+    'Please contact us for more information' => 'Please contact us for more information',
+    'Your application has been approved' => 'Your application has been approved',
+    'You can now start using MindPlace' => 'You can now start using MindPlace',
 ];

@@ -7,8 +7,8 @@ use yii\bootstrap5\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 
-$this->title = 'Перегляд профілю: ' . $doctor->name;
-$this->params['breadcrumbs'][] = ['label' => 'Управління користувачами', 'url' => ['/admin/users']];
+$this->title = Yii::t('admin', 'Profile') . ' ' . $doctor->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('admin', 'Specialists requests'), 'url' => ['/admin/specialist-request']];  
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
@@ -29,33 +29,33 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <h2><?= Html::encode($doctor->name) ?></h2>
                                 </div>
                                 <div class="row">
-                                    <h3>Основна інформація</h3>
+                                    <h3><?= Yii::t('admin', 'Main info') ?></h3>
                                     <table class="table table-striped">
                                         <tr>
-                                            <th>Email:</th>
+                                            <th><?= Yii::t('admin', 'Email') ?>:</th>
                                             <td><?= Html::encode($doctor->email) ?></td>
                                         </tr>
                                         <tr>
-                                            <th>Телефон:</th>
+                                            <th><?= Yii::t('admin', 'Contact number') ?>:</th>
                                             <td><?= Html::encode($doctor->contact_number) ?></td>
                                         </tr>
                                         <tr>
-                                            <th>Дата народження:</th>
+                                            <th><?= Yii::t('admin', 'Date of birth') ?>:</th>
                                             <td>
                                                 <?= Html::encode($doctor->date_of_birth) ?>
-                                                (<?= Html::encode($doctor->age) ?> р.)
+                                                (<?= Html::encode($doctor->age) ?> <?= Yii::t('admin', 'years old') ?>)
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Місто:</th>
+                                            <th><?= Yii::t('admin', 'City') ?>:</th>
                                             <td><?= Html::encode($doctor->getOptionLabel('city', 'city')) ?></td>
                                         </tr>
                                         <tr>
-                                            <th>Стать:</th>
+                                            <th><?= Yii::t('admin', 'Gender') ?>:</th>
                                             <td><?= Html::encode($doctor->getOptionLabel('gender', 'gender')) ?></td>
                                         </tr>
                                         <tr>
-                                            <th>Мови:</th>
+                                            <th><?= Yii::t('admin', 'Languages') ?>:</th>
                                             <td>
 
                                                 <?= Html::encode(implode(', ', $doctor->getOptionLabels('language', 'language'))) ?>
@@ -72,92 +72,92 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div>
                             <p class="d-inline-flex gap-1">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseData" aria-expanded="false" aria-controls="collapseData">
-                                    More info
+                                    <?= Yii::t('admin', 'More info') ?>
                                 </button>
                             </p>
                             <div class="collapse" id="collapseData">
                                 <div class="card card-body row">
                                     <div class="col-md-12">
-                                        <h3>Професійна інформація</h3>
+                                        <h3><?= Yii::t('admin', 'Professional info') ?></h3>
                                         <table class="table table-striped">
                                             <tr>
-                                                <th>Спеціалізація:</th>
+                                                <th><?= Yii::t('admin', 'Specialization') ?>:</th>
                                                 <td><?= Html::encode(implode(', ', $doctor->getOptionLabels('specialization', 'specialization'))) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Типи терапії:</th>
+                                                <th><?= Yii::t('admin', 'Therapy types') ?>:</th>
                                                 <td><?= Html::encode(implode(', ', $doctor->getOptionLabels('therapy_types', 'therapy_types'))) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Теми:</th>
+                                                <th><?= Yii::t('admin', 'Themes') ?>:</th>
                                                 <td><?= Html::encode(implode(', ', $doctor->getOptionLabels('theme', 'theme'))) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Підходи:</th>
+                                                <th><?= Yii::t('admin', 'Approaches') ?>:</th>
                                                 <td><?= Html::encode(implode(', ', $doctor->getOptionLabels('approach_type', 'approach_type'))) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Формат:</th>
+                                                <th><?= Yii::t('admin', 'Format') ?>:</th>
                                                 <td><?= Html::encode(implode(', ', $doctor->getOptionLabels('format', 'format'))) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Робота з ЛГБТ:</th>
-                                                <td><?= $doctor->lgbt ? 'Так' : 'Ні' ?></td>
+                                                <th><?= Yii::t('admin', 'LGBT') ?>:</th>
+                                                <td><?= $doctor->lgbt ? Yii::t('admin', 'Yes') : Yii::t('admin', 'No') ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Робота з військовими:</th>
-                                                <td><?= $doctor->military ? 'Так' : 'Ні' ?></td>
+                                                <th><?= Yii::t('admin', 'Military') ?>:</th>
+                                                <td><?= $doctor->military ? Yii::t('admin', 'Yes') : Yii::t('admin', 'No') ?></td>
                                             </tr>
                                         </table>
                                     </div>
                                     <div class="col-md-12">
-                                        <h3>Освіта та сертифікати</h3>
+                                        <h3><?= Yii::t('admin', 'Education and certificates') ?></h3>
                                         <table class="table table-striped">
                                             <tr>
-                                                <th>Освіта:</th>
+                                                <th><?= Yii::t('admin', 'Education') ?>:</th>
                                                 <td><?= Html::encode($doctor->education_name) ?></td>
                                             </tr>
                                             <tr>
-                                                <th>Файл диплому:</th>
+                                                <th><?= Yii::t('admin', 'Education file') ?>:</th>
                                                 <td>
                                                     <?php if ($doctor->education_file): ?>
                                                         <a href="<?= Url::to(['download-education', 'id' => $doctor->id]) ?>" class="btn btn-outline-primary">
-                                                            Завантажити документ
+                                                            <?= Yii::t('admin', 'Download document') ?>
                                                         </a>
                                                     <?php else: ?>
-                                                        Не завантажено
+                                                        <?= Yii::t('admin', 'Not loaded') ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Додаткові сертифікати:</th>
+                                                <th><?= Yii::t('admin', 'Additional certificates') ?>:</th>
                                                 <td>
                                                     <?php if ($doctor->additional_certification): ?>
                                                         <?= Html::encode($doctor->additional_certification) ?>
                                                     <?php else: ?>
-                                                        Не зазначено
+                                                        <?= Yii::t('admin', 'Not specified') ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Файл сертифікату:</th>
+                                                <th><?= Yii::t('admin', 'Additional certificates file') ?>:</th>
                                                 <td>
                                                     <?php if ($doctor->additional_certification_file): ?>
                                                         <a href="<?= Url::to(['download-additional-certification', 'id' => $doctor->id]) ?>" class="btn btn-outline-primary">
-                                                            Завантажити документ
+                                                            <?= Yii::t('admin', 'Download document') ?>
                                                         </a>
                                                     <?php else: ?>
-                                                        Не завантажено
+                                                        <?= Yii::t('admin', 'Not loaded') ?>
                                                     <?php endif; ?>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                     <div class="col-md-12">
-                                        <h3>Досвід:</h3>
+                                        <h3><?= Yii::t('admin', 'Experience') ?>:</h3>
                                         <p><?= $doctor->experience ?></p>
 
-                                        <h3>Соціальні мережі:</h3>
+                                        <h3><?= Yii::t('admin', 'Social media') ?>:</h3>
                                         <p><?= $doctor->social_media ?></p>
 
                                     </div>
@@ -171,30 +171,30 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="card mt-4 p-3 bg-body-tertiary-cstm rounded-4">
-        <h3>Модерація заявки</h3>
+        <h3><?= Yii::t('admin', 'Moderation') ?></h3>
         <?php $form = ActiveForm::begin(); ?>
-        <?= $form->field($application, 'comment')->textarea(['id' => 'comment'])->label(Yii::t('app', 'Admin comment')) ?>
+        <?= $form->field($application, 'comment')->textarea(['id' => 'comment'])->label(Yii::t('admin', 'Admin comment')) ?>
 
         <?php if ($application->status === 'pending'): ?>
             <div class="alert alert-warning" role="alert">
-                Заявка на спеціаліста очікує на перевірку.
+                <?= Yii::t('admin', 'Pending application') ?>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Прийняти', [
+                <?= Html::submitButton(Yii::t('admin', 'Approve application'), [
                     'class' => 'btn btn-success',
                     'name' => 'action',
                     'value' => 'approve',
                     'formaction' => Url::to(['approve', 'id' => $application->id]),
                     'formmethod' => 'post',
                 ]) ?>
-                <?= Html::submitButton('Відхилити', [
+                <?= Html::submitButton(Yii::t('admin', 'Reject application'), [
                     'class' => 'btn btn-danger',
                     'name' => 'action',
                     'value' => 'reject',
                     'formaction' => Url::to(['reject', 'id' => $application->id]),
                     'formmethod' => 'post',
                 ]) ?>
-                <?= Html::submitButton('Заблокувати', [
+                <?= Html::submitButton(Yii::t('admin', 'Block application'), [
                     'class' => 'btn btn-warning',
                     'name' => 'action',
                     'value' => 'block',
@@ -204,10 +204,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php elseif ($application->status === 'approved'): ?>
             <div class="alert alert-success" role="alert">
-                Заявка на спеціаліста прийнята.
+                <?= Yii::t('admin', 'Approved application') ?>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Заблокувати', [
+                <?= Html::submitButton(Yii::t('admin', 'Block application'), [
                     'class' => 'btn btn-warning',
                     'name' => 'action',
                     'value' => 'block',
@@ -217,24 +217,24 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php elseif ($application->status === 'rejected'): ?>
             <div class="alert alert-danger" role="alert">
-                Заявка на спеціаліста відхилена.
+                <?= Yii::t('admin', 'Rejected application') ?>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Прийняти', [
+                <?= Html::submitButton(Yii::t('admin', 'Approve application'), [
                     'class' => 'btn btn-success',
                     'name' => 'action',
                     'value' => 'approve',
                     'formaction' => Url::to(['approve', 'id' => $application->id]),
                     'formmethod' => 'post',
                 ]) ?>
-                <?= Html::submitButton('Відхилити', [
+                <?= Html::submitButton(Yii::t('admin', 'Reject application'), [
                     'class' => 'btn btn-danger',
                     'name' => 'action',
                     'value' => 'reject',
                     'formaction' => Url::to(['reject', 'id' => $application->id]),
                     'formmethod' => 'post',
                 ]) ?>
-                <?= Html::submitButton('Заблокувати', [
+                <?= Html::submitButton(Yii::t('admin', 'Block application'), [
                     'class' => 'btn btn-warning',
                     'name' => 'action',
                     'value' => 'block',
@@ -244,10 +244,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php elseif ($application->status === 'blocked'): ?>
             <div class="alert alert-danger" role="alert">
-                Заявка на спеціаліста заблокована.
+                <?= Yii::t('admin', 'Blocked application') ?>
             </div>
             <div class="form-group">
-                <?= Html::submitButton('Розблокувати', [
+                <?= Html::submitButton(Yii::t('admin', 'Unblock application'), [
                     'class' => 'btn btn-warning',
                     'name' => 'action',
                     'value' => 'block',

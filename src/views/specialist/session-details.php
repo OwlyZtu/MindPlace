@@ -10,8 +10,8 @@ use yii\helpers\Html;
 /** @var array $themes */
 /** @var array $approachTypes */
 
-$this->title = 'Деталі консультації';
-$this->params['breadcrumbs'][] = ['label' => 'Мої сесії', 'url' => ['profile']];
+$this->title = Yii::t('specialist', 'Details of the consultation');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('profile', 'Profile'), 'url' => ['profile']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -23,38 +23,41 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card">
                 <div class="card-body">
                     <p>
-                        <strong>Код запису №<?= Html::encode($session->id) ?></strong>
+                        <strong>№<?= Html::encode($session->id) ?></strong>
                         <span class="float-end">
                             <?php ($session->isBooked()) ? $booked = 'disabled' : $booked = '' ?>
-                            <?= Html::a('Видалити', ['cancel-schedule', 'id' => $session->id], ['class' => 'btn btn-danger btn-sm' . $booked]) ?>
+                            <?= Html::a(Yii::t('specialist', 'Cancel'), ['cancel-schedule', 'id' => $session->id], ['class' => 'btn btn-danger btn-sm' . $booked]) ?>
+
                         </span>
 
                     </p>
 
                     <p>
-                        <strong>Лікар:</strong>
+                        <strong><?= Yii::t('specialist', 'Specialist') ?>:</strong>
+
                         <?= Html::encode(implode(', ', $doctor->getOptionLabels('specialization', 'specialization'))) ?> —
                         <?= Html::a(Html::encode($doctor->name), ['/specialist/' . $doctor->id], ['class' => 'link']) ?>
                     </p>
 
                     <p>
-                        <strong>Клієнт:</strong>
+                        <strong><?= Yii::t('specialist', 'Client') ?>:</strong>
+
                         <?= Html::encode($user->name ?? '—') ?>
                     </p>
 
                     <p>
-                        <strong>Дата й час:</strong>
+                        <strong><?= Yii::t('specialist', 'Date and time') ?>:</strong>
                         <?= Yii::$app->formatter->asDatetime($session->datetime, 'php:l, d M Y, H:i') ?> –
                         <?= Yii::$app->formatter->asTime($session->getEndTime(), 'short') ?>
                     </p>
 
                     <p>
-                        <strong>Тривалість:</strong>
+                        <strong><?= Yii::t('specialist', 'Duration') ?>:</strong>
                         <?= Html::encode($session->duration) ?> хв
                     </p>
 
                     <p>
-                        <strong>Статус:</strong>
+                        <strong><?= Yii::t('specialist', 'Status') ?>:</strong>
                         <?php if ($session->status === $session::STATUS_BOOKED): ?>
                             <span class="badge bg-success text-bg-success">Записано</span>
                             <?php if (
@@ -71,26 +74,26 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 <?php elseif ($session->meet_url): ?>
                     <p>
-                        <strong>Сесія відбудеться за посиланням:</strong>
+                        <strong><?= Yii::t('specialist', 'Link to the meeting') ?>:</strong>
                         <a href="<?= Html::encode($session->meet_url) ?>" target="_blank" class="btn btn-outline-primary">
-                            Перейти до зустрічі
+                            <?= Yii::t('specialist', 'Join the meeting') ?>
                         </a>
                     </p>
                 <?php else: ?>
                     <p class="text-danger">
-                        Ви зможете створити посилання на сесію у GoogleMeet за годину до назначеного часу.
+                            <?= Yii::t('specialist', 'You can create a link to the session in Google Meet within an hour of the scheduled time.') ?>
                     </p>
                 <?php endif; ?>
             <?php elseif ($session->status === $session::STATUS_COMPLETED): ?>
-                <span class="badge bg-primary">Завершено</span>
+                <span class="badge bg-primary"><?= Yii::t('specialist', 'Completed') ?></span>
                 <div class="mt-3 alert alert-info">
-                    <p><strong>Рекомендації лікаря:</strong></p>
+                    <p><strong><?= Yii::t('specialist', 'Recommendations from the doctor') ?>:</strong></p>
                     <p><?= Html::encode($session->details['recommendations'] ?? '—') ?></p>
                 </div>
             <?php elseif ($session->status === $session::STATUS_CANCELED): ?>
-                <span class="badge bg-danger">Скасовано</span>
+                <span class="badge bg-danger"><?= Yii::t('specialist', 'Canceled') ?></span>
             <?php else: ?>
-                <span class="badge bg-secondary">Готово до запису</span>
+                <span class="badge bg-secondary"><?= Yii::t('specialist', 'Booked') ?></span>
             <?php endif; ?>
             </p>
                 </div>
@@ -100,10 +103,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="card">
                 <div class="card-body">
-                    <h2>Запит клієнта</h2>
+                    <h2><?= Yii::t('specialist', 'Details of the consultation') ?></h2>
 
                     <div>
-                        <p><strong>Тип терапії:</strong></p>
+                        <p><strong><?= Yii::t('specialist', 'Type of therapy') ?>:</strong></p>
                         <?php if (!empty($therapyTypes)): ?>
                             <ul>
                                 <?php foreach ($therapyTypes as $type): ?>
@@ -116,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div>
-                        <p><strong>Тема:</strong></p>
+                        <p><strong><?= Yii::t('specialist', 'Theme') ?>:</strong></p>
                         <?php if (!empty($themes)): ?>
                             <ul>
                                 <?php foreach ($themes as $theme): ?>
@@ -129,7 +132,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div>
-                        <p><strong>Підхід:</strong></p>
+                        <p><strong><?= Yii::t('specialist', 'Approach') ?>:</strong></p>
+
                         <?php if (!empty($approachTypes)): ?>
                             <ul>
                                 <?php foreach ($approachTypes as $approach): ?>
@@ -142,19 +146,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div>
-                        <p><strong>Формат:</strong></p>
+                        <p><strong><?= Yii::t('specialist', 'Format') ?>:</strong></p>
                         <p><?= Html::encode($session->format ?? '—') ?></p>
                     </div>
 
                     <div>
-                        <p><strong>Коментар:</strong></p>
+                        <p><strong><?= Yii::t('specialist', 'Comment') ?>:</strong></p>
                         <p><?= $session->comment ?? '—' ?></p>
                     </div>
                 </div>
             </div>
 
             <div class="text-center mt-4">
-                <?= Html::a('Назад', ['site/profile'], ['class' => 'btn btn-secondary']) ?>
+                <?= Html::a(Yii::t('specialist', 'Back'), ['site/profile'], ['class' => 'btn btn-secondary']) ?>
             </div>
         </div>
     </div>

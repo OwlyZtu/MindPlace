@@ -17,52 +17,52 @@ use app\models\forms\FormOptions;
         <?= $form->field($model, 'format')->dropDownList(
             FormOptions::getFormatOptions(),
             ['promt' => 'Select format']
-        ) ?>
+        )->label(Yii::t('specialist', 'Format')) ?>
 
         <div class="city-field" style="display: none;">
             <?= $form->field($model, 'city')->dropDownList(
                 FormOptions::getCityOptions(),
                 ['promt' => 'Select city']
-            ) ?>
+            )->label(Yii::t('specialist', 'City')) ?>
         </div>
 
         <?= $form->field($model, 'therapy_types')->dropDownList(
             FormOptions::getTherapyTypesOptions(),
             ['promt' => 'Therapy type']
-        ) ?>
+        )->label(Yii::t('specialist', 'Therapy type')) ?>
 
         <?= $form->field($model, 'theme')->checkboxList(
             FormOptions::getThemeOptions(),
             ['promt' => 'What theme to discuss']
-        ) ?>
+        )->label(Yii::t('specialist', 'Theme')) ?>
 
         <?= $form->field($model, 'approach_type')->checkboxList(
             FormOptions::getApproachTypeOptions()
-        ) ?>
+        )->label(Yii::t('specialist', 'Approach type')) ?>
 
         <?= $form->field($model, 'language')->checkboxList(
             FormOptions::getLanguageOptions()
-        ) ?>
+        )->label(Yii::t('specialist', 'Language')) ?>
 
         <?= $form->field($model, 'gender')->radioList(
             FormOptions::getGenderOptions()
-        )->label('Therapist') ?>
+        )->label(Yii::t('specialist', 'Gender')) ?>
 
         <?= $form->field($model, 'age')->checkboxList(
             FormOptions::getAgeOptions()
-        ) ?>
+        )->label(Yii::t('specialist', 'Age')) ?>
 
         <?= $form->field($model, 'specialization')->checkboxList(
             FormOptions::getSpecializationOptions()
-        ) ?>
+        )->label(Yii::t('specialist', 'Specialization')) ?>
 
 
-        <?= $form->field($model, 'lgbt')->checkbox(['label' => 'LGBTQ+ friendly']) ?>
+        <?= $form->field($model, 'lgbt')->checkbox()->label(Yii::t('specialist', 'LGBTQ+ friendly')) ?>
 
-        <?= $form->field($model, 'military')->checkbox(['label' => 'Work with military personnel']) ?>
+        <?= $form->field($model, 'military')->checkbox()->label(Yii::t('specialist', 'Work with military personnel')) ?>
 
         <div class="btn-group">
-            <?= Html::submitButton('Застосувати', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('specialist', 'Apply'), ['class' => 'btn btn-primary']) ?>
             <?= Html::a(
                 '<span>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@ use app\models\forms\FormOptions;
                         </g>
                     </svg>
                 </span>',
-                ['site/specialists', 'clear' => 1], // додатковий GET-параметр
+                ['site/specialists', 'clear' => 1],
                 ['class' => 'btn btn-outline-secondary', 'escape' => false]
             ) ?>
 

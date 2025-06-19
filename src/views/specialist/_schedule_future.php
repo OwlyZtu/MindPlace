@@ -18,12 +18,12 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
     <?php
     $urlParams = Yii::$app->request->get();
     $toggleBusy = $busyOnly ? 0 : 1;
-    $buttonLabel = $busyOnly ? 'Показати всі' : 'Показати тільки зайняті';
+    $buttonLabel = $busyOnly ? Yii::t('schedules', 'Show all') : Yii::t('schedules', 'Show only booked');
     $urlParams['busy_only'] = $toggleBusy;
     ?>
     <div class="m-3">
         <p>
-            <?= $busyOnly ? 'Зайняті слоти розкладу:' : 'Увесь майбутній розклад:' ?>
+            <?= $busyOnly ? Yii::t('schedules', 'Busy slots') : Yii::t('schedules', 'Full schedule') ?>:
             <span class="float-end">
                 <?= Html::a($buttonLabel, array_merge(['profile'], $urlParams), ['class' => 'btn btn-primary']) ?>
 
@@ -35,29 +35,29 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
             <?php foreach ($futureSchedules as $item): ?>
                 <li class="list-group-item my-1">
                     <p>
-                        <strong>Запис №<?= $item->id ?></strong>
+                        <strong>№<?= $item->id ?></strong>
                         <mark>
                             <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?>
                         </mark>
                         <span class="float-end">
-                            <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                            <?= Html::a(Yii::t('schedules', 'Details'), ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
                             <?php if (!$item->isBooked()): ?>
-                                <?= Html::a('Видалити', ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
+                                <?= Html::a(Yii::t('schedules', 'Cancel'), ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
                             <?php endif; ?>
                         </span>
                     </p>
                     <p></p>
-                    <strong>Тривалість:</strong> <?= $item->duration ?> хв.<br>
-                    <strong>Сеанс:</strong>
+                    <strong><?= Yii::t('schedules', 'Duration') ?>:</strong> <?= $item->duration ?> <?= Yii::t('schedules', 'minutes') ?><br>
+                    <strong><?= Yii::t('schedules', 'Session') ?>:</strong>
                     <?php if ($item->isBooked()): ?>
-                        Призначено (ID: <?= $item->client_id ?>)
+                        <?= Yii::t('schedules', 'Booked') ?> (ID: <?= $item->client_id ?>)
                         <?php if ($item->status == $item::STATUS_CANCELED): ?>
                             <span class="badge bg-danger">
-                                (відмінено від клієнта)
+                                <?= Yii::t('schedules', 'Canceled by client') ?>
                             </span>
                         <?php endif; ?>
                     <?php else: ?>
-                        Вільний на запис
+                        <?= Yii::t('schedules', 'Free') ?>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -84,12 +84,12 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
     <?php else: ?>
         <div class="alert alert-warning mt-2 text-center">
             <p>
-                Наразі немає запланованих сесій.
+                <?= Yii::t('schedules', 'No future sessions') ?>
             </p>
         </div>
     <?php endif; ?>
     <div>
-        <h4>Створити графік:</h4>
+        <h4><?= Yii::t('schedules', 'Create schedule') ?>:</h4>
 
         <?php $form = ActiveForm::begin(['id' => 'create-schedule']); ?>
         <?= Html::hiddenInput('form_name', 'create-schedule') ?>
@@ -97,10 +97,11 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
             <?= $form->field($schedule_model, 'doctor_id')->textInput(['value' => Yii::$app->user->identity->id]) ?>
         </div>
 
-        <?= $form->field($schedule_model, 'datetime')->textInput(['type' => 'datetime-local', 'min' => date('Y-m-d\TH:i')]) ?>
-        <?= $form->field($schedule_model, 'duration')->input('number', ['min' => 15, 'step' => 5]) ?>
+        <?= $form->field($schedule_model, 'datetime')->textInput(['type' => 'datetime-local', 'min' => date('Y-m-d\TH:i')])->label(Yii::t('schedules', 'Date')) ?>
+
+        <?= $form->field($schedule_model, 'duration')->input('number', ['min' => 15, 'step' => 5, 'value' => 30])->label(Yii::t('schedules', 'Duration')) ?>
         <div class="form-group">
-            <?= Html::submitButton('Зберегти', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton(Yii::t('schedules', 'Save'), ['class' => 'btn btn-primary']) ?>
         </div>
         <?php ActiveForm::end(); ?>
     </div>

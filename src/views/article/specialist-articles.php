@@ -6,7 +6,7 @@ use yii\widgets\LinkPager;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Мої статті';
+$this->title = Yii::t('article', 'Specialist articles');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row article-index justify-content-center">
@@ -14,13 +14,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-12 col-md-10 col-lg-10 my-3">
         <div class="row justify-content-end mb-3">
             <div class="col-12 col-md-3 col-lg-3">
-                <a href="<?= \yii\helpers\Url::to(['article/create-article']) ?>" class="btn btn-success text-center">Додати статтю</a>
+                <a href="<?= \yii\helpers\Url::to(['article/create-article']) ?>" class="btn btn-success text-center"><?= Yii::t('article', 'Create article') ?></a>
             </div>
         </div>
         <div class="row row-gap-3 justify-content-center">
             <?php if (empty($dataProvider->getModels())): ?>
                 <div class="alert alert-info" role="alert">
-                    No articles found. Please try again later.
+                    <?= Yii::t('article', 'No articles found') ?>
                 </div>
             <?php else: ?>
                 <?php

@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 
 use yii\helpers\Html;
 
-$this->title = 'Редагувати статтю';
-$this->params['breadcrumbs'][] = ['label' => 'Статті', 'url' => ['index']];
+$this->title = Yii::t('article', 'Edit article');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('article', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -23,17 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?php $form = ActiveForm::begin(); ?>
 
-                    <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'value' => $article->title]) ?>
+                    <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'value' => $article->title])->label(Yii::t('article', 'Article title')) ?>
 
-                    <?= $form->field($model, 'content')->textarea(['id' => 'articleform-content-update']) ?>
+                    <?= $form->field($model, 'content')->textarea(['id' => 'articleform-content-update'])->label(Yii::t('article', 'Article content')) ?>
 
                     <div class="alert alert-info">
                         <p>
-                            Перед повторним опублікуванням вашої статті, її необхідно перевірити адміністратору. До того часу вона буде знята з загального огляду. Це займе не більше доби. Приємної роботи!
+                            <?= Yii::t('article', 'Before update') ?>
                         </p>
                     </div>
                     <div class="form-group mt-3">
-                        <?= Html::submitButton('Зберегти', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(Yii::t('article', 'Save'), ['class' => 'btn btn-success']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?php
-$content = json_encode($article->content); // безпечне екранування
+$content = json_encode($article->content);
 $js = <<<JS
     tinymce.init({
         selector: 'textarea#articleform-content-update',

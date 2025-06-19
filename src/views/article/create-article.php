@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 
 use yii\helpers\Html;
 
-$this->title = 'Створити статтю';
-$this->params['breadcrumbs'][] = ['label' => 'Статті', 'url' => ['index']];
+$this->title = Yii::t('article', 'Create article');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('article', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -23,17 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?php $form = ActiveForm::begin(); ?>
 
-                    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label(Yii::t('article', 'Article title')) ?>
 
-                    <?= $form->field($model, 'content')->textarea(['id' => 'articleform-content']) ?>
+                    <?= $form->field($model, 'content')->textarea(['id' => 'articleform-content'])->label(Yii::t('article', 'Article content')) ?>
 
                     <div class="alert alert-info">
                         <p>
-                            Перед опублікуванням вашої статті, її необхідно перевірити адміністратору. Це займе не більше доби. Приємної роботи!
+                            <?= Yii::t('article', 'Before create') ?>
                         </p>
                     </div>
                     <div class="form-group mt-3">
-                        <?= Html::submitButton('Зберегти', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(Yii::t('article', 'Save'), ['class' => 'btn btn-success']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

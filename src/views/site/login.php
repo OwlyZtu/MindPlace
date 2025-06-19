@@ -67,9 +67,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="form-group row justify-content-center">
                             <div class="col-lg-5 text-center">
                                 <?= Html::submitButton(Yii::t('app', 'Login'), ['class' => 'btn btn-primary btn-lg m-2', 'name' => 'login-button']) ?>
-                                <p>або</p>
+                                <p><?= Yii::t('app', 'or') ?></p>
                                 <a href="<?= Url::to(['site/auth-google']) ?>" class="btn btn-secondary">
-                                    Увійти через Google
+                                    <?= Yii::t('app', 'Login with Google') ?>
                                 </a>
                             </div>
 
@@ -83,13 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= Html::a(Yii::t('app', 'Link to signup'), ['site/signup']) ?>
                         </p>
                     </div>
-                    <div class="row mt-4 text-center">
-                        <p>
-                            <?= Yii::t('app', 'Forgot password?') ?>
-                            <?= Html::a(Yii::t('app', 'Login reset password'), ['site/request-password-reset']) ?>
-                        </p>
-                    </div>
-
                 </div>
             </div>
         </div>

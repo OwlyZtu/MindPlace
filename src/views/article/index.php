@@ -6,7 +6,7 @@ use yii\widgets\LinkPager;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Блог твого ментального здоров\'я';
+$this->title = Yii::t('article', 'Article page title');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row article-index justify-content-center">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row row-gap-3 justify-content-center">
             <?php if (empty($dataProvider->getModels())): ?>
                 <div class="alert alert-info" role="alert">
-                    No articles found. Please try again later.
+                    <?= Yii::t('article', 'No articles found') ?>
                 </div>
             <?php else: ?>
                 <?php

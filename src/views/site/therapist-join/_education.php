@@ -28,7 +28,7 @@ use app\models\forms\FormOptions;
     <?= $form->field($model, 'experience')->textarea(['id' => 'experience', 'placeholder' => 'e.g. Place, position: 5 years'])
     ->label(Yii::t('therapist-join-page', 'Experience') . '<span class="text-danger"> *</span>') ?>
 
-    <?= Html::submitButton('Зберегти') ?>
+    <?= Html::submitButton(Yii::t('therapist-join-page', 'Save btn')) ?>
     <?php ActiveForm::end(); ?>
 </fieldset>
 

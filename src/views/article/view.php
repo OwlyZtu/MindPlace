@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Статті', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('article', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -20,12 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         || $model->doctor_id === Yii::$app->user->identity->id)
                 ): ?>
                     <div class="row justify-content-end">
-                        <?= Html::a('Редагувати', ['update-article', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary col-md-2 me-1']) ?>
-
-                        <?= Html::a('Видалити', ['delete-article', 'id' => $model->id], [
+                        <?= Html::a(Yii::t('article', 'Edit article'), ['update-article', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary col-md-2 me-1']) ?>
+                        <?= Html::a(Yii::t('article', 'Delete article'), ['delete-article', 'id' => $model->id], [
                             'class' => 'btn btn-sm btn-danger  col-md-2',
                             'data' => [
-                                'confirm' => 'Are you sure you want to delete this article?',
+                                'confirm' => Yii::t('article', 'Are you sure you want to delete this article?'),
                                 'method' => 'post',
                             ],
                         ]) ?>
@@ -40,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <hr>
                 <p class="text-end text-muted">
-                    Автор: <?= Html::encode($model->doctor->name ?? 'Невідомо') ?>
+                    <?= Yii::t('article', 'Author') ?>: <?= Html::encode($model->doctor->name ?? Yii::t('article', 'Unknown author')) ?>
                 </p>
             </div>
         </div>

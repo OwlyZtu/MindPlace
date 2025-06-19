@@ -19,7 +19,7 @@ $this->title = 'Specialist Profile';
 
             <div class="row justify-content-center mb-2">
                 <h2 class="col-lg-6 gradient-text">
-                    <?= Yii::t('app', 'Greeting', ['name' => Yii::$app->user->identity->name]) ?>
+                    <?= Yii::t('profile', 'Greeting') . Yii::$app->user->identity->name . '!' ?>
                     <span>
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -47,23 +47,23 @@ $this->title = 'Specialist Profile';
                     <?php
                     switch ($application_status) {
                         case 'pending':
-                            $status = Yii::t('app', 'Profile pending');
+                            $status = Yii::t('profile', 'Profile pending');
                             $alert = 'alert-warning';
                             break;
                         case 'rejected':
-                            $status = Yii::t('app', 'Profile rejected');
+                            $status = Yii::t('profile', 'Profile rejected');
                             $alert = 'alert-danger';
                             break;
                         case 'approved':
-                            $status = Yii::t('app', 'Profile approved');
+                            $status = Yii::t('profile', 'Profile approved');
                             $alert = 'alert-success';
                             break;
                         case 'blocked':
-                            $status = Yii::t('app', 'Profile blocked');
+                            $status = Yii::t('profile', 'Profile blocked');
                             $alert = 'alert-danger';
                             break;
                         default:
-                            $status = Yii::t('app', 'Profile pending');
+                            $status = Yii::t('profile', 'Profile pending');
                             $alert = 'alert-warning';
                             break;
                     } ?>
@@ -72,7 +72,7 @@ $this->title = 'Specialist Profile';
                     </div>
                     <?php if ($application_status == 'approved'): ?>
                         <a href="/article/specialist-articles" class="btn btn-primary">
-                            Перейти на панель медичного блогу
+                            <?= Yii::t('profile', 'Go to medical blog panel') ?>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -80,16 +80,16 @@ $this->title = 'Specialist Profile';
                     <nav class="">
                         <div class="nav nav-tabs mb-0 row" id="nav-tab" role="tablist">
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2 active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">
-                                <?= Yii::t('app', 'Profile title'); ?>
+                                <?= Yii::t('profile', 'Profile title'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-future-sessions-tab" data-bs-toggle="tab" data-bs-target="#nav-future-sessions" type="button" role="tab" aria-controls="nav-future-sessions" aria-selected="false">
-                                <?= Yii::t('app', 'Profile future_sessions'); ?>
+                                <?= Yii::t('profile', 'Profile future_sessions'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-sessions-history-tab" data-bs-toggle="tab" data-bs-target="#nav-sessions-history" type="button" role="tab" aria-controls="nav-sessions-history" aria-selected="false">
-                                <?= Yii::t('app', 'Profile history'); ?>
+                                <?= Yii::t('profile', 'Profile history'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-settings-tab" data-bs-toggle="tab" data-bs-target="#nav-settings" type="button" role="tab" aria-controls="nav-settings" aria-selected="false">
-                                <?= Yii::t('app', 'Profile settings'); ?>
+                                <?= Yii::t('profile', 'Profile settings'); ?>
                             </button>
                         </div>
                     </nav>
@@ -110,7 +110,7 @@ $this->title = 'Specialist Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile name'); ?>
+                                        <?= Yii::t('profile', 'Profile name'); ?>
 
                                     </p>
                                     <p class="mt-1">
@@ -131,7 +131,7 @@ $this->title = 'Specialist Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile email'); ?>
+                                        <?= Yii::t('profile', 'Profile email'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?= Yii::$app->user->identity->email ?>
@@ -152,7 +152,7 @@ $this->title = 'Specialist Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile phone'); ?>
+                                        <?= Yii::t('profile', 'Profile phone'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?= Yii::$app->user->identity->contact_number ?>
@@ -177,7 +177,7 @@ $this->title = 'Specialist Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile date_of_birth'); ?>
+                                        <?= Yii::t('profile', 'Profile date_of_birth'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?= Yii::$app->user->identity->date_of_birth ?>
@@ -201,7 +201,7 @@ $this->title = 'Specialist Profile';
                                 </div>
                                 <div class="col-lg-6">
                                     <p>
-                                        <?= Yii::t('app', 'Profile gender'); ?>:
+                                        <?= Yii::t('profile', 'Profile gender'); ?>:
                                         <?= Html::encode(Yii::$app->user->identity->getOptionLabel('gender', 'gender')) ?>
                                     </p>
                                 </div>
@@ -210,7 +210,7 @@ $this->title = 'Specialist Profile';
                                 <div class="row mt-4">
                                     <div class="col-lg-6">
                                         <p>
-                                            <?= Yii::t('app', 'Social media'); ?>:
+                                            <?= Yii::t('profile', 'Social media'); ?>:
                                         </p>
                                     </div>
                                     <div class="col-lg-6">
@@ -223,12 +223,12 @@ $this->title = 'Specialist Profile';
                             <div class="row mt-4">
                                 <div class="col-lg-12">
                                     <h4>
-                                        Професійна інформація
+                                        <?= Yii::t('profile', 'Profecional data'); ?>
                                     </h4>
                                     <div class="row m-2">
                                         <div class="col-lg-5">
                                             <p>
-                                                <?= Yii::t('app', 'Profile specialization'); ?>:
+                                                <?= Yii::t('profile', 'Profile specialization'); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -240,7 +240,7 @@ $this->title = 'Specialist Profile';
                                     <div class="row m-2">
                                         <div class="col-lg-5">
                                             <p>
-                                                <?= Html::encode(Yii::t('app', 'Profile therapy_types')); ?>:
+                                                <?= Html::encode(Yii::t('profile', 'Profile therapy_types')); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -252,7 +252,7 @@ $this->title = 'Specialist Profile';
                                     <div class="row m-2">
                                         <div class="col-lg-5">
                                             <p>
-                                                <?= Yii::t('app', 'Profile themes'); ?>:
+                                                <?= Yii::t('profile', 'Profile themes'); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -265,7 +265,7 @@ $this->title = 'Specialist Profile';
                                         <div class="col-lg-5">
 
                                             <p>
-                                                Формат:
+                                                <?= Yii::t('profile', 'Profile formats'); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -278,14 +278,14 @@ $this->title = 'Specialist Profile';
                                     <?php if (Yii::$app->user->identity->lgbt): ?>
                                         <div class="row m-2">
                                             <p>
-                                                <?= Yii::t('app', 'Робота з ЛГБТ'); ?> ✅
+                                                <?= Yii::t('profile', 'Profile lgbt'); ?> ✅
                                             </p>
                                         </div>
                                     <? endif; ?>
                                     <?php if (Yii::$app->user->identity->military): ?>
                                         <div class="row m-2">
                                             <p>
-                                                <?= Yii::t('app', 'Work with military'); ?> ✅
+                                                <?= Yii::t('profile', 'Profile military'); ?> ✅
                                             </p>
                                         </div>
                                     <? endif; ?>
@@ -293,7 +293,7 @@ $this->title = 'Specialist Profile';
                                     <div class="row m-2">
                                         <div class="col-lg-5">
                                             <p>
-                                                <?= Yii::t('app', 'Profile language'); ?>:
+                                                <?= Yii::t('profile', 'Profile languages'); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -304,7 +304,7 @@ $this->title = 'Specialist Profile';
                                     </div>
                                     <div class="row m-2">
                                         <p>
-                                            <?= Yii::t('app', 'Profile experience'); ?>:
+                                            <?= Yii::t('profile', 'Profile experience'); ?>:
                                         </p>
                                         <p>
                                             <?= Yii::$app->user->identity->experience; ?>
@@ -313,12 +313,12 @@ $this->title = 'Specialist Profile';
                                 </div>
                                 <div class="col-lg-12">
                                     <h4>
-                                        Освіта та сертифікати
+                                        <?= Yii::t('profile', 'Profile education and certifications'); ?>
                                     </h4>
                                     <div class="row m-2">
                                         <div class="col-lg-5">
                                             <p>
-                                                Освіта:
+                                                <?= Yii::t('profile', 'Profile education'); ?>:
                                             </p>
                                         </div>
                                         <div class="col-lg-7">
@@ -327,10 +327,10 @@ $this->title = 'Specialist Profile';
                                             </p>
                                             <?php if (Yii::$app->user->identity->education_file): ?>
                                                 <a href="<?= Url::to(['download-education', 'id' => Yii::$app->user->identity->id]) ?>" class="btn btn-primary">
-                                                    Завантажити документ
+                                                    <?= Yii::t('profile', 'Download education'); ?>
                                                 </a>
                                             <?php else: ?>
-                                                Не завантажено
+                                                <?= Yii::t('profile', 'No education file'); ?>
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -338,7 +338,7 @@ $this->title = 'Specialist Profile';
                                         <div class="row m-2">
                                             <div class="col-lg-5">
                                                 <p>
-                                                    Додаткові сертифікати:
+                                                    <?= Yii::t('profile', 'Profile additional_certification'); ?>:
                                                 </p>
                                             </div>
                                             <div class="col-lg-7">
@@ -347,10 +347,10 @@ $this->title = 'Specialist Profile';
                                                 </p>
                                                 <?php if (Yii::$app->user->identity->additional_certification_file): ?>
                                                     <a href="<?= Url::to(['download-additional-certification', 'id' => $doctor->id]) ?>" class="btn btn-primary">
-                                                        Завантажити документ
+                                                        <?= Yii::t('profile', 'Download additional certification'); ?>
                                                     </a>
                                                 <?php else: ?>
-                                                    Не завантажено
+                                                    <?= Yii::t('profile', 'No additional certification file'); ?>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -368,7 +368,7 @@ $this->title = 'Specialist Profile';
                             <?php else: ?>
                                 <div class="my-3">
                                     <div class="alert alert-warning mt-2" role="alert">
-                                        Спочатку вам мають видати дозвіл надавати послуги. Якщо вважаєте, що виникла проблема напишіть нам
+                                        <?= Yii::t('profile', 'First'); ?>
                                     </div>
                                     <div class="d-flex justify-content-center mt-4">
                                         <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"
@@ -385,7 +385,7 @@ $this->title = 'Specialist Profile';
                             <?php else: ?>
                                 <div class="my-3">
                                     <div class="alert alert-warning mt-2" role="alert">
-                                        Спочатку вам мають видати дозвіл надавати послуги. Якщо вважаєте, що виникла проблема напишіть нам
+                                        <?= Yii::t('profile', 'First'); ?>
                                     </div>
                                     <div class="d-flex justify-content-center mt-4">
                                         <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"

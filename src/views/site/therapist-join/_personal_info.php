@@ -54,7 +54,7 @@ use app\models\forms\FormOptions;
     ) ?>
     <?= $form->field($model, 'social_media')->textarea(['id' => 'social_media', 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('therapist-join-page', 'Social Media')) ?>
 
-    <?= Html::submitButton('Зберегти') ?>
+    <?= Html::submitButton(Yii::t('therapist-join-page', 'Save btn')) ?>
     <?php ActiveForm::end(); ?>
 </fieldset>
 

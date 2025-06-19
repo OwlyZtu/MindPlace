@@ -16,18 +16,20 @@ $pagination = $archiveSchedulesProvider->getPagination();
             <?php foreach ($archiveSchedules as $item): ?>
                 <li class="list-group-item">
                     <span class="float-end">
-                            <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                            <?= Html::a(Yii::t('schedules', 'Details'), ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+
                             <?php if (!$item->isBooked()): ?>
-                                <?= Html::a('Видалити', ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
+                                <?= Html::a(Yii::t('schedules', 'Cancel'), ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
+
                             <?php endif; ?>
                     </span>
-                    <strong>Дата:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
-                    <strong>Тривалість:</strong> <?= $item->duration ?> хв.<br>
-                    <strong>Сеанс:</strong>
+                    <strong><?= Yii::t('schedules', 'Date') ?>:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
+                    <strong><?= Yii::t('schedules', 'Duration') ?>:</strong> <?= $item->duration ?> <?= Yii::t('schedules', 'minutes') ?><br>
+                    <strong><?= Yii::t('schedules', 'Session') ?>:</strong>
                     <?php if ($item->isBooked()): ?>
-                        Призначено (ID: <?= $item->client_id ?>)
+                        <?= Yii::t('schedules', 'Booked') ?> (ID: <?= $item->client_id ?>)
                     <?php else: ?>
-                        Вільний
+                        <?= Yii::t('schedules', 'Free') ?>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -35,7 +37,7 @@ $pagination = $archiveSchedulesProvider->getPagination();
     <?php else: ?>
         <div class="alert alert-warning mt-2 text-center">
             <p>
-                Сесій ще не проводилося
+                <?= Yii::t('schedules', 'No sessions') ?>
             </p>
         </div>
     <?php endif; ?>

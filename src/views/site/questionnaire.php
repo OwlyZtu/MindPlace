@@ -8,7 +8,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use app\models\forms\FormOptions;
 
-$this->title = 'Selection questionnaire';
+$this->title = Yii::t('questionnaire', 'Questionnaire');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -22,11 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-8 mx-auto">
                 <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
                 <p class="lead">
-                    Let us know a bit about yourself and your preferences, so we can find the best match for you.
+                    <?= Yii::t('questionnaire', 'Please answer a few simple questions to help us find the best match for you.') ?>
                 </p>
                 <div class="alert alert-info" role="alert">
-                    <strong>Note:</strong> This questionnaire is not mandatory, but it will help us to find the best match
-                    for you.
+                    <?= Yii::t('questionnaire', 'Note: This questionnaire is not mandatory, but it will help us to find the best match for you.') ?>
                 </div>
             </div>
 
@@ -44,36 +43,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
 
                 <fieldset class="border p-3 mb-3">
-                    <?= $form->field($model, 'format')->radioList(FormOptions::getFormatOptions()) ?>
+                    <?= $form->field($model, 'format')->radioList(FormOptions::getFormatOptions())->label(Yii::t('questionnaire', 'Format')) ?>
 
                     <div id="city-field" style="display: none;">
-                        <?= $form->field($model, 'city')->dropDownList(FormOptions::getCityOptions()) ?>
+                        <?= $form->field($model, 'city')->dropDownList(FormOptions::getCityOptions())->label(Yii::t('questionnaire', 'City')) ?>
                     </div>
 
-                    <?= $form->field($model, 'therapy_types')->radioList(FormOptions::getTherapyTypesOptions()) ?>
+                    <?= $form->field($model, 'therapy_types')->radioList(FormOptions::getTherapyTypesOptions())->label(Yii::t('questionnaire', 'Therapy types')) ?>
 
-                    <?= $form->field($model, 'theme')->checkboxList(FormOptions::getThemeOptions()) ?>
+                    <?= $form->field($model, 'theme')->checkboxList(FormOptions::getThemeOptions())->label(Yii::t('questionnaire', 'Theme')) ?>
 
-                    <?= $form->field($model, 'first_time')->radioList(FormOptions::getYesNoOptions()) ?>
+                    <?= $form->field($model, 'first_time')->radioList(FormOptions::getYesNoOptions())->label(Yii::t('questionnaire', 'First time')) ?>
 
-                    <?= $form->field($model, 'approach')->radioList(FormOptions::getYesNoOptions()) ?>
+                    <?= $form->field($model, 'approach')->radioList(FormOptions::getYesNoOptions())->label(Yii::t('questionnaire', 'Approach')) ?>
 
                     <div id="approach-type-field" style="display: none;">
-                        <?= $form->field($model, 'approach_type')->checkboxList(FormOptions::getApproachTypeOptions()) ?>
+                        <?= $form->field($model, 'approach_type')->checkboxList(FormOptions::getApproachTypeOptions())->label(Yii::t('questionnaire', 'Approach type')) ?>
                     </div>
 
-                    <?= $form->field($model, 'language')->radioList(FormOptions::getLanguageOptions()) ?>
+                    <?= $form->field($model, 'language')->radioList(FormOptions::getLanguageOptions())->label(Yii::t('questionnaire', 'Language')) ?>
 
-                    <?= $form->field($model, 'gender')->radioList(FormOptions::getGenderOptions()) ?>
+                    <?= $form->field($model, 'gender')->radioList(FormOptions::getGenderOptions())->label(Yii::t('questionnaire', 'Gender')) ?>
 
-                    <?= $form->field($model, 'age')->checkboxList(FormOptions::getAgeOptions()) ?>
+                    <?= $form->field($model, 'age')->checkboxList(FormOptions::getAgeOptions())->label(Yii::t('questionnaire', 'Age')) ?>
 
-                    <?= $form->field($model, 'lgbt')->checkbox(['label' => 'LGBTQ+ friendly']) ?>
+                    <?= $form->field($model, 'lgbt')->checkbox()->label(Yii::t('questionnaire', 'LGBTQ+ friendly')) ?>
 
-                    <?= $form->field($model, 'military')->checkbox(['label' => 'Work with military personnel']) ?>
+                    <?= $form->field($model, 'military')->checkbox()->label(Yii::t('questionnaire', 'Work with military personnel')) ?>
 
                     <div class="form-group">
-                        <?= Html::submitButton('One moment', ['class' => 'btn btn-primary']) ?>
+                        <?= Html::submitButton(Yii::t('questionnaire', 'One moment'), ['class' => 'btn btn-primary']) ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

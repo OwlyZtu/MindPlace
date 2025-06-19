@@ -18,40 +18,40 @@ $pagination = $futureSchedulesProvider->getPagination();
             <?php foreach ($futureSchedules as $item): ?>
                 <li class="list-group-item my-1">
                     <span class="float-end">
-                        <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
+                        <?= Html::a(Yii::t('schedules', 'Details'), ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
                         <?php if ($item->status === $item::STATUS_BOOKED): ?>
-                            <?= Html::a('Відмінити', ['site/session-cancel', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
+                            <?= Html::a(Yii::t('schedules', 'Cancel'), ['site/session-cancel', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>
                         <?php endif; ?>
                     </span>
                     <p>
-                        <strong>Запис №<?= $item->id ?></strong>
+                        <strong>№<?= $item->id ?></strong>
                         <mark>
                             <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?>
                             - <?= $item->getEndTime() ?>
                             <span>
-                                (<?= $item->duration ?> хв.)
+                                (<?= $item->duration ?> <?= Yii::t('schedules', 'minutes') ?>)
                             </span>
                         </mark>
 
                     </p>
                     <?php if ($item->meet_url && $item->status === $item::STATUS_BOOKED): ?>
                         <p>
-                            <strong>Сесія проведеться за посиланням:</strong>
+                            <strong><?= Yii::t('schedules', 'Session link') ?>:</strong>
                             <a href="<?= $item->meet_url ?>" target="_blank">
                                 <?= $item->meet_url ?>
                             </a>
                         </p>
                     <?php elseif (!$item->meet_url && $item->status === $item::STATUS_BOOKED): ?>
                         <p class="text-danger">
-                            Лікар ще не створив посилання на GoogleMeet. Посилання з'явиться за 15 хвилин до назначеного часу.
+                            <?= Yii::t('schedules', 'No link') ?>
                         </p>
                     <?php elseif ($item->status === $item::STATUS_CANCELED): ?>
                         <p class="text-danger">
-                            Ви відмінили запис.
+                            <?= Yii::t('schedules', 'You cancelled') ?>
                         </p>
                     <?php else: ?>
                         <p>
-                            <strong>Сесія проведена, прогляньте деталі.</strong>
+                            <strong><?= Yii::t('schedules', 'Session completed') ?></strong>
                         </p>
                     <?php endif; ?>
 
@@ -80,7 +80,7 @@ $pagination = $futureSchedulesProvider->getPagination();
     <?php else: ?>
         <div class="alert alert-warning mt-2 text-center">
             <p>
-                Наразі немає запланованих сесій.
+                <?= Yii::t('schedules', 'No future sessions') ?>
             </p>
         </div>
     <?php endif; ?>

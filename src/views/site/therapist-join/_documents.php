@@ -24,6 +24,6 @@ use yii\bootstrap5\Html;
 
     <?= $form->field($model, 'photo')->fileInput()->hint(Yii::t('therapist-join-page', 'photo hint'))?>
 
-    <?= Html::submitButton('Зберегти', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton(Yii::t('therapist-join-page', 'Save btn'), ['class' => 'btn btn-primary']) ?>
     <?php ActiveForm::end(); ?>
 </fieldset>

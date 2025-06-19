@@ -17,7 +17,7 @@ $this->title = 'My Profile';
 
             <div class="row justify-content-center mb-2">
                 <h2 class="col-lg-6 gradient-text">
-                    <?= Yii::t('app', 'Greeting', ['name' => Yii::$app->user->identity->name]) ?>
+                    <?= Yii::t('profile', 'Greeting', ['name' => Yii::$app->user->identity->name]) ?>
                     <span>
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -47,16 +47,16 @@ $this->title = 'My Profile';
                     <nav class="row">
                         <div class="nav nav-tabs mb-0 row" id="nav-tab" role="tablist">
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2 active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">
-                                <?= Yii::t('app', 'Profile title'); ?>
+                                <?= Yii::t('profile', 'Profile title'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-future-sessions-tab" data-bs-toggle="tab" data-bs-target="#nav-future-sessions" type="button" role="tab" aria-controls="nav-future-sessions" aria-selected="false">
-                                <?= Yii::t('app', 'Profile future_sessions'); ?>
+                                <?= Yii::t('profile', 'Profile future_sessions'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-sessions-history-tab" data-bs-toggle="tab" data-bs-target="#nav-sessions-history" type="button" role="tab" aria-controls="nav-sessions-history" aria-selected="false">
-                                <?= Yii::t('app', 'Profile history'); ?>
+                                <?= Yii::t('profile', 'Profile history'); ?>
                             </button>
                             <button class="col-lg-3 rounded-5 rounded-bottom-0 border-0 p-2" id="nav-settings-tab" data-bs-toggle="tab" data-bs-target="#nav-settings" type="button" role="tab" aria-controls="nav-settings" aria-selected="false">
-                                <?= Yii::t('app', 'Profile settings'); ?>
+                                <?= Yii::t('profile', 'Profile settings'); ?>
                             </button>
                         </div>
                     </nav>
@@ -77,7 +77,7 @@ $this->title = 'My Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile name'); ?>
+                                        <?= Yii::t('profile', 'Profile name'); ?>
 
                                     </p>
                                     <p class="mt-1">
@@ -98,7 +98,7 @@ $this->title = 'My Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile email'); ?>
+                                        <?= Yii::t('profile', 'Profile email'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?= Yii::$app->user->identity->email ?>
@@ -119,13 +119,13 @@ $this->title = 'My Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile phone'); ?>
+                                        <?= Yii::t('profile', 'Profile phone'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?php if (!empty(Yii::$app->user->identity->contact_number)): ?>
                                             <?= Yii::$app->user->identity->contact_number ?>
                                         <?php else: ?>
-                                            <?= Yii::t('app', 'Profile phone not set'); ?>
+                                            <?= Yii::t('profile', 'Profile phone not set'); ?>
                                         <?php endif; ?>
                                     </p>
                                 </div>
@@ -148,7 +148,7 @@ $this->title = 'My Profile';
                                                 </g>
                                             </svg>
                                         </span>
-                                        <?= Yii::t('app', 'Profile date_of_birth'); ?>
+                                        <?= Yii::t('profile', 'Profile date_of_birth'); ?>
                                     </p>
                                     <p class="mt-1">
                                         <?= Yii::$app->user->identity->date_of_birth ?>
@@ -169,7 +169,7 @@ $this->title = 'My Profile';
                         <div class="tab-pane fade rounded-bottom-5" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab" tabindex="0">
                             <div class="col-lg-10 mt-4">
                                 <h4>
-                                    Особисті дані
+                                    <?= Yii::t('profile', 'Personal data'); ?>
                                 </h4>
                             </div>
                             <?php $form = ActiveForm::begin([
@@ -184,42 +184,42 @@ $this->title = 'My Profile';
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'name')->textInput(['value' => Yii::$app->user->identity->name])
-                                        ->label(Yii::t('app', 'Form name')); ?>
+                                        ->label(Yii::t('profile', 'Form name')); ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'email')->textInput(['value' => Yii::$app->user->identity->email])
-                                        ->label(Yii::t('app', 'Form email')) ?>
+                                        ->label(Yii::t('profile', 'Form email')) ?>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'contact_number')->textInput(['placeholder' => Yii::$app->user->identity->contact_number])
-                                        ->label(Yii::t('app', 'Form phone')) ?>
+                                        ->label(Yii::t('profile', 'Form phone')) ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'date_of_birth')->input('date', ['value' => Yii::$app->user->identity->date_of_birth])
-                                        ->label(Yii::t('app', 'Date of birth')) ?>
+                                        ->label(Yii::t('profile', 'Date of birth')) ?>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-lg-10">
                                     <h4>
-                                        Зміна паролю
+                                        <?= Yii::t('profile', 'Change password'); ?>
                                     </h4>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'password')->passwordInput()
-                                        ->label(Yii::t('app', 'Form password')); ?>
+                                        ->label(Yii::t('profile', 'Form password')); ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 're_password')->passwordInput()
-                                        ->label(Yii::t('app', 'Form password repeat')) ?>
+                                        ->label(Yii::t('profile', 'Form password repeat')) ?>
                                 </div>
                             </div>
                             <div class="form-group row justify-content-center">
                                 <div class="col-lg-6 text-center">
                                     <?= Html::submitButton(
-                                        Yii::t('app', 'Profile settings button'),
+                                        Yii::t('profile', 'Profile settings button'),
                                         ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'save-settings-button']
                                     ) ?>
                                 </div>

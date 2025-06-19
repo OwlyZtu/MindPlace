@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'id' => 'signup-form',
                                 'fieldConfig' => [
                                     'template' => "{label}\n{input}\n{error}",
-                                    'labelOptions' => ['class' => 'col-lg-4 col-form-label mr-lg-3'],
+                                    'labelOptions' => ['class' => 'col-lg-7 col-form-label mr-lg-3'],
                                     'inputOptions' => ['class' => 'col-lg-3 form-control'],
                                     'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
                                 ],
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?= $form->field($model, 'contact_number')->label(Yii::t('app', 'Form phone')) ?>
 
-                            <?= $form->field($model, 'date_of_birth')->input('date')->label(Yii::t('app', 'Date of birth')) ?>
+                            <?= $form->field($model, 'date_of_birth')->input('date')->label(Yii::t('app', 'Form date')) ?>
 
                             <?= $form->field($model, 'password')->passwordInput()
                                 ->label(Yii::t('app', 'Form password')); ?>
@@ -70,12 +70,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-6 text-center">
                                 <?= Html::submitButton(
                                     Yii::t('app', 'Signup submit'),
-                                    ['class' => 'btn btn-primary btn-lg me-2', 'name' => 'signup-button']
+                                    ['class' => 'btn btn-primary btn-lg', 'name' => 'signup-button']
                                 ) ?>
-                            </div>
-                            <div class="col-lg-6 text-center">
-                                <a href="<?= \yii\helpers\Url::to(['site/auth-google']) ?>" class="btn btn-danger">
-                                    Увійти через Google
+                                <p><?= Yii::t('app', 'or') ?></p>
+                                <a href="<?= \yii\helpers\Url::to(['site/auth-google']) ?>" class="btn btn-secondary">
+                                    <?= Yii::t('app', 'Login with Google') ?>
                                 </a>
                             </div>
 

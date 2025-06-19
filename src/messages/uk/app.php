@@ -6,19 +6,22 @@ return [
     'Blog' => 'Блог',
     'About' => 'Про нас',
     'Login' => 'Увійти',
+    'Logout' => 'Вийти',
 
 
     // #region LOGIN PAGE
     'LoginBread' => 'Увійти в акаунт',
     'Login title' => 'Увійдіть в свій акаунт',
     'Login please...' => 'Будь ласка, заповніть наступні поля:',
-    'Form name' => 'Ваше ім&#039;я',
+    'Form name' => 'Ваше ім\'я',
     'Form password' => 'Введіть пароль',
-    'Remember Me' => 'Запам&#039;ятай мене',
+    'Remember Me' => 'Запам\'ятай мене',
     'Forgot password?' => 'Забули пароль?',
     'Login reset password' => 'Відновити пароль',
     'Form or create' => 'Ще не маєте акаунта?',
     'Link to signup' => 'Зареєструватися',
+    'Login with Google' => 'Увійти через Google',
+    'or' => 'або',
     // #endregion
 
 
@@ -31,45 +34,39 @@ return [
     'Signup submit' => 'Зареєструватися',
     'Form or login' => 'Вже маєте акаунт?',
     'Link to login' => 'Увійти',
+    'Form phone' => 'Ваш номер телефону',
+    'Form date' => 'Ваша дата народження',
     // #endregion
 
 
-    // #region PROFILE PAGE
-    'Greeting' => 'Привіт, {name}!',
-    'Profile title' => 'Мій профіль',
-    'Profile name'=> 'Ім&#039;я',
-    'Profile email'=> 'Email',
-    'Profile phone'=> 'Номер телефону',
-    'Profile date_of_birth'=> 'Дата народження',  
-    'Profile city'=> 'Місто',
-    'Profile gender'=> 'Стать',
-    'Profile experience'=> 'Стаж роботи',
-    'Profile about'=> 'Про себе',
-    'Profile photo'=> 'Фото',
-    'Profile photo change'=> 'Змінити фото',
-    'Profile future_sessions' => 'Майбутні сесії',
-    'Profile history' => 'Історія сесій',  
-    'Profile future_sessions empty' => 'У вас немає майбутніх сесій',
-    'Profile history empty' => 'У вас немає історії сесій',
-    'Profile settings' => 'Налаштування',
-    'Profile settings button' => 'Зберегти зміни',
 
-    // #endregion 
 
 
     // #region Form validation messages
 
-    'Name cannot be blank.' => 'Ім&#039;я не може бути порожнім.',
+    'Name cannot be blank.' => 'Ім\'я не може бути порожнім.',
     'Email cannot be blank.' => 'Email не може бути порожнім.',
     'Email is not a valid email address.' => 'Невірний формат email адреси.',
     'Password cannot be blank.' => 'Пароль не може бути порожнім.',
     'Password should contain at least 8 characters.' => 'Пароль повинен містити мінімум 8 символів.',
-    'Passwords don&#039;t match' => 'Паролі не співпадають',
-    'This name has already been taken.' => 'Це ім&#039;я вже зайняте.',
+    'Passwords don\'t match' => 'Паролі не співпадають',
+    'This name has already been taken.' => 'Це ім\'я вже зайняте.',
     'This email address has already been taken.' => 'Ця email адреса вже зареєстрована.',
 
     // #endregion
 
 
     'rating' => 'Рейтинг',
+
+    'If you have business inquiries or other questions, please fill out the following form to contact us.
+    Thank you. We will reply to you as soon as possible.' => 'Якщо у вас є ділові запитання чи інші питання, будь ласка, заповніть наступну форму, щоб зв\'язатися з нами. 
+    Дякуємо. Ми відповімо вам якнайшвидше.',
+'Contact' => 'Зв\'язатися з нами',
+'Thank you for contacting us. We will reply to you as soon as possible.' => 'Дякуємо, що зв\'язалися з нами. Ми відповімо вам якнайшвидше.',
+'Contact form' => 'Контактна форма',
+'Your name' => 'Ваше ім\'я',
+'Your email' => 'Ваш email',
+'Subject' => 'Тема',
+'Your message' => 'Ваше повідомлення',
+'Send' => 'Надіслати',
 ];

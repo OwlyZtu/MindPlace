@@ -27,6 +27,37 @@ use app\components\GoogleClient;
 class SpecialistController extends Controller
 {
     /**
+     * {@inheritdoc}
+     */
+    public function beforeAction($action)
+    {
+        if (!Yii::$app->session->isActive) {
+            Yii::$app->session->open();
+        }
+
+        if ($lang = Yii::$app->session->get('language')) {
+            Yii::$app->language = $lang;
+        }
+
+        return parent::beforeAction($action);
+    }
+
+    /**
+     * Sets the language for the application.
+     *
+     * @param string $lang The language code (e.g., 'uk', 'en').
+     * @return Response
+     */
+    public function actionSetLanguage($lang)
+    {
+        if (in_array($lang, ['uk', 'en'])) {
+            Yii::$app->session->set('language', $lang);
+            Yii::$app->language = $lang;
+        }
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    /**
      * Displays specialists page with optional filtering.
      * @return string
      */
@@ -268,7 +299,7 @@ class SpecialistController extends Controller
         $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
         $endTime = $now->getTimestamp() - $endSession->getTimestamp() + 3600;
 
-        
+
         $timeToLink = false;
         if ($diff <= 3600 && $endTime <= 0) {
             $timeToLink = true;
@@ -333,5 +364,4 @@ class SpecialistController extends Controller
     {
         return $this->redirect(['article/create-article']);
     }
-
 }
