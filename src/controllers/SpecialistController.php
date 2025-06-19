@@ -87,7 +87,11 @@ class SpecialistController extends Controller
         $specialistSchedules = Schedule::getSchedulesByDoctorId($specialist->id, Schedule::getFutureTimeCondition())->all();
         $reviews = Review::getReviewsByDoctorId($specialist->id);
         $avgRating = Review::getAverageRating($specialist->id);
-        $canLeaveReview = Schedule::ifCanLeaveReview(Yii::$app->user->identity->id, $specialist->id);
+        if (Yii::$app->user->isGuest || $specialist->id === Yii::$app->user->identity->id) {
+            $canLeaveReview = false;
+        } else {
+            $canLeaveReview = Schedule::ifCanLeaveReview(Yii::$app->user->identity->id, $specialist->id);
+        }
 
         $newReview = new ReviewForm();
 
@@ -260,9 +264,13 @@ class SpecialistController extends Controller
         date_default_timezone_set('Europe/Kyiv');
         $now = new \DateTime();
         $sessionTime = new \DateTime($session->datetime);
+        $endSession = $sessionTime->add(new \DateInterval('PT' . $session->duration . 'M'));
         $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
+        $endTime = $now->getTimestamp() - $endSession->getTimestamp() + 3600;
+
+        
         $timeToLink = false;
-        if ($diff <= 3600) {
+        if ($diff <= 3600 && $endTime <= 0) {
             $timeToLink = true;
         }
         return $this->render('session-details', [
@@ -319,4 +327,11 @@ class SpecialistController extends Controller
             return $this->redirect(['specialist/session-details', 'id' => $id]);
         }
     }
+
+
+    public function actionCreateArticle()
+    {
+        return $this->redirect(['article/create-article']);
+    }
+
 }

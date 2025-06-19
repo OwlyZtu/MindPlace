@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 
 use yii\web\NotFoundHttpException;
 use app\models\admin\UserSearch;
+use yii\data\ActiveDataProvider;
 use app\models\User;
 
 class SpecialistRequestController extends AdminController
@@ -39,7 +40,7 @@ class SpecialistRequestController extends AdminController
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            return Yii::$app->user->identity->isAdmin();
+                            return (Yii::$app->user->identity->isAdmin() || Yii::$app->user->identity->isModerator());
                         }
                     ],
                 ],
@@ -49,28 +50,29 @@ class SpecialistRequestController extends AdminController
 
     public function actionIndex()
     {
-        $statuses = ['pending', 'approved', 'rejected', 'blocked'];
+        $statuses = [
+            SpecialistApplication::STATUS_PENDING,
+            SpecialistApplication::STATUS_APPROVED,
+            SpecialistApplication::STATUS_REJECTED,
+            SpecialistApplication::STATUS_BLOCKED,
+        ];
         $providers = [];
+        $searchModel = [];
 
         foreach ($statuses as $status) {
             $searchModel = new UserSearch();
-
-            $queryParams = \Yii::$app->request->queryParams;
-
-            if (!isset($queryParams['UserSearch'])) {
-                $queryParams['UserSearch'] = [];
-            }
-
-            $queryParams['UserSearch']['status'] = $status;
-
-            $providers[$status] = [
-                'searchModel' => $searchModel,
-                'dataProvider' => $searchModel->search($queryParams),
-            ];
+            $searchModel->status = $status;
+    
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination->pageSize = 5;
+    
+            $providers[$status] = $dataProvider;
+            $searchModels[$status] = $searchModel;
         }
 
         return $this->render('index', [
             'providers' => $providers,
+            'searchModels' => $searchModels,
         ]);
     }
 

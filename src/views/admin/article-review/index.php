@@ -2,52 +2,25 @@
 
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-
-/** @var yii\web\View $this */
-/** @var yii\bootstrap5\ActiveForm $form */
-
 use yii\bootstrap5\Html;
-use app\models\User;
 use yii\widgets\LinkPager;
 
-$this->title = 'User panel';
-$columns = [
-    'id',
-    [
-        'attribute' => 'name',
-        'value' => function ($model) {
-            return Html::a($model->user->name, ['view', 'id' => $model->id], ['class' => 'link']);
-        },
-        'format' => 'raw',
-    ],
-    [
-        'attribute' => 'specialization',
-        'value' => function ($model) {
-            return Html::encode(implode(', ', $model->user->getOptionLabels('specialization', 'specialization')));
-        },
-    ],
-    [
-        'attribute' => 'city',
-        'value' => function ($model) {
-            return Html::encode($model->user->getOptionLabel('city', 'city'));
-        },
-    ],
-    'comment',
-    'updated_at:datetime',
-]
+/** @var yii\web\View $this */
+/** @var array $providers */
+
+$this->title = 'Blog panel';
 ?>
 <div class="site-specialists">
     <div class="body-content container-fluid row row-gap-2 justify-content-center mx-auto row">
-        <div class="gradient-text-alt mt-4">
-            <div class="specialists-header text-center">
-                <h1><?= Html::encode($this->title) ?></h1>
-            </div>
+        <div class="gradient-text-alt mt-4 text-center">
+            <h1><?= Html::encode($this->title) ?></h1>
         </div>
+
         <div class="row">
+            <!-- Tabs -->
             <div class="col-md-2">
-                <div class="d-flex align-items-start">
-                    <div class="nav-tabs flex-column  me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="btn active" id="tab-pending" data-bs-toggle="pill" data-bs-target="#pane-pending" type="button" role="tab">
+                <div class="nav-tabs flex-column me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="btn active" id="tab-reviewing" data-bs-toggle="pill" data-bs-target="#pane-reviewing" type="button" role="tab">
                         В обробці
                     </button>
                     <button class="btn" id="tab-rejected" data-bs-toggle="pill" data-bs-target="#pane-rejected" type="button" role="tab">
@@ -56,22 +29,20 @@ $columns = [
                     <button class="btn" id="tab-approved" data-bs-toggle="pill" data-bs-target="#pane-approved" type="button" role="tab">
                         Прийнято
                     </button>
-                    <button class="btn" id="tab-blocked" data-bs-toggle="pill" data-bs-target="#pane-blocked" type="button" role="tab">
-                        Заблоковано
-                    </button>
-                    </div>
                 </div>
             </div>
-            <div class="col-md-10">
+
+            <!-- Tab content -->
+            <div class="col-md-10 rounded-2">
                 <div class="tab-content" id="v-pills-tabContent">
-                    <?php foreach (['pending' => 'В обробці', 'rejected' => 'Відхилено', 'approved' => 'Прийнято', 'blocked' => 'Заблоковано'] as $key => $label): ?>
-                        <div class="tab-pane fade <?= $key === 'pending' ? 'show active' : '' ?>" id="pane-<?= $key ?>" role="tabpanel" aria-labelledby="tab-<?= $key ?>">
+                    <?php foreach (['reviewing' => 'В обробці', 'rejected' => 'Відхилено', 'approved' => 'Прийнято'] as $key => $label): ?>
+                        <div class="tab-pane fade <?= $key === 'reviewing' ? 'show active' : '' ?>" id="pane-<?= $key ?>" role="tabpanel" aria-labelledby="tab-<?= $key ?>">
                             <?php
                             $provider = $providers[$key] ?? null;
                             $searchModel = $searchModels[$key];
                             if (!$provider || $provider->getTotalCount() === 0): ?>
                                 <div class="alert alert-info mt-3">
-                                    Немає заявок зі статусом: <?= $label ?>
+                                    Немає статей зі статусом: <?= $label ?>
                                 </div>
                             <?php else: ?>
                                 <?php Pjax::begin(['id' => 'pjax-' . $key]); ?>
@@ -80,7 +51,36 @@ $columns = [
                                     'filterModel' => $searchModel,
                                     'summary' => false,
                                     'pager' => ['class' => yii\widgets\LinkPager::class, 'options' => ['class' => 'd-none']],
-                                    'columns' => $columns,
+                                    'columns' => [
+                                        'id',
+                                        [
+                                            'attribute' => 'title',
+                                            'value' => function ($model) {
+                                                return Html::a(Html::encode($model->title), ['/admin/article-review/view', 'id' => $model->id], ['class' => 'link']);
+                                            },
+                                            'format' => 'raw',  
+                                        ],
+                                        [
+                                            'attribute' => 'user.name',
+                                            'label' => 'Автор',
+                                            'value' => function ($model) {
+                                                return $model->doctor
+                                                    ? Html::a(Html::encode($model->doctor->name), ['/admin/article-review/redirect-to-specialist', 'id' => $model->doctor->id], ['class' => 'link'])
+                                                    : '(немає даних)';
+                                            },
+                                            'format' => 'raw',
+                                        ],
+                                        [
+                                            'attribute' => 'created_at',
+                                            'label' => 'Дата створення',
+                                            'format' => ['date', 'php:d.m.Y H:i'],
+                                        ],
+                                        [
+                                            'attribute' => 'updated_at',
+                                            'label' => 'Дата оновлення',
+                                            'format' => ['date', 'php:d.m.Y H:i'],
+                                        ],
+                                    ],
                                 ]); ?>
                                 <?php Pjax::end(); ?>
                                 <div class="row  justify-content-center">
@@ -104,10 +104,8 @@ $columns = [
                                     ?>
                                 </div>
                             <?php endif; ?>
-
                         </div>
                     <?php endforeach; ?>
-
                 </div>
             </div>
         </div>

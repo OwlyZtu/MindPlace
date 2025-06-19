@@ -67,9 +67,14 @@ $this->title = 'Specialist Profile';
                             $alert = 'alert-warning';
                             break;
                     } ?>
-                    <div class="alert <?= $alert ?> mt-2" role="alert">
+                    <div class="alert <?= $alert ?> my-2" role="alert">
                         <?= $status; ?>
                     </div>
+                    <?php if ($application_status == 'approved'): ?>
+                        <a href="/article/specialist-articles" class="btn btn-primary">
+                            Перейти на панель медичного блогу
+                        </a>
+                    <?php endif; ?>
                 </div>
                 <div class="col-lg-8">
                     <nav class="">

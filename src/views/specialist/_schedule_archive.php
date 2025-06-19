@@ -16,7 +16,6 @@ $pagination = $archiveSchedulesProvider->getPagination();
             <?php foreach ($archiveSchedules as $item): ?>
                 <li class="list-group-item">
                     <span class="float-end">
-                        <p>
                             <?= Html::a('Деталі', ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
                             <?php if (!$item->isBooked()): ?>
                                 <?= Html::a('Видалити', ['cancel-schedule', 'id' => $item->id], ['class' => 'btn btn-danger btn-sm']) ?>

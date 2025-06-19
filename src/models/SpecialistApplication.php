@@ -106,10 +106,15 @@ class SpecialistApplication extends User
     public static function getByUserId($userId)
     {
         $SpecialistApplication = self::findOne(['user_id' => $userId]);
-        return $SpecialistApplication ? true: false;
+        return $SpecialistApplication ? $SpecialistApplication : null;
     }
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public static function getAllByStatus($status)
+    {
+        return self::find()->where(['status' => $status]);
     }
 }

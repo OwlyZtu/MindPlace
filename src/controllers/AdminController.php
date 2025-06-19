@@ -107,4 +107,13 @@ class AdminController extends Controller
     {
         return $this->redirect(['admin/specialist-request/index']);
     }
+
+    /**
+     * Displays blog page
+     * @return string
+     */
+    public function actionArticleReview()
+    {
+        return $this->redirect(['admin/article-review/index']);
+    }
 }

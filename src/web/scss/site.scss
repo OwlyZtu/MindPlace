@@ -16,7 +16,11 @@ $text-color: #323f33;
 $text-muted: #999;
 $text-error: #a94442;
 $gradient-start: #467471;
+$gradient-start-opc70: #467471B3;
+$gradient-start-opc50: #46747180;
 $gradient-end: #91944D;
+$gradient-end-opc70: #91944DB3;
+$gradient-end-opc50: #91944D80;
 $gradient-alt-end: #616340;
 $background-main: #eeeeee;
 $footer-bg: #f5f5f5;
@@ -44,10 +48,12 @@ $not-set-color: #c55;
   margin: 4px 4px 2px 4px;
   background: transparent;
 
-  @if $direction == asc {
+  @if $direction ==asc {
     border-bottom: solid 7px #212529;
     border-top-width: 0;
-  } @else if $direction == desc {
+  }
+
+  @else if $direction ==desc {
     border-top: solid 7px #212529;
     border-bottom-width: 0;
   }
@@ -61,7 +67,7 @@ body {
   font-family: 'Comfortaa', sans-serif;
 }
 
-.navbar-bg{
+.navbar-bg {
   background-color: transparent;
 }
 
@@ -80,12 +86,12 @@ body {
 
 
 footer {
-  .container-fluid{
+  .container-fluid {
     background-color: $background-main;
   }
 }
 
-main > .container {
+main>.container {
   padding: 70px 15px 20px;
 }
 
@@ -93,7 +99,7 @@ main > .container {
   font-size: 0.9em;
   height: 60px;
 
-  > .container {
+  >.container {
     padding-right: 0px;
     padding-left: 0px;
   }
@@ -136,6 +142,7 @@ main > .container {
 a.asc::after {
   @include sorting-arrow(asc);
 }
+
 a.desc::after {
   @include sorting-arrow(desc);
 }
@@ -163,9 +170,10 @@ a.desc::after {
 // =======================
 .nav {
   font-size: larger;
+
   li {
-    > form {
-      > button.logout {
+    >form {
+      >button.logout {
         padding-top: 7px;
         color: rgba(255, 255, 255, 0.863);
 
@@ -219,7 +227,7 @@ a.desc::after {
   }
 }
 
-.nav-tabs > .active{
+.nav-tabs>.active {
   background-color: $secondary-light-color;
 
   &:hover {
@@ -228,7 +236,7 @@ a.desc::after {
   }
 }
 
-.tab-content > .tab-pane{
+.tab-content>.tab-pane {
   background-color: $secondary-light-color;
 }
 
@@ -236,16 +244,37 @@ a.desc::after {
 // =======================
 // HEADINGS
 // =======================
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin-bottom: 1rem;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.50rem; }
-h5 { font-size: 1.35rem; }
-p { font-size: 1.10rem; }
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.50rem;
+}
+
+h5 {
+  font-size: 1.35rem;
+}
+
+p {
+  font-size: 1.10rem;
+}
 
 //======================
 // FONTS
@@ -292,6 +321,7 @@ p { font-size: 1.10rem; }
   .accordion-item {
     border-width: 0.25rem;
     border-color: #abbfbe;
+
     .accordion-text-alt {
       color: $gradient-alt-end;
     }
@@ -299,3 +329,23 @@ p { font-size: 1.10rem; }
 
 }
 
+.article-card {
+  transition: background .5s ease-in 1s;
+  background: linear-gradient(135deg, $gradient-start-opc70, $gradient-end-opc70);
+
+  h5,
+  small {
+    color: #fff !important;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, $gradient-end, $gradient-alt-end);
+    color: #fff;
+
+
+  }
+}
+.article-card-view {
+  background: linear-gradient(135deg, $gradient-start-opc50, $gradient-end-opc50);
+  color: black;
+}

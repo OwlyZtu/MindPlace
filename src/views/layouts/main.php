@@ -78,7 +78,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
             'items' => [
                 ['label' => Yii::t('app', 'Our specialists'), 'url' => ['/site/specialists'], 'options' => ['class' => 'px-3']],
                 ['label' => Yii::t('app', 'For therapists'), 'url' => ['/site/for-therapists'], 'options' => ['class' => 'px-3']],
-                ['label' => Yii::t('app', 'Blog'), 'url' => ['/site/blog'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Blog'), 'url' => ['/article'], 'options' => ['class' => 'px-3']],
                 ['label' => Yii::t('app', 'About'), 'url' => ['/site/about'], 'options' => ['class' => 'px-3']],
             ],
         ]);

@@ -72,8 +72,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav flex-md-grow-1 justify-content-center'],
             'items' => [
-                ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/users'], 'options' => ['class' => 'px-3']],
-                ['label' => Yii::t('app', 'Blog'), 'url' => ['/admin/blog'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Users'), 'url' => ['/admin/specialist-request'], 'options' => ['class' => 'px-3']],
+                ['label' => Yii::t('app', 'Blog'), 'url' => ['/admin/article-review'], 'options' => ['class' => 'px-3']],
                 ['label' => Yii::t('app', 'Reports'), 'url' => ['/admin/reports'], 'options' => ['class' => 'px-3']],
             ],
         ]);

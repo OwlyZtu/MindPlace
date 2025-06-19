@@ -47,7 +47,6 @@ class UserSearch extends SpecialistApplication
                     ],
                 ],
             ],
-            'pagination' => ['pageSize' => 10],
         ]);
 
         $this->load($params);

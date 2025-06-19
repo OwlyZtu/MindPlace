@@ -59,7 +59,8 @@ class SiteController extends Controller
                             'google-callback',
                             'google-callback-success',
                             'auth-google',
-                            'gmeet'
+                            'gmeet',
+                            'articles',
                         ],
                         'allow' => true,
                         'roles' => ['?', '@'],
@@ -281,7 +282,7 @@ class SiteController extends Controller
         if (!$session) {
             throw new \yii\web\NotFoundHttpException('Запис не знайдено.');
         }
-        
+
         date_default_timezone_set('Europe/Kyiv');
         $now = new \DateTime();
         $sessionTime = new \DateTime($session->datetime);
@@ -469,6 +470,11 @@ class SiteController extends Controller
         return $this->render('questionnaire', [
             'model' => $model,
         ]);
+    }
+
+    public function actionArticle()
+    {
+        return $this->redirect(['article/index']);
     }
 
     public function actionSpecialists()

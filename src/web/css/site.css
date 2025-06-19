@@ -169,7 +169,11 @@ a.desc::after {
   background-color: #8c9e7f;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin-bottom: 1rem;
 }
 
@@ -238,6 +242,24 @@ p {
 }
 .question-row .accordion-item .accordion-text-alt {
   color: #616340;
+}
+
+.article-card {
+  transition: background 0.5s ease-in 1s;
+  background: linear-gradient(135deg, rgba(70, 116, 113, 0.7019607843), rgba(145, 148, 77, 0.7019607843));
+}
+.article-card h5,
+.article-card small {
+  color: #fff !important;
+}
+.article-card:hover {
+  background: linear-gradient(135deg, #91944D, #616340);
+  color: #fff;
+}
+
+.article-card-view {
+  background: linear-gradient(135deg, rgba(70, 116, 113, 0.5019607843), rgba(145, 148, 77, 0.5019607843));
+  color: black;
 }
 
 /*# sourceMappingURL=site.css.map */

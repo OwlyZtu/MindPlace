@@ -126,7 +126,7 @@ $this->title = 'MindPlace Admin Panel';
                         <p class="card-text fs-6 text-muted">Управління статтями блогу, створення, редагування та видалення публікацій.</p>
                     </div>
                     <div class="card-footer bg-transparent border-top-0 align-self-center">
-                        <?= Html::a('Управління блогом', ['/admin/blog'], ['class' => 'btn btn-primary py-2']) ?>
+                        <?= Html::a('Управління блогом', ['/admin/article-review'], ['class' => 'btn btn-primary py-2']) ?>
                     </div>
                 </div>
             </div>
