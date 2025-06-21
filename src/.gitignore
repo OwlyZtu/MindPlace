@@ -89,3 +89,6 @@ coverage/
 /composer.lock
 yarn.lock
 
+
+google-credentials.json
+

@@ -1,5 +1,6 @@
 body {
   color: #323f33;
+  font-family: "Comfortaa", sans-serif;
 }
 
 .navbar-bg {
@@ -38,6 +39,31 @@ main > .container {
 .not-set {
   color: #c55;
   font-style: italic;
+}
+
+.bg-primary {
+  background-color: #3A7782;
+  color: white;
+}
+
+.bg-warning {
+  background-color: #eabf84;
+  color: black;
+}
+
+.bg-success {
+  background-color: #75a591;
+  color: black;
+}
+
+.bg-info {
+  background-color: #b2f0d6;
+  color: black;
+}
+
+.bg-danger {
+  background-color: #dd7e7a;
+  color: black;
 }
 
 a.asc::after {
@@ -89,11 +115,11 @@ a.desc::after {
 }
 .nav li > form > button.logout {
   padding-top: 7px;
-  color: rgba(255, 255, 255, 0.678);
+  color: rgba(255, 255, 255, 0.863);
 }
 .nav li > form > button.logout:focus, .nav li > form > button.logout:hover {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.95);
+  color: white;
 }
 .nav li > form > button.logout:focus {
   outline: none;
@@ -116,11 +142,11 @@ a.desc::after {
 }
 
 .btn-primary {
-  color: white;
   background-color: #3A7782;
 }
 .btn-primary:hover {
   background-color: #083c48;
+  color: white;
 }
 
 .btn-secondary {
@@ -128,9 +154,26 @@ a.desc::after {
 }
 .btn-secondary:hover {
   background-color: #2c3823;
+  color: white;
 }
 
-h1, h2, h3, h4, h5 {
+.nav-tabs > .active {
+  background-color: #8c9e7f;
+}
+.nav-tabs > .active:hover {
+  background-color: #5D704F;
+  color: white;
+}
+
+.tab-content > .tab-pane {
+  background-color: #8c9e7f;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin-bottom: 1rem;
 }
 
@@ -151,11 +194,11 @@ h4 {
 }
 
 h5 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 
 p {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .gradient-text {
@@ -185,6 +228,14 @@ p {
   font-size: 2rem;
 }
 
+.link-primary {
+  color: #3A7782;
+}
+
+.link-secondary {
+  color: #5D704F;
+}
+
 .question-row .accordion-item {
   border-width: 0.25rem;
   border-color: #abbfbe;
@@ -193,7 +244,22 @@ p {
   color: #616340;
 }
 
-.comfortaa-text {
-  font-family: "Comfortaa", sans-serif;
+.article-card {
+  transition: background 0.5s ease-in 1s;
+  background: linear-gradient(135deg, rgba(70, 116, 113, 0.7019607843), rgba(145, 148, 77, 0.7019607843));
 }
+.article-card h5,
+.article-card small {
+  color: #fff !important;
+}
+.article-card:hover {
+  background: linear-gradient(135deg, #91944D, #616340);
+  color: #fff;
+}
+
+.article-card-view {
+  background: linear-gradient(135deg, rgba(70, 116, 113, 0.5019607843), rgba(145, 148, 77, 0.5019607843));
+  color: black;
+}
+
 /*# sourceMappingURL=site.css.map */

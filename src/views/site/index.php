@@ -15,19 +15,19 @@ $this->title = 'MindPlace';
             </div>
             <div class="col-lg-4 text-center align-content-center">
                 <h1 class="gradient-text">
-                    <?= Yii::t('app', 'Welcome') ?>
+                    <?= Yii::t('main-page', 'Welcome') ?>
                 </h1>
                 <span>
-                    <?= Yii::t('app', 'Welcome span') ?>
+                    <?= Yii::t('main-page', 'Welcome span') ?>
                 </span>
                 <div class="d-flex justify-content-center mt-4">
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/questionnaire']) ?>"
                         class="btn btn-primary btn-lg me-2">
-                        <?= Yii::t('app', 'Find a Therapist') ?>
+                        <?= Yii::t('main-page', 'Find a Therapist') ?>
                     </a>
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/for-therapists']) ?>"
                         class="btn btn-secondary btn-lg">
-                        <?= Yii::t('app', 'For Therapists') ?>
+                        <?= Yii::t('main-page', 'For Therapists') ?>
                     </a>
                 </div>
             </div>
@@ -38,15 +38,15 @@ $this->title = 'MindPlace';
         <!-- #region InformationScreen -->
         <div class="row info-row align-content-center mb-3 text-center row-gap-2 gradient-text-alt">
             <div class="row justify-content-center mb-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
-                        class="bi bi-patch-question-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0m1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.7 1.7 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627" />
-                    </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor"
+                    class="bi bi-patch-question-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M5.933.87a2.89 2.89 0 0 1 4.134 0l.622.638.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01zM7.002 11a1 1 0 1 0 2 0 1 1 0 0 0-2 0m1.602-2.027c.04-.534.198-.815.846-1.26.674-.475 1.05-1.09 1.05-1.986 0-1.325-.92-2.227-2.262-2.227-1.02 0-1.792.492-2.1 1.29A1.7 1.7 0 0 0 6 5.48c0 .393.203.64.545.64.272 0 .455-.147.564-.51.158-.592.525-.915 1.074-.915.61 0 1.03.446 1.03 1.084 0 .563-.208.885-.822 1.325-.619.433-.926.914-.926 1.64v.111c0 .428.208.745.585.745.336 0 .504-.24.554-.627" />
+                </svg>
             </div>
             <div class="row justify-content-center mb-2">
                 <h2 class="col-lg-6">
-                    <?= Yii::t('app', 'Do you know...') ?>
+                    <?= Yii::t('main-page', 'Do you know...') ?>
                 </h2>
             </div>
 
@@ -54,10 +54,10 @@ $this->title = 'MindPlace';
             <div class="row justify-content-center mb-2">
                 <div class="col-lg-5">
                     <h3 class="text-center">
-                        <?= Yii::t('app', 'What is psychotherapy') ?>
+                        <?= Yii::t('main-page', 'What is psychotherapy') ?>
                     </h3>
                     <p>
-                        <?= Yii::t('app', 'What is psychotherapy descr') ?>
+                        <?= Yii::t('main-page', 'What is psychotherapy descr') ?>
                     </p>
                 </div>
             </div>
@@ -65,7 +65,7 @@ $this->title = 'MindPlace';
             <!-- Difference -->
             <div class="row justify-content-center  mb-2">
                 <h3>
-                    <?= Yii::t('app', 'Difference qa') ?>
+                    <?= Yii::t('main-page', 'Difference qa') ?>
                 </h3>
             </div>
             <div class="row justify-content-evenly mb-4">
@@ -79,10 +79,10 @@ $this->title = 'MindPlace';
                                 d="M3 1.5h1v1H3a1 1 0 0 0-1 1V14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3.5a1 1 0 0 0-1-1h-1v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2" />
                             <path d="M8 6.982C9.664 5.309 13.825 8.236 8 12 2.175 8.236 6.336 5.31 8 6.982" />
                         </svg>
-                        <?= Yii::t('app', 'Difference qa psychologist') ?>
+                        <?= Yii::t('main-page', 'Difference qa psychologist') ?>
                     </h4>
                     <p>
-                        <?= Yii::t('app', 'Difference qa psychologist descr') ?>
+                        <?= Yii::t('main-page', 'Difference qa psychologist descr') ?>
                     </p>
                 </div>
                 <div class="col-lg-4">
@@ -95,10 +95,10 @@ $this->title = 'MindPlace';
                             <path fill-rule="evenodd"
                                 d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm4 5.982c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018" />
                         </svg>
-                        <?= Yii::t('app', 'Difference qa psychotherapist') ?>
+                        <?= Yii::t('main-page', 'Difference qa psychotherapist') ?>
                     </h4>
                     <p>
-                        <?= Yii::t('app', 'Difference qa psychotherapist descr') ?>
+                        <?= Yii::t('main-page', 'Difference qa psychotherapist descr') ?>
                     </p>
                 </div>
             </div>
@@ -107,10 +107,10 @@ $this->title = 'MindPlace';
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-4">
                     <h3>
-                        <?= Yii::t('app', 'Why it is important') ?>
+                        <?= Yii::t('main-page', 'Why it is important') ?>
                     </h3>
                     <p>
-                        <?= Yii::t('app', 'Why it is important descr') ?>
+                        <?= Yii::t('main-page', 'Why it is important descr') ?>
                     </p>
                 </div>
             </div>
@@ -124,10 +124,10 @@ $this->title = 'MindPlace';
 
             <div class="col-lg-6 justify-content-center mx-auto mb-4">
                 <h2 class="text-center mb-4">
-                    <?= Yii::t('app', 'How it works') ?>
+                    <?= Yii::t('main-page', 'How it works') ?>
                 </h2>
                 <p class="text-center">
-                    <?= Yii::t('app', 'How it works descr') ?>
+                    <?= Yii::t('main-page', 'How it works descr') ?>
                 </p>
             </div>
             <div class="col-lg-10 mx-auto">
@@ -143,10 +143,10 @@ $this->title = 'MindPlace';
                     </div>
                     <div class="col-lg-4">
                         <h4>
-                            <?= Yii::t('app', 'Step 1') ?>
+                            <?= Yii::t('main-page', 'Step 1') ?>
                         </h4>
                         <p>
-                            <?= Yii::t('app', 'Step 1 descr') ?>
+                            <?= Yii::t('main-page', 'Step 1 descr') ?>
                         </p>
                     </div>
                 </div>
@@ -164,10 +164,10 @@ $this->title = 'MindPlace';
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-4">
                         <h4>
-                            <?= Yii::t('app', 'Step 2') ?>
+                            <?= Yii::t('main-page', 'Step 2') ?>
                         </h4>
                         <p>
-                            <?= Yii::t('app', 'Step 2 descr') ?>
+                            <?= Yii::t('main-page', 'Step 2 descr') ?>
                         </p>
                     </div>
                     <div class="col-lg-4">
@@ -202,10 +202,10 @@ $this->title = 'MindPlace';
                     </div>
                     <div class="col-lg-4">
                         <h4>
-                            <?= Yii::t('app', 'Step 3') ?>
+                            <?= Yii::t('main-page', 'Step 3') ?>
                         </h4>
                         <p>
-                            <?= Yii::t('app', 'Step 3 descr') ?>
+                            <?= Yii::t('main-page', 'Step 3 descr') ?>
                         </p>
                     </div>
                 </div>
@@ -223,10 +223,10 @@ $this->title = 'MindPlace';
                 <div class="row justify-content-evenly mb-3">
                     <div class="col-lg-4">
                         <h4>
-                            <?= Yii::t('app', 'Step 4') ?>
+                            <?= Yii::t('main-page', 'Step 4') ?>
                         </h4>
                         <p>
-                            <?= Yii::t('app', 'Step 4 descr') ?>
+                            <?= Yii::t('main-page', 'Step 4 descr') ?>
                         </p>
                     </div>
                     <div class="col-lg-4">
@@ -259,10 +259,10 @@ $this->title = 'MindPlace';
                     </div>
                     <div class="col-lg-4">
                         <h4>
-                            <?= Yii::t('app', 'Step 5') ?>
+                            <?= Yii::t('main-page', 'Step 5') ?>
                         </h4>
                         <p>
-                            <?= Yii::t('app', 'Step 5 descr') ?>
+                            <?= Yii::t('main-page', 'Step 5 descr') ?>
                         </p>
                     </div>
                 </div>
@@ -275,10 +275,10 @@ $this->title = 'MindPlace';
         <div class="row question-row align-content-center mb-5 text-center row-gap-3">
             <div class="col-lg-10 justify-content-center mx-auto">
                 <h2 class="text-center mb-4">
-                    <?= Yii::t('app', 'FAQ') ?>
+                    <?= Yii::t('main-page', 'FAQ') ?>
                 </h2>
                 <p class="text-center">
-                    <?= Yii::t('app', 'FAQ descr') ?>
+                    <?= Yii::t('main-page', 'FAQ descr') ?>
                 </p>
             </div>
             <div class="col-lg-10 mx-auto mb-4">
@@ -290,7 +290,7 @@ $this->title = 'MindPlace';
                                     data-bs-target="#collapse<?= $i ?>" aria-expanded="false"
                                     aria-controls="collapse<?= $i ?>">
                                     <span class="accordion-text-alt">
-                                        <?= Yii::t('app', "FAQ question $i") ?>
+                                        <?= Yii::t('main-page', "FAQ question $i") ?>
                                     </span>
                                 </button>
                             </h3>
@@ -299,7 +299,7 @@ $this->title = 'MindPlace';
                                 <div class="accordion-body">
                                     <p>
                                         <span class="accordion-text-alt">
-                                            <?= Yii::t('app', "FAQ answer $i") ?>
+                                            <?= Yii::t('main-page', "FAQ answer $i") ?>
                                         </span>
                                     </p>
                                 </div>
@@ -312,11 +312,11 @@ $this->title = 'MindPlace';
 
             <!-- ContactForm -->
             <div class="col-lg-5 mx-auto">
-                <h3 class="text-center"><?= Yii::t('app', "Still have questions?") ?></h3>
-                <p class="text-center"><?= Yii::t('app', "Still have questions descr") ?></p>
+                <h3 class="text-center"><?= Yii::t('main-page', "Still have questions?") ?></h3>
+                <p class="text-center"><?= Yii::t('main-page', "Still have questions descr") ?></p>
                 <div class="d-flex justify-content-center mt-4">
                     <a href="<?= Yii::$app->urlManager->createUrl(['site/contact']) ?>"
-                        class="btn btn-primary btn-lg"><?= Yii::t('app', "Contact us") ?></a>
+                        class="btn btn-primary btn-lg"><?= Yii::t('main-page', "Contact us") ?></a>
                 </div>
             </div>
         </div>

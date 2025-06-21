@@ -89,3 +89,5 @@ coverage/
 /composer.lock
 yarn.lock
 
+.env
+**/.env

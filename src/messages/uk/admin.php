@@ -1,0 +1,101 @@
+<?php
+return [
+    'Admin Panel' => 'Панель адміністратора',
+
+    // Index
+    'Index wellcome' => 'Ласкаво просимо до панелі адміністратора MindPlace.',
+    'Index system info' => 'Статистика системи',
+    'Index system info users' => 'Загальна кількість користувачів',
+    'Index system info verified therapists' => 'Перевірені терапевти',
+    'Index system info new registrations' => 'Нові реєстрації (сьогодні)',
+
+    'Index need attention' => 'Потребують уваги',
+    'Index new applications' => 'Нові заявки на верифікацію',
+    'Index error messages' => 'Повідомлення про помилки',
+    'Index new messages' => 'Нові звернення',
+
+    'Index therapists' => 'Терапевти',
+    'Btn view' => 'Переглянути',
+    'Index summaries' => 'Звіти',
+    'Index messages' => 'Повідомлення',
+    'Index blog' => 'Блог',
+
+    'Card messages descr' => 'Перегляд та обробка повідомлень скарг від користувачів, модерація контенту.',
+    'Card blog descr' => 'Управління статтями блогу, редагування та видалення публікацій.',
+    'Card therapists descr' => 'Управління профілями терапевтів, верифікація та модерація.',
+    'Card summaries descr' => 'Перегляд звітів про активність користувачів та статистика використання платформи.',
+
+    'Pending' => 'В обробці',
+    'Rejected' => 'Відхилено',
+    'Approved' => 'Прийнято',
+    'Blocked' => 'Заблоковано',
+
+    // Users
+
+    'Specialist requests' => 'Заявки на верифікацію',
+    'No with status' => 'Немає заявок зі статусом:',
+    'Name' => 'ПІБ',
+    'Specialization' => 'Спеціалізація',
+    'City' => 'Місто',
+    'Comment' => 'Коментар',
+    'No comment' => 'Немає коментаря',
+
+    'Profile' => 'Перегляд профілю:',
+    'Main info' => 'Основна інформація',
+    'Email' => 'Email',
+    'Contact number' => 'Контактний номер',
+    'Date of birth' => 'Дата народження',
+    'Years old' => 'років',
+    'Gender' => 'Стать',
+    'Languages' => 'Мови',
+    'Created at' => 'Дата створення',
+    'Updated at' => 'Дата оновлення',
+    'No comment' => 'Немає коментаря',
+
+    'More info' => 'Додаткова інформація',
+    'Professional info' => 'Професійна інформація',
+    'Therapy types' => 'Типи терапії',
+    'Themes' => 'Теми',
+    'Approaches' => 'Підходи',
+    'Format' => 'Формат',
+    'LGBT' => 'Робота з ЛГБТ+',
+    'Military' => 'Має досвід роботи з військовими',
+    'Education' => 'Освіта',
+    'Certificates' => 'Сертифікати',
+    'Additional info' => 'Додаткова інформація',
+    'Therapy types' => 'Типи терапії',
+    'Themes' => 'Теми',
+    'Approaches' => 'Підходи',
+    'Format' => 'Формат',
+    'LGBT' => 'ЛГБТ',
+    'Military' => 'Військові',
+    'Education' => 'Освіта',
+    'Education file' => 'Файл диплому',
+    'Education and certificates' => 'Освіта та сертифікати',
+    'Experience' => 'Досвід',
+    'Social media' => 'Соціальні мережі',
+    'Additional certificates' => 'Додаткові сертифікати',
+    'Additional certificates file' => 'Файл додаткових сертифікатів',
+    'Download document' => 'Завантажити документ',
+    'Not specified' => 'Не зазначено',
+    'Not loaded' => 'Не завантажено',
+
+    'Moderation' => 'Модерація',
+    'Admin comment' => 'Коментар адміністратора',
+    'Pending application' => 'Заявка на спеціаліста очікує на перевірку.',
+    'Rejected application' => 'Заявка на спеціаліста відхилена.',
+    'Approved application' => 'Заявка на спеціаліста прийнята.',
+    'Blocked application' => 'Заявка на спеціаліста заблокована.',
+    'Approve application' => 'Прийняти заявку',
+    'Reject application' => 'Відхилити заявку',
+    'Block application' => 'Заблокувати заявку',
+    'Unblock application' => 'Розблокувати заявку',
+    'Delete application' => 'Видалити заявку',
+
+
+    // Articles
+    'View article' => 'Переглянути статтю',
+    'No articles with status' => 'Немає статей зі статусом:',
+    'Author' => 'Автор',
+
+];

@@ -2,6 +2,9 @@
 
 namespace app\models;
 
+use app\services\UserAuthService;
+use app\models\forms\FormOptions;
+
 use Yii;
 use yii\web\IdentityInterface;
 use yii\db\ActiveRecord;
@@ -12,11 +15,36 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $contact_number (optional)
+ * @property string $date_of_birth
  * @property string $password_hash
  * @property string $role
  * @property string $auth_key
+ * @property string|null $google_token
  * @property string $access_token
  * @property string $created_at
+ * @property string $auth_type
+ * @property string|null $city
+ * @property string|null $address
+ * @property string|null $gender
+ * @property string[]|null $language
+ * @property string[]|null $therapy_types JSON-масив
+ * @property string[]|null $theme JSON-масив
+ * @property string[]|null $approach_type JSON-масив
+ * @property string[]|null $format JSON-масив
+ * @property bool|null $lgbt
+ * @property bool|null $military
+ * @property string[]|null $specialization JSON-масив
+ * @property string|null $education_name
+ * @property string|null $education_file
+ * @property string|null $education_file_url
+ * @property string|null $additional_certification
+ * @property string|null $additional_certification_file
+ * @property string|null $additional_certification_file_url
+ * @property string[]|null $experience JSON-масив
+ * @property string[]|null $social_media JSON-масив
+ * @property string|null $photo
+ * @property string|null $photo_url
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -36,17 +64,26 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates a new user
      *
-     * @param string $name name
-     * @param string $email email
-     * @param string $password password
+     * @param array $data user data
      * @return User|null created user or null if failed
      */
-    public static function createUser($name, $email, $password)
+    public static function createUser($data)
     {
         $user = new self();
-        $user->name = $name;
-        $user->email = $email;
-        $user->password_hash = self::hashPassword($password);
+        if (!$user->validate()) {
+            Yii::error($user->getErrors(), 'user-create');
+            return null;
+        }
+
+        // Set default user properties
+        $user->name = $data['name'] ?? null;
+        $user->email = $data['email'] ?? null;
+        $user->contact_number = $data['contact_number'] ?? null;
+        $user->date_of_birth = $data['date_of_birth'] ?? null;
+        $user->role = $data['role'] ?? 'default';
+
+        // Set security properties
+        $user->password_hash = UserAuthService::hashPassword($data['password']);
         $user->auth_key = Yii::$app->security->generateRandomString();
         $user->access_token = Yii::$app->security->generateRandomString(255);
 
@@ -57,40 +94,87 @@ class User extends ActiveRecord implements IdentityInterface
      * Updates user information
      *
      * @param int $id user ID
-     * @param string $name name
-     * @param string $email email
-     * @param string|null $password password
-     * @param string|null $re_password repeat password
-     * @param string|null $role user role
-     * @return bool whether the update was successful
+     * @param array $data user data
+     * @return string|false access_token або false у разі помилки
      */
-    public static function updateUser($id, $name, $email, $password = null, $re_password = null, $role = null)
+    public static function updateUser($id, $data)
     {
         $user = self::findOne($id);
-        if (!$user || ($existing = self::findOne(['email' => $email])) && $existing->id !== $id) {
+        Yii::info('User update data: ' . json_encode($data), 'user-update');
+    
+        if (!$user) {
+            Yii::error("User ID $id not found", 'user-update');
+            return false;
+        }
+    
+        if (isset($data['email'])) {
+            $existing = self::findByEmail($data['email']);
+            if ($existing && $existing->id !== $id) {
+                Yii::error("Email {$data['email']} is already taken by another user", 'user-update');
+                return false;
+            }
+        }
+    
+        $jsonFields = [
+            'language', 'therapy_types', 'theme', 'approach_type',
+            'format', 'specialization', 'experience', 'social_media'
+        ];
+    
+        foreach ($data as $field => $value) {
+            if (in_array($field, $jsonFields, true)) {
+                $user->$field = is_array($value) ? json_encode($value) : $value;
+            } elseif ($user->hasAttribute($field)) {
+                $user->$field = $value;
+            }
+        }
+    
+        foreach (['education', 'additional_certification', 'photo'] as $prefix) {
+            if (!empty($data["{$prefix}_file"])) {
+                $user->{"{$prefix}_file"} = $data["{$prefix}_file"];
+                $user->{"{$prefix}_file_url"} = $data["{$prefix}_file_url"] ?? null;
+            }
+        }
+    
+        if (!empty($data['password']) && !empty($data['re_password'])) {
+            if ($data['password'] !== $data['re_password']) {
+                Yii::warning('Passwords do not match', 'user-update');
+                return false;
+            }
+            $user->password_hash = UserAuthService::hashPassword($data['password']);
+        }
+    
+        if (!$user->save()) {
+            Yii::error('User save failed: ' . json_encode($user->getErrors()), 'user-update');
+            throw new \RuntimeException('Помилка збереження користувача.');
+        }
+    
+        return $user->access_token;
+    }
+    
+
+
+    /**
+     * Оновлення налаштувань користувача для поточного користувача
+     *
+     * @param array $data user data
+     * @return string|false access_token або false у разі помилки
+     */
+    public static function userUpdateSettings(array $data)
+    {
+        if (empty($data)) {
+            Yii::error('Дані для оновлення порожні або не є масивом', 'user-update-settings');
+            Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
             return false;
         }
 
-        // Update user information
-        $user->name = $name;
-        $user->email = $email;
-
-
-        // Handle password change
-        if ($password !== null && $password === $re_password) {
-            $user->password_hash = self::hashPassword($password);
-        } elseif ($password !== $re_password) {
+        $user = Yii::$app->user->identity;
+        if (!$user) {
+            Yii::error('Користувач не авторизований', 'user-update-settings');
+            Yii::$app->session->setFlash('error', 'Помилка при оновленні профілю');
             return false;
         }
 
-        // Handle role update
-        if ($role !== null) {
-            $user->role = $role;
-            $user->auth_key = Yii::$app->security->generateRandomString();
-            $user->access_token = Yii::$app->security->generateRandomString(255);
-        }
-
-        return $user->save();
+        return self::updateUser($user->id, $data);
     }
 
     /**
@@ -101,13 +185,14 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function deleteUser($id)
     {
-        return ($user = self::findOne($id)) ? (bool) $user->delete() : false;
+        $user = self::findOne($id);
+        return $user ? (bool) $user->delete() : false;
     }
 
     /**
      * Finds user by name
      *
-     * @param string $rname
+     * @param string $name
      * @return static|null
      */
     public static function findByName($name)
@@ -115,6 +200,16 @@ class User extends ActiveRecord implements IdentityInterface
         return self::findOne(['name' => $name]);
     }
 
+    /**
+     * Finds user by id
+     *
+     * @param int $id
+     * @return static|null
+     */
+    public static function findById($id)
+    {
+        return self::findOne(['id' => $id]);
+    }
     /**
      * Finds user by email
      *
@@ -125,6 +220,33 @@ class User extends ActiveRecord implements IdentityInterface
         return self::findOne(['email' => $email]);
     }
 
+    public static function getSpecialists($params = '')
+    {
+        return self::find()->where(['role' => 'specialist'])->all();
+    }
+
+    public static function getPatients($params = [])
+    {
+        return self::find()->where(['role' => 'default'])->all();
+    }
+
+    public static function getSpecializationList($params = '')
+    {
+        return [
+            'psyhotherapist' => 'Psyhotherapist',
+            'psychologist' => 'Psychologist',
+        ];
+    }
+
+    public static function getStatusList($params = '')
+    {
+        return [
+            'pending' => 'Pending',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'blocked' => 'Blocked',
+        ];
+    }
     #endregion
 
 
@@ -137,8 +259,13 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return self::findOne($id);
+        $user = self::findOne($id);
+        if ($user === null) {
+            Yii::error("findIdentity: User not found for ID = $id", __METHOD__);
+        }
+        return $user;
     }
+
 
     /**
      * Finds user by access token
@@ -180,110 +307,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key === $authKey;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
-    /**
-     * Generates password hash from password
-     *
-     * @param string $password password to hash
-     * @return string hashed password
-     */
-    public static function hashPassword($password)
-    {
-        return Yii::$app->security->generatePasswordHash($password);
-    }
-
-    /**
-     * Logs in a user using name and password
-     * Optionally, it can remember the user for a specified duration
-     *
-     * @return string generated access token
-     */
-    public static function login($name, $password, $rememberMe = false)
-    {
-        $user = self::findByName($name);
-
-        if ($user && $user->validatePassword($password)) {
-            Yii::$app->user->login($user, $rememberMe ? 3600 * 24 * 30 : 0);
-            return $user->access_token;
-        }
-
-        return null;
-    }
-
-    /**
-     * Reister new user & logs in
-     *
-     * @return string generated access token
-     */    
-    public static function signup($name, $email, $password, $re_password)
-    {
-        $user = self::findByEmail($email);
-
-        if (!$user && $password === $re_password) {
-            $user = self::createUser($name, $email, $password);
-            if ($user) {
-                Yii::$app->user->login($user);
-                return $user->access_token;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Logs out the current user
-     * 
-     * {@inheritdoc}
-     * @return void
-     */
-    public static function logout()
-    {
-        Yii::$app->user->logout();
-    }
     #endregion
-
-
-    #region Rules & Labels
-
-    public function rules()
-    {
-        return [
-            [['name', 'email', 'password_hash', 'role'], 'string', 'max' => 255],
-            [['auth_key', 'access_token'], 'string', 'max' => 255],
-            [['created_at'], 'datetime', 'format' => 'php:Y-m-d H:i:s'],
-            [['email'], 'email'],
-            [['email'], 'unique'],
-            [['password_hash'], 'string', 'min' => 6],
-            [['role'], 'in', 'range' => ['admin', 'user', 'moderator', 'specialist', 'guest']],
-        ];
-    }
-
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Full name',
-            'email' => 'Email',
-            'password_hash' => 'Password Hash',
-            'role' => 'Role',
-            'auth_key' => 'Auth Key',
-            'access_token' => 'Access Token',
-            'created_at' => 'Created At',
-        ];
-    }
-
-    #endregion
-
 
     #region Roles & Access Control
 
@@ -301,43 +330,58 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Checks if the user is an admin
      * Admin has the highest level of access and can perform all actions
-     * including managing users, articles and settings
+     * including managing users, articles, and managing specialists
      *
      * @return bool whether the user is an admin
      */
-    public function isAdmin()       { return $this->role === 'admin'; }
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 
     /**
      * Checks if the user is a moderator
      * Moderator has a lower level of access than admin and can perform some actions
-     * like managing articles
+     * like managing articles, reveiews and reports
      *
      * @return bool whether the user is a moderator
      */
-    public function isModerator()   { return $this->role === 'moderator';}
+    public function isModerator()
+    {
+        return $this->role === 'moderator';
+    }
 
     /**
      * Checks if the user is a specialist (doctor)
      * Specialist has a lower level of access than moderator and can perform some actions
-     * 1. creating articles and can also manage their own articles
-     * 2. edit own profile
-     * 3. chat with users 
+     * 1. creating articles
+     * 2. edit their own articles
+     * 3. edit own profile
+     * 4. chat with users 
      *
      * @return bool whether the user is a specialist
      */
-    public function isSpecialist()  { return $this->role === 'specialist'; }
+    public function isSpecialist()
+    {
+        return $this->role === 'specialist';
+    }
 
     /**
      * Checks if the user is a regular user
      * Regular user has the lowest level of access and can perform some actions
      * 1. edit own profile
      * 2. chat with specialists
-     * 3. view articles
-     * 4. view specialists
+     * 3. leave reviews
+     * 4. leave reports
+     * 5. view articles
+     * 6. view specialists
      *
      * @return bool whether the user is a regular user
      */
-    public function isUser()        { return $this->role === 'default'; }
+    public function isUser()
+    {
+        return $this->role === 'default';
+    }
 
     /**
      * Checks if the user is a guest
@@ -345,7 +389,10 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @return bool whether the user is a guest
      */
-    public function isGuest()       { return $this->role === 'guest'; }
+    public function isGuest()
+    {
+        return $this->role === 'guest';
+    }
 
     /**
      * Checks if the user is logged in
@@ -359,4 +406,81 @@ class User extends ActiveRecord implements IdentityInterface
     #endregion
 
 
+    public function getAge(): int
+    {
+        if (!$this->date_of_birth) {
+            return 0;
+        }
+        $dob = new \DateTime($this->date_of_birth);
+        $today = new \DateTime();
+        return $today->diff($dob)->y;
+    }
+
+
+    public function getTherapyTypesAsArray(): array
+    {
+        return $this->getDecodedAttribute('therapy_types');
+    }
+
+    public function getThemeAsArray(): array
+    {
+        return $this->getDecodedAttribute('theme');
+    }
+
+    public function getApproachTypeAsArray(): array
+    {
+        return $this->getDecodedAttribute('approach_type');
+    }
+
+    public function getFormatAsArray(): array
+    {
+        return $this->getDecodedAttribute('format');
+    }
+
+    public function getSpecializationAsArray(): array
+    {
+        return $this->getDecodedAttribute('specialization');
+    }
+
+    public function getExperienceAsArray(): array
+    {
+        return $this->getDecodedAttribute('experience');
+    }
+
+    public function getSocialMediaAsArray(): array
+    {
+        return $this->getDecodedAttribute('social_media');
+    }
+
+    public function getLanguageAsArray(): array
+    {
+        return $this->getDecodedAttribute('language');
+    }
+
+    public function getOptionLabel(string $fieldName, string $optionCategory): ?string
+    {
+        $value = $this->$fieldName;
+        return FormOptions::getLabel($optionCategory, $value);
+    }
+
+    protected function normalizeJsonArray($value): array
+    {
+        if (is_array($value)) return $value;
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            return is_array($decoded) ? $decoded : [];
+        }
+        return [];
+    }
+
+    public function getOptionLabels(string $fieldName, string $optionCategory): array
+    {
+        $keys = $this->getDecodedAttribute($fieldName);
+        return array_filter(array_map(fn($k) => FormOptions::getLabel($optionCategory, $k), $keys));
+    }
+
+    public function getDecodedAttribute(string $attr): array
+    {
+        return $this->normalizeJsonArray($this->$attr ?? []);
+    }
 }

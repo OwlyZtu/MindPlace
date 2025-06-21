@@ -3,6 +3,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
+
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -15,9 +16,17 @@ $config = [
     'sourceLanguage' => 'en-US',
     'components' => [
         'assetManager' => [
+            'appendTimestamp' => true,
             'basePath' => '@webroot/assets',
             'baseUrl' => '@web/assets',
             'dirMode' => 0777,
+        ],
+        's3Storage' => [
+            'class' => app\components\S3Storage::class,
+            'key' => $_ENV['AWS_ACCESS_KEY_ID'] ?? null,
+            'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'] ?? null,
+            'bucket' => $_ENV['AWS_BUCKET'] ?? 'mindplacediploma',
+            'region' => $_ENV['AWS_REGION'] ?? 'eu-north-1',
         ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -33,30 +42,83 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
+        'symfonyMailer' => [
+            'class' => 'app\components\SymfonyMailer',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                        'application.runtime.logs.*',
+                    ],
+                    'maskVars' => [
+                        '_SERVER.AWS_ACCESS_KEY_ID',
+                        '_SERVER.AWS_SECRET_ACCESS_KEY',
+                        '_SERVER.DSN_MAILER',
+                        '_SERVER.USERNAME_MAILER',
+                        '_SERVER.PASSWORD_MAILER',
+                    ],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error'],
+                    'categories' => ['user-settings-validation'],
+                    'logFile' => '@runtime/logs/validation-errors.log',
+                    'logVars' => [],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'categories' => ['therapist-join'],
+                    'logFile' => '@runtime/logs/therapist-join.log',
+                    'logVars' => [],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info', 'error'],
+                    'categories' => ['admin.*'],
+                    'logFile' => '@runtime/logs/admin.log',
+                    'logVars' => [],
+                    'prefix' => fn($message) => date('Y-m-d H:i:s'),
+
                 ],
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'admin/specialist-request' => 'admin/specialist-request/index',
+                'admin/specialist-request/<action:\w+>/<id:\d+>' => 'admin/specialist-request/<action>',
+                'admin/specialist-request/<action:\w+>' => 'admin/specialist-request/<action>',
+                'admin/specialist-request/<action>/<id:\d+>' => 'admin/specialist-request/<action>',
+
+                'admin/article-review' => 'admin/article-review/index',
+                'admin/article-review/<action:\w+>/<id:\d+>' => 'admin/article-review/<action>',
+                'admin/article-review/<action:\w+>' => 'admin/article-review/<action>',
+                'admin/article-review/<id:\d+>' => 'admin/article-review/view',
+                'admin/article-review/<id:\d+>/<action:\w+>' => 'admin/article-review/<action>',
+
+                'specialists' => 'specialist/index',
+                'specialist/<id:\d+>' => 'specialist/view',
+                'specialist/<id:\d+>/book-session' => 'specialist/book-session',
+                'specialist/<id:\d+>/session-details' => 'specialist/session-details',
+                'specialist/<id:\d+>/profile' => 'specialist/profile',
+
+                'articles' => 'article/index',
+                'articles/<action:\w+>' => 'article/<action>',
+                'articles/<id:\d+>' => 'article/view',
+                'articles/<id:\d+>/<action:\w+>' => 'article/<action>',
+
             ],
         ],
-        */
+
         'i18n' => [
             'translations' => [
                 '*' => [
@@ -80,7 +142,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
+        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*', '172.18.0.*'],  // Add Docker network
     ];
 
     $config['bootstrap'][] = 'gii';

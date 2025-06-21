@@ -1,7 +1,13 @@
 {
     "name": "yiisoft/yii2-app-basic",
     "description": "Yii 2 Basic Project Template",
-    "keywords": ["yii2", "framework", "basic", "project template"],
+
+    "keywords": [
+        "yii2",
+        "framework",
+        "basic",
+        "project template"
+    ],
     "homepage": "https://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
@@ -17,11 +23,14 @@
         "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.45",
         "yiisoft/yii2-bootstrap5": "~2.0.2",
-        "yiisoft/yii2-symfonymailer": "~2.0.3"
+        "yiisoft/yii2-symfonymailer": "~2.0.3",
+        "vlucas/phpdotenv": "^5.6",
+        "aws/aws-sdk-php": "^3.343",
+        "google/apiclient": "2.14"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
-        "yiisoft/yii2-gii": "~2.2.0",
+        "yiisoft/yii2-gii": "^2.2",
         "yiisoft/yii2-faker": "~2.0.0",
         "codeception/codeception": "^5.0.0 || ^4.0",
         "codeception/lib-innerbrowser": "^4.0 || ^3.0 || ^1.1",
@@ -32,7 +41,8 @@
     },
     "config": {
         "allow-plugins": {
-            "yiisoft/yii2-composer" : true
+            "yiisoft/yii2-composer": true
+
         },
         "process-timeout": 1800,
         "fxp-asset": {
@@ -64,10 +74,15 @@
             ]
         }
     },
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "src/"
+        }
+    }
 }

@@ -1,0 +1,52 @@
+<?php
+return [
+    'Greeting' => 'Вітаємо, ',
+    'Profile title' => 'Мій профіль',
+    'Profile name' => 'Ім\'я',
+    'Profile email' => 'Електронна пошта',
+    'Profile phone' => 'Номер телефону',
+    'Profile date_of_birth' => 'Дата народження',
+    'Profile city' => 'Місто',
+    'Profile gender' => 'Стать',
+    'Profile experience' => 'Досвід роботи',
+    'Profile specialization' => 'Спеціалізація',
+    'Profile therapy_types' => 'Види терапії',
+    'Profile themes' => 'Теми для обговорення',
+    'Profile formats' => 'Формати',
+    'Profile languages' => 'Мови',
+    'Profile lgbt' => 'ЛГБТК+',
+    'Profile military' => 'Військові',
+    'Profile education' => 'Освіта',
+    'Profile education empty' => 'Немає файлу про освіту',
+    'Profile education and additional certifications' => 'Освіта та додаткові сертифікації',
+
+    'No change' => 'Файл про освіту (зміна неможлива)',
+    'Profile additional_certification' => 'Додаткові сертифікати',
+    'Profile additional_certification empty' => 'Немає файлу додаткової сертифікації',
+    'Profile photo' => 'Фото',
+    'Profile photo change' => 'Змінити фото',
+    'Profile future_sessions' => 'Майбутні сесії',
+    'Profile history' => 'Історія сесій',
+    'Profile future_sessions empty' => 'У вас немає майбутніх сесій',
+    'Profile history empty' => 'У вас немає історії сесій',
+    'Profile settings' => 'Налаштування',
+    'Profile settings button' => 'Зберегти зміни',
+
+    'Personal data' => 'Особисті дані',
+    'Change password' => 'Змінити пароль',
+    'Profecional data' => 'Професійні дані',
+    'Add Additional Certification' => 'Додати додаткові сертифікати',
+    'Go to medical blog panel' => 'Перейти до панелі медичного блогу',
+    'Download' => 'Завантажити',
+
+    'First' => 'Спочатку вам мають видати дозвіл надавати послуги. Якщо вважаєте, що виникла проблема напишіть нам',
+
+    'Profile pending' => 'Профіль на розгляді',
+    'Profile rejected' => 'Профіль відхилено',
+    'Profile approved' => 'Профіль підтверджено',
+    'Profile blocked' => 'Профіль заблоковано',
+
+    'Birth date not found in Google profile. Please enter it manually.' => 'Дата народження не знайдена в профілі Google. Будь ласка, введіть її вручну.',
+    'Birth date obtained from Google:' => 'Дата народження отримано з Google:',
+
+];

@@ -1,0 +1,60 @@
+<?php
+return [
+    'FT Join Form' => 'Join MindPlace team',
+    'FT title' => 'Join MindPlace',
+    'FT intro h1' => 'MindPlace for Specialists',
+    'FT intro h2' => 'Grow and Thrive With Us',
+    'FT intro p1' => 'Join our community of mental health professionals.',
+    'FT intro p2' => 'You focus on helping people — we`ll take care of finding clients and managing your online presence.',
+
+    'FT benefits title' => 'Benefits for you',
+    'FT benefits 1' => 'A safe, reliable platform for consultations.',
+    'FT benefits 2' => 'Tools for managing appointments and schedule.',
+    'FT benefits 3' => 'A professional community and development opportunities.',
+    'FT benefits 4' => 'MindPlace is your partner for growth and client support.',
+
+    'FT login first' => 'Login first or create new account to continue',
+
+    // Therapist Join Form
+    'Personal Information' => 'Personal Information',
+    'Full name' => 'Full name',
+    'Email' => 'Email',
+    'Contact Number' => 'Contact Number',
+    'Date of Birth' => 'Date of Birth',
+    'Gender' => 'Gender',
+    'City' => 'City',
+    'Social Media' => 'Social Media',
+
+    'Therapy Specific' => 'Therapy Specific',
+    'Language' => 'Language',
+    'Therapy Types' => 'Therapy types',
+    'Approach' => 'Therapy approach',
+    'Themes' => 'Theme',
+    'Format' => 'Format',
+    'LGBTQ+ friendly' => 'LGBTQ+ friendly',
+    'Work with military personnel' => 'Work with military personnel',
+
+    'Education and Experience' => 'Education and Experience',
+    'Education Name' => 'Education Name',
+    'Specialization' => 'Specialization',
+    'Education File' => 'Education File',
+    'file hint' => 'Allowed formats: PDF, DOC, DOCX.  Max size: 1MB',
+    'photo hint' => 'Allowed formats: JPG, JPEG, PNG. Max size: 1MB',
+    'Additional Certification' => 'Additional Certification',
+    'Additional Certification File' => 'Additional Certification File',
+    'Experience' => 'Experience',
+    'Address' => 'Address (if you work offline)',
+    'Save btn' => 'Save',
+    'Download' => 'Download',
+
+    'Privacy Policy' => 'Privacy Policy',
+    'I agree to the privacy policy' => 'I agree to the privacy policy',
+    'One moment' => 'Submit',
+
+    'Your application is being reviewed' => 'Your application is being reviewed',
+    'We will notify you once we review your application' => 'We will notify you once we review your application',
+    'Your application has been rejected' => 'Your application has been rejected',
+    'Please contact us for more information' => 'Please contact us for more information',
+    'Your application has been approved' => 'Your application has been approved',
+    'You can now start using MindPlace' => 'You can now start using MindPlace',
+];

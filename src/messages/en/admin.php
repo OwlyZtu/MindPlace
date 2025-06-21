@@ -1,0 +1,90 @@
+<?php
+return [
+    'Admin Panel' => 'Admin Panel',
+
+    
+    // Index
+    'Index wellcome' => 'Welcome to the admin panel',
+    'Index system info' => 'System information',
+    'Index system info users' => 'Total number of users',
+    'Index system info verified therapists' => 'Verified therapists',
+    'Index system info new registrations' => 'New registrations (today)',
+
+    'Index need attention' => 'Need attention',
+    'Index new applications' => 'New applications',
+    'Index error messages' => 'Error messages',
+    'Index new messages' => 'New messages',
+
+    'Index therapists' => 'Therapists',
+    'Index summaries' => 'Summaries',
+    'Index messages' => 'Messages',
+    'Index blog' => 'Blog',
+
+    'Btn view' => 'View more',
+    'Card messages descr' => 'View and handle user messages, moderation of content.',
+    'Card blog descr' => 'Manage blog posts, create, edit, and delete posts.',
+    'Card therapists descr' => 'Manage therapist profiles, verification, and moderation.',
+    'Card summaries descr' => 'View user activity summaries and platform usage statistics.',
+
+    // Users
+    'Pending' => 'Pending',
+    'Rejected' => 'Rejected',
+    'Approved' => 'Approved',
+    'Blocked' => 'Blocked',
+    'Specialist requests' => 'Specialist requests',
+    'No with status' => 'No applications with status:',
+    'Name' => 'Name',
+    'Specialization' => 'Specialization',
+    'City' => 'City',
+    'Comment' => 'Comment',
+    'Created at' => 'Created at',
+    'Updated at' => 'Updated at',
+    'No comment' => 'No comment',
+
+    'Profile' => 'Profile of ',
+    'Main info' => 'Main info',
+    'Email' => 'Email',
+    'Contact number' => 'Contact number',
+    'Date of birth' => 'Date of birth',
+    'Years old' => 'years old',
+    'Gender' => 'Gender',
+    'Languages' => 'Languages',
+    'No comment' => 'No comment',
+
+    'More info' => 'More info',
+    'Professional info' => 'Professional info',
+    'Therapy types' => 'Therapy types',
+    'Themes' => 'Themes',
+    'Approaches' => 'Approaches',
+    'Format' => 'Format',
+    'LGBT' => 'LGBT',
+    'Military' => 'Military',
+    'Education' => 'Education',
+    'Education file' => 'Education file',
+    'Education info' => 'Education info',
+    'Experience' => 'Experience',
+    'Social media' => 'Social media',
+    'Additional certificates' => 'Additional certificates',
+    'Additional certificates file' => 'Additional certificates file',
+    'Download document' => 'Download document',
+    'Not specified' => 'Not specified',
+    'Not loaded' => 'Not loaded',
+
+    'Moderation' => 'Moderation',
+    'Admin comment' => 'Admin comment',
+    'Pending application' => 'Pending application',
+    'Rejected application' => 'Rejected application',
+    'Approved application' => 'Approved application',
+    'Blocked application' => 'Blocked application',
+    'Approve application' => 'Approve application',
+    'Reject application' => 'Reject application',
+    'Block application' => 'Block application',
+    'Unblock application' => 'Unblock application',
+    'Delete application' => 'Delete application',
+
+    // Articles
+    'View article' => 'View article',
+    'No articles with status' => 'No articles with status:',
+    'Author' => 'Author',
+
+];

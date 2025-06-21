@@ -4,17 +4,28 @@
 $primary-color: #3A7782;
 $primary-hover: #083c48;
 $secondary-color: #5D704F;
+$secondary-light-color: #8c9e7f;
 $secondary-hover: #2c3823;
+
+$warning-color: #eabf84;
+$error-color: #dd7e7a;
+$success-color: #75a591;
+$info-color: #b2f0d6;
 
 $text-color: #323f33;
 $text-muted: #999;
 $text-error: #a94442;
 $gradient-start: #467471;
+$gradient-start-opc70: #467471B3;
+$gradient-start-opc50: #46747180;
 $gradient-end: #91944D;
+$gradient-end-opc70: #91944DB3;
+$gradient-end-opc50: #91944D80;
 $gradient-alt-end: #616340;
 $background-main: #eeeeee;
 $footer-bg: #f5f5f5;
 $not-set-color: #c55;
+
 
 
 // =======================
@@ -37,10 +48,12 @@ $not-set-color: #c55;
   margin: 4px 4px 2px 4px;
   background: transparent;
 
-  @if $direction == asc {
+  @if $direction ==asc {
     border-bottom: solid 7px #212529;
     border-top-width: 0;
-  } @else if $direction == desc {
+  }
+
+  @else if $direction ==desc {
     border-top: solid 7px #212529;
     border-bottom-width: 0;
   }
@@ -51,9 +64,10 @@ $not-set-color: #c55;
 // =======================
 body {
   color: $text-color;
+  font-family: 'Comfortaa', sans-serif;
 }
 
-.navbar-bg{
+.navbar-bg {
   background-color: transparent;
 }
 
@@ -72,12 +86,12 @@ body {
 
 
 footer {
-  .container-fluid{
+  .container-fluid {
     background-color: $background-main;
   }
 }
 
-main > .container {
+main>.container {
   padding: 70px 15px 20px;
 }
 
@@ -85,7 +99,7 @@ main > .container {
   font-size: 0.9em;
   height: 60px;
 
-  > .container {
+  >.container {
     padding-right: 0px;
     padding-left: 0px;
   }
@@ -96,12 +110,39 @@ main > .container {
   font-style: italic;
 }
 
+.bg-primary {
+  background-color: $primary-color;
+  color: white;
+}
+
+.bg-warning {
+  background-color: $warning-color;
+  color: black;
+}
+
+.bg-success {
+  background-color: $success-color;
+  color: black;
+}
+
+.bg-info {
+  background-color: $info-color;
+  color: black;
+}
+
+.bg-danger {
+  background-color: $error-color;
+  color: black;
+}
+
+
 // =======================
 // GRIDVIEW SORT ICONS
 // =======================
 a.asc::after {
   @include sorting-arrow(asc);
 }
+
 a.desc::after {
   @include sorting-arrow(desc);
 }
@@ -129,16 +170,17 @@ a.desc::after {
 // =======================
 .nav {
   font-size: larger;
+
   li {
-    > form {
-      > button.logout {
+    >form {
+      >button.logout {
         padding-top: 7px;
-        color: rgba(255, 255, 255, 0.678);
+        color: rgba(255, 255, 255, 0.863);
 
         &:focus,
         &:hover {
           text-decoration: none;
-          color: rgba(255, 255, 255, 0.95);
+          color: white;
         }
 
         &:focus {
@@ -168,11 +210,11 @@ a.desc::after {
 }
 
 .btn-primary {
-    color: white;
   background-color: $primary-color;
 
   &:hover {
     background-color: $primary-hover;
+    color: white;
   }
 }
 
@@ -181,25 +223,58 @@ a.desc::after {
 
   &:hover {
     background-color: $secondary-hover;
+    color: white;
   }
 }
+
+.nav-tabs>.active {
+  background-color: $secondary-light-color;
+
+  &:hover {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
+.tab-content>.tab-pane {
+  background-color: $secondary-light-color;
+}
+
 
 // =======================
 // HEADINGS
 // =======================
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin-bottom: 1rem;
-  p{
-    font-family: 'BeyneRegular';
-  }
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.50rem; }
-h5 { font-size: 1.35rem; }
-p { font-size: 1.30rem; }
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.50rem;
+}
+
+h5 {
+  font-size: 1.35rem;
+}
+
+p {
+  font-size: 1.10rem;
+}
 
 //======================
 // FONTS
@@ -232,6 +307,13 @@ p { font-size: 1.30rem; }
   }
 }
 
+.link-primary {
+  color: $primary-color;
+}
+
+.link-secondary {
+  color: $secondary-color;
+}
 
 
 
@@ -239,9 +321,31 @@ p { font-size: 1.30rem; }
   .accordion-item {
     border-width: 0.25rem;
     border-color: #abbfbe;
+
     .accordion-text-alt {
       color: $gradient-alt-end;
     }
   }
 
+}
+
+.article-card {
+  transition: background .5s ease-in 1s;
+  background: linear-gradient(135deg, $gradient-start-opc70, $gradient-end-opc70);
+
+  h5,
+  small {
+    color: #fff !important;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, $gradient-end, $gradient-alt-end);
+    color: #fff;
+
+
+  }
+}
+.article-card-view {
+  background: linear-gradient(135deg, $gradient-start-opc50, $gradient-end-opc50);
+  color: black;
 }
