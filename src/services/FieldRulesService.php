@@ -123,7 +123,7 @@ class FieldRulesService extends Model
     {
         return [[
             'photo',
-            'image',
+            'file',
             'extensions' => 'jpg, jpeg, png',
             'maxSize' => 1 * 1024 * 1024,
             'tooBig' => 'Розмір файлу не може перевищувати 1MB',

@@ -101,12 +101,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $user = self::findOne($id);
         Yii::info('User update data: ' . json_encode($data), 'user-update');
-    
+
         if (!$user) {
             Yii::error("User ID $id not found", 'user-update');
             return false;
         }
-    
+
         if (isset($data['email'])) {
             $existing = self::findByEmail($data['email']);
             if ($existing && $existing->id !== $id) {
@@ -114,27 +114,39 @@ class User extends ActiveRecord implements IdentityInterface
                 return false;
             }
         }
-    
+
         $jsonFields = [
-            'language', 'therapy_types', 'theme', 'approach_type',
-            'format', 'specialization', 'experience', 'social_media'
+            'language',
+            'therapy_types',
+            'theme',
+            'approach_type',
+            'format',
+            'specialization',
+            'experience',
+            'social_media'
         ];
-    
+
         foreach ($data as $field => $value) {
             if (in_array($field, $jsonFields, true)) {
-                $user->$field = is_array($value) ? json_encode($value) : $value;
-            } elseif ($user->hasAttribute($field)) {
+                $user->$field = is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value;
+            } else {
+                Yii::info("$field = $value", 'user-update');
                 $user->$field = $value;
             }
         }
-    
-        foreach (['education', 'additional_certification', 'photo'] as $prefix) {
+
+        foreach (['education', 'additional_certification'] as $prefix) {
             if (!empty($data["{$prefix}_file"])) {
                 $user->{"{$prefix}_file"} = $data["{$prefix}_file"];
                 $user->{"{$prefix}_file_url"} = $data["{$prefix}_file_url"] ?? null;
             }
         }
-    
+        if (!empty($data["photo"])) {
+            $user->photo = $data["photo"];
+            $user->photo_url = $data["photo_url"] ?? null;
+        }
+
+
         if (!empty($data['password']) && !empty($data['re_password'])) {
             if ($data['password'] !== $data['re_password']) {
                 Yii::warning('Passwords do not match', 'user-update');
@@ -142,15 +154,16 @@ class User extends ActiveRecord implements IdentityInterface
             }
             $user->password_hash = UserAuthService::hashPassword($data['password']);
         }
-    
+
         if (!$user->save()) {
             Yii::error('User save failed: ' . json_encode($user->getErrors()), 'user-update');
             throw new \RuntimeException('Помилка збереження користувача.');
+            return false;
         }
-    
+
         return $user->access_token;
     }
-    
+
 
 
     /**

@@ -1,5 +1,6 @@
 <?php return [
     'Find the right specialist for your needs.' => 'Знайдіть відповідного спеціаліста для ваших потреб.',
+    'Our specialists' => 'Наші спеціалісти',
     'Specialist' => 'Спеціаліст',
     'Client' => 'Клієнт',
     'Specialists' => 'Спеціалісти',

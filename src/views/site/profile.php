@@ -17,7 +17,7 @@ $this->title = 'My Profile';
 
             <div class="row justify-content-center mb-2">
                 <h2 class="col-lg-6 gradient-text">
-                    <?= Yii::t('profile', 'Greeting', ['name' => Yii::$app->user->identity->name]) ?>
+                    <?= Yii::t('profile', 'Greeting') .Yii::$app->user->identity->name ?>
                     <span>
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -184,21 +184,21 @@ $this->title = 'My Profile';
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'name')->textInput(['value' => Yii::$app->user->identity->name])
-                                        ->label(Yii::t('profile', 'Form name')); ?>
+                                        ->label(Yii::t('profile', 'Profile name')); ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'email')->textInput(['value' => Yii::$app->user->identity->email])
-                                        ->label(Yii::t('profile', 'Form email')) ?>
+                                        ->label(Yii::t('profile', 'Profile email')) ?>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'contact_number')->textInput(['placeholder' => Yii::$app->user->identity->contact_number])
-                                        ->label(Yii::t('profile', 'Form phone')) ?>
+                                        ->label(Yii::t('profile', 'Profile phone')) ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'date_of_birth')->input('date', ['value' => Yii::$app->user->identity->date_of_birth])
-                                        ->label(Yii::t('profile', 'Date of birth')) ?>
+                                        ->label(Yii::t('profile', 'Profile date_of_birth')) ?>
                                 </div>
                             </div>
                             <div class="row mt-4">
@@ -209,11 +209,11 @@ $this->title = 'My Profile';
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 'password')->passwordInput()
-                                        ->label(Yii::t('profile', 'Form password')); ?>
+                                        ->label(Yii::t('profile', 'Profile password')); ?>
                                 </div>
                                 <div class="col-lg-6">
                                     <?= $form->field($profile_settings_model, 're_password')->passwordInput()
-                                        ->label(Yii::t('profile', 'Form password repeat')) ?>
+                                        ->label(Yii::t('profile', 'Profile re_password')) ?>
                                 </div>
                             </div>
                             <div class="form-group row justify-content-center">

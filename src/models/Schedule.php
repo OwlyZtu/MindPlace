@@ -110,7 +110,7 @@ class Schedule extends ActiveRecord
         }
     }
 
-    public static function updateMeetLink($id,$link)
+    public static function updateMeetLink($id, $link)
     {
         $schedule = self::getScheduleById($id);
         if (!$schedule) {
@@ -118,7 +118,7 @@ class Schedule extends ActiveRecord
         }
         $schedule->meet_url = $link;
         if (!$schedule->save()) {
-            Yii::error('Failed to update session link'. json_encode($schedule->getErrors()),'session-update');
+            Yii::error('Failed to update session link' . json_encode($schedule->getErrors()), 'session-update');
             return null;
         }
         return $schedule;
@@ -211,7 +211,9 @@ class Schedule extends ActiveRecord
 
     public function getEndTime()
     {
-        return date('H:i', strtotime($this->datetime) + $this->duration * 60);
+        $start = new \DateTime($this->datetime, new \DateTimeZone(Yii::$app->timeZone));
+        $start->add(new \DateInterval('PT' . $this->duration . 'M'));
+        return $start->format('H:i');
     }
 
     public function isBooked(): bool

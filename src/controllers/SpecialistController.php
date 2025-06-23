@@ -292,20 +292,27 @@ class SpecialistController extends Controller
         if (!$session) {
             return $this->goHome();
         }
-        date_default_timezone_set('Europe/Kyiv');
-        $now = new \DateTime();
-        $sessionTime = new \DateTime($session->datetime);
-        $endSession = $sessionTime->add(new \DateInterval('PT' . $session->duration . 'M'));
-        $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
-        $endTime = $now->getTimestamp() - $endSession->getTimestamp() + 3600;
+        $timezone = new \DateTimeZone(Yii::$app->timeZone);
 
+        $now = new \DateTime('now', $timezone);
+        $sessionStart = new \DateTime($session->datetime, $timezone);
+        $sessionEnd = (clone $sessionStart)->add(new \DateInterval('PT' . $session->duration . 'M'));
+
+        $diff = $sessionStart->getTimestamp() - $now->getTimestamp();
+        $ifEnded = $now->getTimestamp() - $sessionEnd->getTimestamp();
+
+        $sessionTimeFormatted =[
+            'start' => $sessionStart->format('l, d M Y, H:i'),
+            'end' => $sessionEnd->format('H:i'),
+        ];
 
         $timeToLink = false;
-        if ($diff <= 3600 && $endTime <= 0) {
+        if ($diff <= 3600 && $ifEnded <= 0) {
             $timeToLink = true;
         }
         return $this->render('session-details', [
             'session' => $session,
+            'sessionTimeFormatted' => $sessionTimeFormatted,
             'doctor' => Yii::$app->user->identity,
             'user' => $session->client,
             'therapyTypes' => FormOptions::getDoctorOptions($session->getTherapyTypes(), 'therapy_types'),

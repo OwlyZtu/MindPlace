@@ -48,22 +48,30 @@ class TherapistJoinForm extends Model
         ];
     }
 
+    public function load($data, $formName = null): bool
+    {
+        $formName = $formName ?? $this->formName();
+        $success = parent::load($data, $formName);
+
+        $data = $data[$formName] ?? $data;
+
+        $success = $this->personalInfo->load($data['personalInfo'] ?? [], '') && $success;
+        $success = $this->education->load($data['education'] ?? [], '') && $success;
+        $success = $this->documents->load($data['documents'] ?? [], '') && $success;
+        $success = $this->approaches->load($data['approaches'] ?? [], '') && $success;
+
+        return $success;
+    }
+
 
     public function getFormData()
     {
-        $formData = [];
-        $personalInfo = Yii::$app->session->get('therapistPersonalInfoForm');
-        $approaches = Yii::$app->session->get('therapistApproachesForm');
-        $education = Yii::$app->session->get('therapistEducationForm');
-        $documents = Yii::$app->session->get('therapistDocumentsForm');
-
-        $formData = array_merge(
-            $personalInfo ? $personalInfo->attributes : [],
-            $approaches ? $approaches->attributes : [],
-            $education ? $education->attributes : [],
-            $documents? $documents : []
+        return array_merge(
+            Yii::$app->session->get('therapistPersonalInfoForm')?->attributes ?? [],
+            Yii::$app->session->get('therapistApproachesForm')?->attributes ?? [],
+            Yii::$app->session->get('therapistEducationForm')?->attributes ?? [],
+            Yii::$app->session->get('therapistDocumentsForm') ?? []
         );
-        return $formData;
     }
     /**
      * Update user as therapist
@@ -71,22 +79,21 @@ class TherapistJoinForm extends Model
      */
     public function updateUserAsTherapist()
     {
-    
+
         $formData = $this->getFormData();
-        
+
         if (!$this->validate()) {
             Yii::error('Загальна валідація не пройдена: ' . json_encode($this->getErrors()), 'therapist-join');
             return false;
         }
-    
+
         $user = Yii::$app->user->identity;
         if (!$user || !$user->id) {
             Yii::error('ID користувача відсутній', 'therapist-join');
             return false;
         }
-    
+
         SpecialistApplication::updateUserFromTherapistForm($user->id, $formData);
         return true;
     }
-    
 }

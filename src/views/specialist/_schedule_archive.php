@@ -12,7 +12,7 @@ $pagination = $archiveSchedulesProvider->getPagination();
 
 <div>
     <?php if (!empty($archiveSchedules)): ?>
-        <ul class="list-group mb-4">
+        <ul class="list-group m-4">
             <?php foreach ($archiveSchedules as $item): ?>
                 <li class="list-group-item">
                     <span class="float-end">

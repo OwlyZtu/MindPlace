@@ -23,8 +23,8 @@ use app\models\forms\FormOptions;
 
     <legend><?= Yii::t('therapist-join-page', 'Personal Information') ?></legend>
     <?= $form->field($model, 'name')->textInput([
-            'value' => Yii::$app->user->identity->name,
-        ])
+        'value' => Yii::$app->user->identity->name,
+    ])
         ->label(Yii::t('therapist-join-page', 'Full name') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'email')->textInput([
@@ -41,17 +41,16 @@ use app\models\forms\FormOptions;
         'type' => 'date',
         'value' => Yii::$app->user->identity->date_of_birth,
         'format' => 'dd-MM-yyyy'
-        ])
-    ->label(Yii::t('therapist-join-page', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
+    ])
+        ->label(Yii::t('therapist-join-page', 'Date of Birth') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'gender')->radioList(
         FormOptions::getGenderOptions()
     )->label(Yii::t('therapist-join-page', 'Gender') . '<span class="text-danger"> *</span>') ?>
 
     <?= $form->field($model, 'city')->dropDownList(
-        FormOptions::getCityOptions(),
-        ['promt' => Yii::t('therapist-join-page', 'City')]
-    ) ?>
+        FormOptions::getCityOptions()
+    )->label(Yii::t('therapist-join-page', 'City') . '<span class="text-danger"> *</span>') ?>
     <?= $form->field($model, 'social_media')->textarea(['id' => 'social_media', 'placeholder' => 'e.g. Facebook, Instagram'])->label(Yii::t('therapist-join-page', 'Social Media')) ?>
 
     <?= Html::submitButton(Yii::t('therapist-join-page', 'Save btn')) ?>
@@ -59,12 +58,10 @@ use app\models\forms\FormOptions;
 </fieldset>
 
 <script>
-  tinymce.init({
-    selector: 'textarea#social_media',
-    menubar: false,
-    plugins: 'link lists code',
-    toolbar: 'undo redo | bold italic underline | bullist numlist | link'
-  });
+    tinymce.init({
+        selector: 'textarea#social_media',
+        menubar: false,
+        plugins: 'link lists code',
+        toolbar: 'undo redo | bold italic underline | bullist numlist | link'
+    });
 </script>
-
-

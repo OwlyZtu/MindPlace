@@ -30,7 +30,7 @@ $this->title = Yii::t('book-session', 'Book a session');
                     <?= Yii::t('book-session', 'After confirming the appointment, you will be able to check the details of the appointment in your cabinet.') ?>
                 </p>
                 <p class="text-danger text-decoration-underline">
-                    <?= Yii::t('book-session', '15 minutes before the appointment starts, you will receive a link to enter the GoogleMeet room with the doctor.') ?>
+                    <?= Yii::t('book-session', 'If the session is held online, a link to Google Meet room with the doctor will appear in your account within an hour before the start of the consultation.') ?>
                 </p>
             </div>
         </div>
@@ -71,20 +71,20 @@ $this->title = Yii::t('book-session', 'Book a session');
                     $format = FormOptions::getDoctorOptions($doctor->format, 'format');
                     ?>
                     <?= $form->field($model, 'therapy_types')
-                        ->dropDownList($therapyTypes, ['prompt' => 'Оберіть напрям терапії'])
-                        ->label(Yii::t('therapist-join-page', 'Type') . '<span class="text-danger"> *</span>') ?>
+                        ->dropDownList($therapyTypes)
+                        ->label(Yii::t('book-session', 'Type') . '<span class="text-danger"> *</span>') ?>
 
                     <?= $form->field($model, 'format')
-                        ->dropDownList($format, ['prompt' => 'Оберіть формат консультації'])
-                        ->label(Yii::t('therapist-join-page', 'Format') . '<span class="text-danger"> *</span>') ?>
+                        ->dropDownList($format)
+                        ->label(Yii::t('book-session', 'Format') . '<span class="text-danger"> *</span>') ?>
 
                     <?= $form->field($model, 'theme')
                         ->checkboxList($themes)
-                        ->label(Yii::t('therapist-join-page', 'Themes')) ?>
+                        ->label(Yii::t('book-session', 'Themes')) ?>
 
                     <?= $form->field($model, 'approach_type')
-                        ->dropDownList($approachTypes, ['prompt' => 'Оберіть підхід (необов’язково)'])
-                        ->label(Yii::t('therapist-join-page', 'Approach')) ?>
+                        ->dropDownList($approachTypes)
+                        ->label(Yii::t('book-session', 'Approach')) ?>
 
 
                     <?= $form->field($model, 'comment')

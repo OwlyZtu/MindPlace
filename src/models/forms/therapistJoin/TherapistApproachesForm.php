@@ -11,6 +11,7 @@ class TherapistApproachesForm extends Model
     public $theme = [];
     public $approach_type = [];
     public $format = [];
+    public $address = null;
     public $lgbt = false;
     public $military = false;
 

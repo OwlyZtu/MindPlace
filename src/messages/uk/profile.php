@@ -5,6 +5,7 @@ return [
     'Profile name' => 'Ім\'я',
     'Profile email' => 'Електронна пошта',
     'Profile phone' => 'Номер телефону',
+    'Profile phone not set' => 'Номер телефону не вказано',
     'Profile date_of_birth' => 'Дата народження',
     'Profile city' => 'Місто',
     'Profile gender' => 'Стать',
@@ -34,6 +35,8 @@ return [
 
     'Personal data' => 'Особисті дані',
     'Change password' => 'Змінити пароль',
+    'Profile password' => 'Пароль',
+    'Profile re_password' => 'Повторіть пароль',
     'Profecional data' => 'Професійні дані',
     'Add Additional Certification' => 'Додати додаткові сертифікати',
     'Go to medical blog panel' => 'Перейти до панелі медичного блогу',

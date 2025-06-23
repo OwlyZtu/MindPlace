@@ -96,7 +96,7 @@ class SpecialistRequestController extends AdminController
         }
 
         try {
-            $key = $this->extractKeyFromUrl($file); // тут ми беремо повний шлях
+            $key = $this->extractKeyFromUrl($file);
 
             $result = $s3->getClient()->getObject([
                 'Bucket' => $s3->bucket,

@@ -5,6 +5,7 @@ return [
     'Profile name' => 'Name',
     'Profile email' => 'Email',
     'Profile phone' => 'Phone number',
+    'Profile phone not set' => 'Phone number not set',
     'Profile date_of_birth' => 'Date of birth',
     'Profile city' => 'City',
     'Profile gender' => 'Gender',
@@ -39,6 +40,8 @@ return [
 
     'Personal data' => 'Personal data',
     'Change password' => 'Change password',
+    'Profile password' => 'Password',
+    'Profile re_password' => 'Confirm password',
     'Profecional data' => 'Profecional data',
     'Add Additional Certification' => 'Add additional certifications',
     'Go to medical blog panel' => 'Go to medical blog panel',

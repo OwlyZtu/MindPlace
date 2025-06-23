@@ -1,6 +1,7 @@
 <?php return [
     'Find the right specialist for your needs.' => 'Find the right specialist for your needs.',
     'Specialist' => 'Specialist',
+    'Our specialists' => 'Our specialists',
     'Client' => 'Client',
     'Specialists' => 'Specialists',
     'No specialists found. Please try again later.' => 'No specialists found. Please try again later.',
