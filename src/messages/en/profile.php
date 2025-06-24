@@ -20,9 +20,9 @@ return [
     'Profile education' => 'Education',
     'Profile education file' => 'Education file',
 
-
+    'Profile education and certifications' => 'Education and certifications',
+    'Profile download button' => 'Download',
     'Profile education empty' => 'No education file',
-    'Profile education and additional certifications' => 'Education and additional certifications',
     'Profile about' => 'About me',
     'No change' => 'Education file (change is not possible)',
     'Profile additional_certification' => 'Additional certifications',

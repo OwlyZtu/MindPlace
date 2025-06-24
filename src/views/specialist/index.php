@@ -104,7 +104,7 @@ $this->params['meta_keywords'] = ['name' => 'keywords', 'content' => 'Our specia
                                 </p>
                             </div>
                             <div class="card-footer text-center">
-                                <a href=<?= "/specialist/" . $specialist->id ?> class="btn btn-primary">View Profile</a>
+                                <a href=<?= "/specialist/" . $specialist->id ?> class="btn btn-primary"><?=Yii::t('specialist', 'View')?></a>
                             </div>
                         </div>
                     <?php endforeach; ?>

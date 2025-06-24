@@ -327,7 +327,7 @@ $this->title = 'Specialist Profile';
                                             </p>
                                             <?php if (Yii::$app->user->identity->education_file): ?>
                                                 <a href="<?= Url::to(['download-education', 'id' => Yii::$app->user->identity->id]) ?>" class="btn btn-primary">
-                                                    <?= Yii::t('profile', 'Download education'); ?>
+                                                    <?= Yii::t('profile', 'Profile download button'); ?>
                                                 </a>
                                             <?php else: ?>
                                                 <?= Yii::t('profile', 'No education file'); ?>

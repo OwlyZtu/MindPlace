@@ -164,7 +164,7 @@ use app\models\forms\FormOptions;
                     'class' => 'form-control',
                     'disabled' => true,
                 ]) ?>
-                <?= Html::a(Yii::t('profile', 'Download'), $profile_settings_model->education_file_url, ['target' => '_blank', 'class' => 'btn btn-outline-primary mt-2']) ?>
+                <?= Html::a(Yii::t('profile',Yii::t('profile', 'Profile download button')), $profile_settings_model->education_file_url, ['target' => '_blank', 'class' => 'btn btn-outline-primary mt-2']) ?>
             </div>
 
             <!-- Додаткові сертифікати -->

@@ -56,7 +56,6 @@ class ArticleController extends Controller
      * Sets the language for the application.
      *
      * @param string $lang The language code (e.g., 'uk', 'en').
-     * @return Response
      */
     public function actionSetLanguage($lang)
     {
@@ -127,13 +126,13 @@ class ArticleController extends Controller
         if (
             $article->doctor_id !== Yii::$app->user->identity->id
             && !Yii::$app->user->identity->isAdmin()
-            && !Yii::$app->user->identity->isModerator()
         ) {
             throw new NotFoundHttpException('У вас немає доступу до редагування цієї статті.');
         }
         $model = new ArticleForm();
         $model->loadFromModel($article);
         if ($model->load(Yii::$app->request->post())) {
+            $model->status = Article::STATUS_REVIEWING;
             if ($article = $model->save()) {
                 Yii::$app->session->setFlash('success', 'Стаття оновлена успішно.');
                 return $this->redirect(['view', 'id' => $article->id]);
@@ -156,7 +155,6 @@ class ArticleController extends Controller
         if (
             $model->doctor_id !== Yii::$app->user->identity->id
             && !Yii::$app->user->identity->isAdmin()
-            && !Yii::$app->user->identity->isModerator()
         ) {
             throw new NotFoundHttpException('У вас немає доступу до видалення цієї статті.');
         }

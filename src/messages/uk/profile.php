@@ -38,6 +38,8 @@ return [
     'Profile password' => 'Пароль',
     'Profile re_password' => 'Повторіть пароль',
     'Profecional data' => 'Професійні дані',
+    'Profile education and certifications' => 'Освіта та сертифікації',
+    'Profile download button' => 'Завантажити',
     'Add Additional Certification' => 'Додати додаткові сертифікати',
     'Go to medical blog panel' => 'Перейти до панелі медичного блогу',
     'Download' => 'Завантажити',

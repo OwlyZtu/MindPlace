@@ -95,18 +95,30 @@ class UserSettingsForm extends Model
         if (!$this->validate()) {
             return false;
         }
+        $user = Yii::$app->user->identity;
+        $data = [];
 
-        $data = [
-            'name' => $this->name,
-            'email' => $this->email,
-            'contact_number' => $this->contact_number,
-            'date_of_birth' => $this->date_of_birth,
-            'therapy_types' => $this->therapy_types,
-            'format' => $this->format,
-            'specialization' => $this->specialization,
-            'experience' => $this->experience,
-            'approach_type' => $this->approach_type,
-        ];
+        if ($this->name !== null && $this->name !== $user->name) {
+            $data['name'] = $this->name;
+        }
+
+        if ($this->email !== null && $this->email !== $user->email) {
+            $data['email'] = $this->email;
+        }
+
+        if ($this->contact_number !== null && $this->contact_number !== $user->contact_number) {
+            $data['contact_number'] = $this->contact_number;
+        }
+
+        if (!empty($this->date_of_birth)) {
+            $data['date_of_birth'] = $this->date_of_birth;
+        }
+
+        foreach (['therapy_types', 'format', 'specialization', 'experience', 'approach_type'] as $field) {
+            if (!empty($this->$field)) {
+                $data[$field] = $this->$field;
+            }
+        }
 
         if (!empty($this->password) && !empty($this->re_password)) {
             $data['password'] = $this->password;
@@ -118,17 +130,18 @@ class UserSettingsForm extends Model
             if ($result) {
                 $data['photo'] = $result['photo'];
                 $data['photo_url'] = $result['photo_url'];
-                $data['additional_certification_file'] = $result['additional_certification_file']?? null;
-                $data['additional_certification_file_url'] = $result['additional_certification_file_url']?? null;
+                $data['additional_certification_file'] = $result['additional_certification_file'] ?? null;
+                $data['additional_certification_file_url'] = $result['additional_certification_file_url'] ?? null;
             } else {
                 Yii::error('Помилка завантаження файлів на S3', 'file_change');
                 return false;
             }
         }
-        if (User::userUpdateSettings($data)) {
+        if (!empty($data) && User::userUpdateSettings($data)) {
             Yii::$app->session->setFlash('success', 'Дані успішно оновлені.');
             return true;
         }
+        return false;
     }
 
     public function uploadToS3(): array|false
@@ -158,7 +171,7 @@ class UserSettingsForm extends Model
                         $result['additional_certification_file_url'][] = $uploadResult['url'] ?? null;
                         unlink($tempPath);
                     }
-                } 
+                }
             }
 
             if ($this->photo instanceof UploadedFile) {

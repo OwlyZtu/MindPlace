@@ -552,8 +552,10 @@ class SiteController extends Controller
         $birthDate = $authService->getUserBirthdate();
         $model = new UserProfileForm();
 
-        if ($birthDate !== null && $birthDate !== '0000-00-00') {
+        if ($birthDate !== null && $birthDate !== '0000-00-00' && $model->birth_date === null) {
             $model->birth_date = $birthDate;
+            $authService->loginOrCreateUser($model);
+            return $this->goHome();
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {

@@ -211,7 +211,7 @@ class SpecialistController extends Controller
     {
         $schedule = Schedule::findOne($id);
         if (!$schedule) {
-            throw new \yii\web\NotFoundHttpException("Розклад не знайдено.");
+            throw new NotFoundHttpException("Розклад не знайдено.");
         }
 
         SessionBookingForm::addToCalendar($schedule->doctor->id, $schedule->datetime, $schedule->duration);

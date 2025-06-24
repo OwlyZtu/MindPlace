@@ -43,6 +43,7 @@
     'You can create a link to the session in Google Meet within an hour of the scheduled time.',
     'Completed' => 'Completed',
     'Recommendations from the doctor' => 'Recommendations from the doctor',
+    'View' => 'View profile',
 
 
     //view
