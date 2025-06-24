@@ -138,19 +138,19 @@ $config = [
     'params' => $params,
 ];
 
-// if (YII_ENV_DEV) {
-//     // configuration adjustments for 'dev' environment
-//     $config['bootstrap'][] = 'debug';
-//     $config['modules']['debug'] = [
-//         'class' => 'yii\debug\Module',
-//         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*', '172.18.0.*'],  // Add Docker network
-//     ];
+if (YII_ENV_DEV) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.1'],  // Add Docker network
+    ];
 
 //     $config['bootstrap'][] = 'gii';
 //     $config['modules']['gii'] = [
 //         'class' => 'yii\gii\Module',
 //         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
 //     ];
-// }
+}
 
 return $config;

@@ -1,5 +1,6 @@
 <?php
 
+
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var app\models\forms\FilterForm $model */
 
@@ -10,7 +11,7 @@ use app\models\forms\FormOptions;
 ?>
 
 <div class="filter-form">
-    <?php $form = ActiveForm::begin(['id' => 'filter-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'filter-form', 'method' => 'post']); ?>
 
     <div class="form-group">
 
@@ -74,7 +75,7 @@ use app\models\forms\FormOptions;
                         </g>
                     </svg>
                 </span>',
-                ['site/specialists', 'clear' => 1],
+                ['/specialist', 'clear' => 1],
                 ['class' => 'btn btn-outline-secondary', 'escape' => false]
             ) ?>
 
