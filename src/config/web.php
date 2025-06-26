@@ -13,9 +13,14 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'timeZone' => 'Europe/Kyiv',
-    'language' => 'uk-UA', 
+    'language' => 'uk-UA',
     'sourceLanguage' => 'en-US',
     'components' => [
+        'formatter' => [
+            'defaultTimeZone' => 'Europe/Kyiv',
+            'timeZone' => 'Europe/Kyiv',
+            'datetimeFormat' => 'php:Y-m-d H:i',
+        ],
         'assetManager' => [
             'appendTimestamp' => true,
             'basePath' => '@webroot/assets',
@@ -146,11 +151,11 @@ if (YII_ENV_DEV) {
         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.1'],  // Add Docker network
     ];
 
-//     $config['bootstrap'][] = 'gii';
-//     $config['modules']['gii'] = [
-//         'class' => 'yii\gii\Module',
-//         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
-//     ];
+    //     $config['bootstrap'][] = 'gii';
+    //     $config['modules']['gii'] = [
+    //         'class' => 'yii\gii\Module',
+    //         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
+    //     ];
 }
 
 return $config;

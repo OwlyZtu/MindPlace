@@ -23,7 +23,7 @@ $pagination = $archiveSchedulesProvider->getPagination();
 
                             <?php endif; ?>
                     </span>
-                    <strong><?= Yii::t('schedules', 'Date') ?>:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
+                    <strong><?= Yii::t('schedules', 'Date') ?>:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, 'php:d.m.Y H:i') ?><br>
                     <strong><?= Yii::t('schedules', 'Duration') ?>:</strong> <?= $item->duration ?> <?= Yii::t('schedules', 'minutes') ?><br>
                     <strong><?= Yii::t('schedules', 'Session') ?>:</strong>
                     <?php if ($item->isBooked()): ?>

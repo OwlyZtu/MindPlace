@@ -211,7 +211,7 @@ class Schedule extends ActiveRecord
 
     public function getEndTime()
     {
-        $start = new \DateTime($this->datetime, new \DateTimeZone(Yii::$app->timeZone));
+        $start = new \DateTime($this->datetime);
         $start->add(new \DateInterval('PT' . $this->duration . 'M'));
         return $start->format('H:i');
     }

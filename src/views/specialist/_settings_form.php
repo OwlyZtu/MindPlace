@@ -152,7 +152,7 @@ use app\models\forms\FormOptions;
             <div class="col-lg-12 mt-3">
                 <?= $form->field($profile_settings_model, 'experience')->textarea([
                     'id' => 'profilesettingsform-experience',
-                    'value' => $profile_settings_model->experience
+                    'value' => json_encode($profile_settings_model->experience)
                 ])->label(Yii::t('profile', 'Profile experience')) ?>
 
             </div>

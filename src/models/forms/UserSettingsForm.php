@@ -110,13 +110,28 @@ class UserSettingsForm extends Model
             $data['contact_number'] = $this->contact_number;
         }
 
+        if ($this->experience !== null && $this->experience !== $user->experience) {
+            $data['experience'] = $this->experience;
+        }
+
         if (!empty($this->date_of_birth)) {
             $data['date_of_birth'] = $this->date_of_birth;
         }
 
-        foreach (['therapy_types', 'format', 'specialization', 'experience', 'approach_type'] as $field) {
-            if (!empty($this->$field)) {
-                $data[$field] = $this->$field;
+        $user = Yii::$app->user->identity;
+
+        foreach (['therapy_types', 'format', 'specialization', 'approach_type'] as $field) {
+            $new = is_array($this->$field) ? $this->$field : [];
+            $currentJson = $user->$field ?? '[]';
+            $current = json_decode($currentJson, true);
+            $current = is_array($current) ? $current : [];
+
+            $merged = array_unique(array_merge($current, $new));
+            $data[$field] = json_encode($merged);
+            if (!empty($new)) {
+                $data[$field] = json_encode($merged);
+            } else {
+                $data[$field] = json_encode($current);
             }
         }
 

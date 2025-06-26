@@ -152,7 +152,7 @@ class SpecialistRequestController extends AdminController
         }
 
         if ($model->save()) {
-            User::updateUser($model->user_id, ['status' => 'specialist']);
+            User::updateUser($model->user_id, ['role' => 'specialist']);
             Yii::$app->session->setFlash('success', 'Заявку підтверджено.');
         } else {
             Yii::$app->session->setFlash('error', 'Не вдалося зберегти зміни.');

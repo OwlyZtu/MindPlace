@@ -26,7 +26,7 @@ $pagination = $futureSchedulesProvider->getPagination();
                     <p>
                         <strong>№<?= $item->id ?></strong>
                         <mark>
-                            <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?>
+                            <?= Yii::$app->formatter->asDatetime($item->datetime, 'php:d.m.Y H:i') ?>
                             - <?= $item->getEndTime() ?>
                             <span>
                                 (<?= $item->duration ?> <?= Yii::t('schedules', 'minutes') ?>)
