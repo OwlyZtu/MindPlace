@@ -12,9 +12,15 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
-    'language' => 'uk-UA', // або 'en-US' як мова за замовчуванням
+    'timeZone' => 'Europe/Kyiv',
+    'language' => 'uk-UA',
     'sourceLanguage' => 'en-US',
     'components' => [
+        'formatter' => [
+            'defaultTimeZone' => 'Europe/Kyiv',
+            'timeZone' => 'Europe/Kyiv',
+            'datetimeFormat' => 'php:Y-m-d H:i',
+        ],
         'assetManager' => [
             'appendTimestamp' => true,
             'basePath' => '@webroot/assets',
@@ -142,14 +148,14 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*', '172.18.0.*'],  // Add Docker network
+        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.1'],  // Add Docker network
     ];
 
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-        'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
-    ];
+    //     $config['bootstrap'][] = 'gii';
+    //     $config['modules']['gii'] = [
+    //         'class' => 'yii\gii\Module',
+    //         'allowedIPs' => ['127.0.0.1', '::1', '172.19.0.*'],  // Add Docker network
+    //     ];
 }
 
 return $config;

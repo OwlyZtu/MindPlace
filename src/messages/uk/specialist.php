@@ -1,5 +1,6 @@
 <?php return [
     'Find the right specialist for your needs.' => 'Знайдіть відповідного спеціаліста для ваших потреб.',
+    'Our specialists' => 'Наші спеціалісти',
     'Specialist' => 'Спеціаліст',
     'Client' => 'Клієнт',
     'Specialists' => 'Спеціалісти',
@@ -42,6 +43,7 @@
     'Ви можете створити посилання на сеанс у Google Meet за годину до запланованого часу.',
     'Completed' => 'Завершено',
     'Recommendations from the doctor' => 'Рекомендації від лікаря',
+    'View'=> 'Переглянути',
 
 
     //view

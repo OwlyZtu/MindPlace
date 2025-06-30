@@ -265,10 +265,30 @@ class SiteController extends Controller
         if (!$session) {
             return $this->goHome();
         }
+                $timezone = new \DateTimeZone(Yii::$app->timeZone);
+
+        $now = new \DateTime('now', $timezone);
+        $sessionStart = new \DateTime($session->datetime, $timezone);
+        $sessionEnd = (clone $sessionStart)->add(new \DateInterval('PT' . $session->duration . 'M'));
+
+        $diff = $sessionStart->getTimestamp() - $now->getTimestamp();
+        $ifEnded = $now->getTimestamp() - $sessionEnd->getTimestamp();
+
+        $sessionTimeFormatted =[
+            'start' => $sessionStart->format('l, d M Y, H:i'),
+            'end' => $sessionEnd->format('H:i'),
+        ];
+
+        $timeToLink = false;
+        if ($diff <= 3600 && $ifEnded <= 0) {
+            $timeToLink = true;
+        }
         return $this->render('session-details', [
             'session' => $session,
             'doctor' => $session->doctor,
             'user' => Yii::$app->user->identity,
+            'sessionTimeFormatted' => $sessionTimeFormatted,
+            'timeToLink' => $timeToLink,
             'therapyTypes' => FormOptions::getDoctorOptions($session->getTherapyTypes(), 'therapy_types'),
             'themes' => FormOptions::getDoctorOptions($session->getTheme(), 'theme'),
             'approachTypes' => FormOptions::getDoctorOptions($session->getApproachType(), 'approach_type'),
@@ -532,8 +552,10 @@ class SiteController extends Controller
         $birthDate = $authService->getUserBirthdate();
         $model = new UserProfileForm();
 
-        if ($birthDate !== null && $birthDate !== '0000-00-00') {
+        if ($birthDate !== null && $birthDate !== '0000-00-00' && $model->birth_date === null) {
             $model->birth_date = $birthDate;
+            $authService->loginOrCreateUser($model);
+            return $this->goHome();
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {

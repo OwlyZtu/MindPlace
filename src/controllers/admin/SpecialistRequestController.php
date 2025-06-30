@@ -96,7 +96,7 @@ class SpecialistRequestController extends AdminController
         }
 
         try {
-            $key = $this->extractKeyFromUrl($file); // тут ми беремо повний шлях
+            $key = $this->extractKeyFromUrl($file);
 
             $result = $s3->getClient()->getObject([
                 'Bucket' => $s3->bucket,
@@ -152,7 +152,7 @@ class SpecialistRequestController extends AdminController
         }
 
         if ($model->save()) {
-            User::updateUser($model->user_id, ['status' => 'specialist']);
+            User::updateUser($model->user_id, ['role' => 'specialist']);
             Yii::$app->session->setFlash('success', 'Заявку підтверджено.');
         } else {
             Yii::$app->session->setFlash('error', 'Не вдалося зберегти зміни.');

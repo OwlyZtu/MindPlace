@@ -97,7 +97,17 @@ $busyOnly = Yii::$app->request->get('busy_only', 1);
             <?= $form->field($schedule_model, 'doctor_id')->textInput(['value' => Yii::$app->user->identity->id]) ?>
         </div>
 
-        <?= $form->field($schedule_model, 'datetime')->textInput(['type' => 'datetime-local', 'min' => date('Y-m-d\TH:i')])->label(Yii::t('schedules', 'Date')) ?>
+        <?php
+
+        $kyivTime = new \DateTime($schedule_model->datetime, new \DateTimeZone('Europe/Kyiv'));
+        $datetimeLocalValue = $kyivTime->format('Y-m-d\TH:i');
+        ?>
+
+        <?= $form->field($schedule_model, 'datetime')->textInput([
+            'type' => 'datetime-local',
+            'value' => $datetimeLocalValue,
+            'min' => (new \DateTime('now', new \DateTimeZone('Europe/Kyiv')))->format('Y-m-d\TH:i'),
+        ])->label(Yii::t('schedules', 'Date')) ?>
 
         <?= $form->field($schedule_model, 'duration')->input('number', ['min' => 15, 'step' => 5, 'value' => 30])->label(Yii::t('schedules', 'Duration')) ?>
         <div class="form-group">

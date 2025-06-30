@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="row">
                     <h1 class="mb-3"><?= Html::encode($article->title) ?></h1>
-                    <p class="text-muted"><?= Yii::$app->formatter->asDate($article->updated_at) ?></p>
+                    <p class="text-muted"><?= Yii::$app->formatter->asDatetime($article->updated_at, 'php:d.m.Y H:i') ?></p>
 
                     <hr>
                     <div class="article-content">

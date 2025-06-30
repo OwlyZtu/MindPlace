@@ -9,7 +9,7 @@ use yii\bootstrap5\Html;
 use yii\widgets\LinkPager;
 use app\services\PhotoService;
 
-$this->title = 'Our specialists';
+$this->title = Yii::t('specialist', 'Our specialists');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = ['name' => 'description', 'content' => 'Our specialists'];
 $this->params['meta_keywords'] = ['name' => 'keywords', 'content' => 'Our specialists'];
@@ -104,7 +104,7 @@ $this->params['meta_keywords'] = ['name' => 'keywords', 'content' => 'Our specia
                                 </p>
                             </div>
                             <div class="card-footer text-center">
-                                <a href=<?= "/specialist/" . $specialist->id ?> class="btn btn-primary">View Profile</a>
+                                <a href=<?= "/specialist/" . $specialist->id ?> class="btn btn-primary"><?=Yii::t('specialist', 'View')?></a>
                             </div>
                         </div>
                     <?php endforeach; ?>

@@ -19,24 +19,13 @@ class TherapistDocumentsForm extends Model
     {
         return array_merge(
             [
-                ['education_file', 'photo'],
-                'required'
+                [['education_file', 'photo'], 'required'],
             ],
             FieldRulesService::education_fileRules(),
             FieldRulesService::additional_certification_fileRules(),
             FieldRulesService::photoRules()
         );
     }
-
-    public function loadUploadedFiles()
-    {
-        $this->education_file = UploadedFile::getInstance($this, 'education_file');
-        $this->additional_certification_file = UploadedFile::getInstance($this, 'additional_certification_file');
-        $this->education_file_path = $this->education_file?->tempName;
-        $this->additional_certification_file_path = $this->additional_certification_file?->tempName;
-    }
-
-
     public function uploadToS3(): array|false
     {
         $s3 = Yii::$app->get('s3Storage');

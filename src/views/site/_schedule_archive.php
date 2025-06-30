@@ -18,7 +18,7 @@ $pagination = $archiveSchedulesProvider->getPagination();
                     <span class="float-end">
                         <?= Html::a(Yii::t('schedules', 'Details'), ['session-details', 'id' => $item->id], ['class' => 'btn btn-primary btn-sm']) ?>
                     </span>
-                    <strong><?= Yii::t('schedules', 'Date') ?>:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, ' d/m/Y H:i ') ?><br>
+                    <strong><?= Yii::t('schedules', 'Date') ?>:</strong> <?= Yii::$app->formatter->asDatetime($item->datetime, 'php:d.m.Y H:i') ?><br>
                     <strong><?= Yii::t('schedules', 'Duration') ?>:</strong> <?= $item->duration ?> хв.<br>
                     <?php if ($item->status === $item::STATUS_CANCELED): ?>
                         <p class="text-danger">

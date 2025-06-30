@@ -40,7 +40,10 @@ class SpecialistApplication extends User
     {
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            User::updateUser($userId, $formData);
+            if (!User::updateUser($userId, $formData)) {
+                Yii::error('Failed to update user', 'specialist-application');
+                return false;
+            }
 
             $SpecialistApplication = Yii::$app->db->createCommand('SELECT id FROM {{%specialist_application}} WHERE user_id = :userId')
                 ->bindValue(':userId', $userId)

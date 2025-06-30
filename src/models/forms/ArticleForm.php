@@ -10,6 +10,8 @@ class ArticleForm extends Model
 {
     public $title;
     public $content;
+    public $status;
+    public $updated_at;
 
     /** @var Article|null */
     public ?Article $article = null;
@@ -19,7 +21,7 @@ class ArticleForm extends Model
         return [
             [['title', 'content'], 'required'],
             ['title', 'string', 'max' => 255],
-            ['content', 'string'],
+            [['content', 'status'], 'string'],
         ];
     }
 
@@ -45,15 +47,12 @@ class ArticleForm extends Model
         $article->doctor_id = Yii::$app->user->identity->id;
         $article->title = $this->title;
         $article->content = $this->content;
-
-        if ($article->isNewRecord) {
             $article->status = 'reviewing';
+            $article->updated_at = date('Y-m-d H:i:s');
+        if ($article->isNewRecord) {
             $article->created_at = date('Y-m-d H:i:s');
-            $article->updated_at = date('Y-m-d H:i:s');
-        } else {
-            $article->updated_at = date('Y-m-d H:i:s');
         }
-        
+
         if ($article->save()) {
             return $article;
         }

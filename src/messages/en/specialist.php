@@ -1,6 +1,7 @@
 <?php return [
     'Find the right specialist for your needs.' => 'Find the right specialist for your needs.',
     'Specialist' => 'Specialist',
+    'Our specialists' => 'Our specialists',
     'Client' => 'Client',
     'Specialists' => 'Specialists',
     'No specialists found. Please try again later.' => 'No specialists found. Please try again later.',
@@ -42,6 +43,7 @@
     'You can create a link to the session in Google Meet within an hour of the scheduled time.',
     'Completed' => 'Completed',
     'Recommendations from the doctor' => 'Recommendations from the doctor',
+    'View' => 'View profile',
 
 
     //view

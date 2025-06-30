@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="<?= \yii\helpers\Url::to(['article/view', 'id' => $article->id]) ?>" class="text-decoration-none">
                         <div class="article-card p-2 mb-3 border border-2 border-success rounded-5 rounded-start-0">
                             <h5><?= $article->title ?></h5>
-                            <small class="text-muted"><?= Yii::$app->formatter->asDate($article->updated_at) ?></small>
+                            <small class="text-muted"><?= Yii::$app->formatter->asDatetime($article->updated_at, 'php:d.m.Y H:i') ?></small>
                         </div>
                     </a>
                 <?php endforeach; ?>

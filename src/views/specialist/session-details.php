@@ -47,8 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <p>
                         <strong><?= Yii::t('specialist', 'Date and time') ?>:</strong>
-                        <?= Yii::$app->formatter->asDatetime($session->datetime, 'php:l, d M Y, H:i') ?> –
-                        <?= Yii::$app->formatter->asTime($session->getEndTime(), 'short') ?>
+                        <?= Html::encode($sessionTimeFormatted['start']) ?> –
+                        <?= Html::encode($sessionTimeFormatted['end']) ?>
                     </p>
 
                     <p>
@@ -72,12 +72,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ['class' => 'btn btn-success']
                                 ) ?>
                     </div>
-                <?php elseif ($session->meet_url): ?>
+                <?php elseif ($session->meet_url && $timeToLink): ?>
                     <p>
                         <strong><?= Yii::t('specialist', 'Link to the meeting') ?>:</strong>
                         <a href="<?= Html::encode($session->meet_url) ?>" target="_blank" class="btn btn-outline-primary">
                             <?= Yii::t('specialist', 'Join the meeting') ?>
                         </a>
+                    </p>
+                <?php elseif ($session->meet_url && !$timeToLink): ?>
+                    <p>
+                        Сесія вже закінчилася
                     </p>
                 <?php else: ?>
                     <p class="text-danger">

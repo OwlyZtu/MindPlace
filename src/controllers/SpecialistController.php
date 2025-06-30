@@ -46,7 +46,6 @@ class SpecialistController extends Controller
      * Sets the language for the application.
      *
      * @param string $lang The language code (e.g., 'uk', 'en').
-     * @return Response
      */
     public function actionSetLanguage($lang)
     {
@@ -59,7 +58,6 @@ class SpecialistController extends Controller
 
     /**
      * Displays specialists page with optional filtering.
-     * @return string
      */
     public function actionIndex()
     {
@@ -67,7 +65,7 @@ class SpecialistController extends Controller
 
         if (Yii::$app->request->get('clear')) {
             Yii::$app->session->remove('filterData');
-            return $this->redirect(['specialists/index']);
+            return $this->redirect(['index']);
         }
 
         $filterData = null;
@@ -78,15 +76,48 @@ class SpecialistController extends Controller
             }
         } else {
             $filterData = FilterForm::getSessionFilter();
-            if (empty($filterData)) {
+            if ($filterData) {
+                $model->setAttributes($filterData);
+            } else {
                 $filterData = ['role' => 'specialist'];
             }
         }
 
         $query = User::find()->where(['role' => 'specialist']);
 
-        if (!empty($filterData['city'])) {
-            $query->andWhere(['city' => $filterData['city']]);
+        // Фільтрація
+        if (!empty($filterData['format'])) {
+            $query->andFilterWhere(['or like', 'format', $filterData['format']]);
+
+            if ($filterData['format'] !== 'online') {
+                $query->andWhere(['city' => $filterData['city']]);
+            }
+        }
+
+
+        foreach (['therapy_types', 'theme', 'approach_type', 'language', 'specialization'] as $field) {
+            if (!empty($filterData[$field])) {
+                $query->andFilterWhere(['or like', $field, $filterData[$field]]);
+            }
+        }
+
+        if (!empty($filterData['gender'])) {
+            $query->andWhere(['gender' => $filterData['gender']]);
+        }
+
+        if (!empty($filterData['age'])) {
+            $ageRange = $model->getAgeRange($filterData['age']);
+            if ($ageRange) {
+                $query->andWhere(['between', 'birth_date', $ageRange['from'], $ageRange['to']]);
+            }
+        }
+
+        if (isset($filterData['lgbt']) && $filterData['lgbt']) {
+            $query->andWhere(['lgbt' => 1]);
+        }
+
+        if (isset($filterData['military']) && $filterData['military']) {
+            $query->andWhere(['military' => 1]);
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -102,10 +133,11 @@ class SpecialistController extends Controller
         ]);
     }
 
+
     /**
      * View single specialist profile
      * @param int $id
-     * @return string
+     * @return string|yii\web\Response
      * @throws NotFoundHttpException
      */
     public function actionView($id)
@@ -179,7 +211,7 @@ class SpecialistController extends Controller
     {
         $schedule = Schedule::findOne($id);
         if (!$schedule) {
-            throw new \yii\web\NotFoundHttpException("Розклад не знайдено.");
+            throw new NotFoundHttpException("Розклад не знайдено.");
         }
 
         SessionBookingForm::addToCalendar($schedule->doctor->id, $schedule->datetime, $schedule->duration);
@@ -292,20 +324,27 @@ class SpecialistController extends Controller
         if (!$session) {
             return $this->goHome();
         }
-        date_default_timezone_set('Europe/Kyiv');
-        $now = new \DateTime();
-        $sessionTime = new \DateTime($session->datetime);
-        $endSession = $sessionTime->add(new \DateInterval('PT' . $session->duration . 'M'));
-        $diff = $sessionTime->getTimestamp() - $now->getTimestamp();
-        $endTime = $now->getTimestamp() - $endSession->getTimestamp() + 3600;
+        $timezone = new \DateTimeZone(Yii::$app->timeZone);
 
+        $now = new \DateTime('now', $timezone);
+        $sessionStart = new \DateTime($session->datetime, $timezone);
+        $sessionEnd = (clone $sessionStart)->add(new \DateInterval('PT' . $session->duration . 'M'));
+
+        $diff = $sessionStart->getTimestamp() - $now->getTimestamp();
+        $ifEnded = $now->getTimestamp() - $sessionEnd->getTimestamp();
+
+        $sessionTimeFormatted = [
+            'start' => $sessionStart->format('l, d M Y, H:i'),
+            'end' => $sessionEnd->format('H:i'),
+        ];
 
         $timeToLink = false;
-        if ($diff <= 3600 && $endTime <= 0) {
+        if ($diff <= 3600 && $ifEnded <= 0) {
             $timeToLink = true;
         }
         return $this->render('session-details', [
             'session' => $session,
+            'sessionTimeFormatted' => $sessionTimeFormatted,
             'doctor' => Yii::$app->user->identity,
             'user' => $session->client,
             'therapyTypes' => FormOptions::getDoctorOptions($session->getTherapyTypes(), 'therapy_types'),

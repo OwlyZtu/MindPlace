@@ -42,11 +42,13 @@ return [
     'Additional Certification' => 'Додаткова сертифікація',
     'Additional Certification File' => 'Файл додаткової сертифікації',
     'Experience' => 'Досвід',
+    'Documents' => 'Документи',
     'Save btn' => 'Зберегти',
     'Address' => 'Адреса кабінету (якщо проводите офлайн)',
 
     'file hint' => 'Дозволені формати: PDF, DOC, DOCX. Максимальний розмір: 2MB',
     'photo hint' => 'Дозволені формати: JPG, JPEG, PNG. Максимальний розмір: 1MB',
+    'Photo' => 'Ваше фото',
 
     'Privacy Policy' => 'Політика конфіденційності',
     'I agree to the privacy policy' => 'Я погоджуюсь з політикою конфіденційності',

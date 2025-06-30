@@ -18,12 +18,11 @@ use yii\bootstrap5\Html;
 
     <legend><?= Yii::t('therapist-join-page', 'Documents') ?></legend>
 
-    <?= $form->field($model, 'education_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint')) ?>
+    <?= $form->field($model, 'education_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint'))->label(Yii::t('therapist-join-page', 'Education File')) ?>
 
-    <?= $form->field($model, 'additional_certification_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint')) ?>
 
-    <?= $form->field($model, 'photo')->fileInput()->hint(Yii::t('therapist-join-page', 'photo hint'))?>
-
+    <?= $form->field($model, 'additional_certification_file')->fileInput()->hint(Yii::t('therapist-join-page', 'file hint'))->label(Yii::t('therapist-join-page', 'Additional Certification File')) ?>
+    <?= $form->field($model, 'photo')->fileInput()->hint(Yii::t('therapist-join-page', 'photo hint'))->label(Yii::t('therapist-join-page', 'Photo'))?>
     <?= Html::submitButton(Yii::t('therapist-join-page', 'Save btn'), ['class' => 'btn btn-primary']) ?>
     <?php ActiveForm::end(); ?>
 </fieldset>

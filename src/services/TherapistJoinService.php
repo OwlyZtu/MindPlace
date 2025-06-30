@@ -99,22 +99,19 @@ class TherapistJoinService
         if (Yii::$app->user->isGuest) {
             return ['success' => false, 'errors' => ['submit' => ['Неавторизований користувач']]];
         }
+
         $model = new TherapistJoinForm();
 
-        if (!$model->load($postData)) {
-            return ['success' => false, 'errors' => ['submit' => ['Не вдалося завантажити дані.']]];
-        }
-    
         if (!$model->validate()) {
             Yii::error('Validation errors: ' . json_encode($model->getErrors()), 'therapist-join');
             return ['success' => false, 'errors' => $model->getErrors()];
         }
-    
+
         if (!$model->updateUserAsTherapist()) {
             Yii::error('Update failed, errors: ' . json_encode($model->getErrors()), 'therapist-join');
             return ['success' => false, 'errors' => $model->getErrors()];
         }
-    
+
         return ['success' => true];
     }
 }

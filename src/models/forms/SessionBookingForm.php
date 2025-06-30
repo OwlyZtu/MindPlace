@@ -55,10 +55,10 @@ class SessionBookingForm extends Model
                     return Yii::$app->controller->redirect(['site/auth-google']);
                 }
 
-                $this->addToCalendar($schedule->doctor_id, $schedule->datetime, $session->details['duration']);
+                $this->addToCalendar($schedule->doctor_id, $schedule->datetime, $session->duration);
             }
 
-            $this->addToCalendarForDoctor($schedule->doctor_id, $schedule->datetime, $session->details['duration']);
+            $this->addToCalendarForDoctor($schedule->doctor_id, $schedule->datetime, $session->duration);
             return $session;
         }
         return false;

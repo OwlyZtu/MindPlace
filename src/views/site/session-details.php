@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                     <p>
                         <strong>№<?= Html::encode($session->id) ?></strong>
-                        <?php if ($session->isBooked() && !$session::STATUS_CANCELED): ?>
+                        <?php if ($session->isBooked() && $session->status !== $session::STATUS_CANCELED): ?>
                             <?= Html::a(Yii::t('specialist', 'Cancel'), ['site/session-cancel', 'id' => $session->id], ['class' => 'btn btn-danger btn-sm float-end']) ?>
                         <?php endif; ?>
                     </p>
@@ -42,8 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <p>
                         <strong><?= Yii::t('specialist', 'Date and time') ?>:</strong>
-                        <?= Yii::$app->formatter->asDatetime($session->datetime, 'php:l, d M Y, H:i') ?> –
-                        <?= Yii::$app->formatter->asTime($session->getEndTime(), 'short') ?>
+                        <?= Html::encode($sessionTimeFormatted['start']) ?> –
+                        <?= Html::encode($sessionTimeFormatted['end']) ?>
                     </p>
 
                     <p>
@@ -55,15 +55,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         <strong><?= Yii::t('specialist', 'Status') ?>:</strong>
                         <?php if ($session->status === $session::STATUS_BOOKED): ?>
                             <span class="badge bg-success"><?= Yii::t('specialist', 'Booked') ?></span>
-                            <?php if ($session->meet_url): ?>
+                            <?php if ($session->meet_url && $timeToLink): ?>
                     <p><strong><?= Yii::t('specialist', 'Link to the meeting') ?>:</strong>
                         <a href="<?= Html::encode($session->meet_url) ?>" target="_blank">
                             <?= Html::encode($session->meet_url) ?>
                         </a>
                     </p>
+                    <?php elseif ($session->meet_url && !$timeToLink): ?>
+                    <p>
+                        Сесія вже закінчилася
+                    </p>
                 <?php else: ?>
                     <p class="text-danger">
-                        <?= Yii::t('specialist', 'Link to the meeting will be available 15 minutes before the session starts.') ?>
+                        <?= Yii::t('schedules', 'No link') ?>
                     </p>
                 <?php endif; ?>
             <?php elseif ($session->status === $session::STATUS_COMPLETED): ?>
